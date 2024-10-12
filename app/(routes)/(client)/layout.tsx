@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import "@/app/globals.css";
-import Navbar from "@/app/components/Client/Layout/Navbar";
+import Navbar from "@/app/components/Client/Layout/NavbarGeneric";
 
 export const metadata: Metadata = {
   title: "The Plague",
