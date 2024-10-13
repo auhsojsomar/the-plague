@@ -1,6 +1,6 @@
 import Image from "next/image";
-import NavbarBurgerButton from "../Home/NavbarBurgerButton";
-import NavbarContent from "../Home/NavbarContent";
+import NavbarBurgerButton from "./NavbarBurgerButton";
+import NavbarContent from "./NavbarContent";
 import { NavbarContextProvider } from "@/app/context/NavbarContext";
 
 const NavbarGeneric = () => {

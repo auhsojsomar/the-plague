@@ -1,6 +1,6 @@
 "use client";
 
-import LinkGeneric from "../../Shared/NavbarLink";
+import LinkGeneric from "./NavbarLink";
 import { useNavbarContext } from "@/app/context/NavbarContext";
 import AddToCart from "./AddToCart";
 
