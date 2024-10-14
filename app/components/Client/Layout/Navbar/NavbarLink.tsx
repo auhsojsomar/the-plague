@@ -18,6 +18,7 @@ const NavbarLink = ({
 }: Link) => {
   const pathname = usePathname();
 
+  // Add background color on active navbar link and hover
   const classString = () => {
     const isActive =
       exact !== null ? pathname === href : pathname.startsWith(href);
