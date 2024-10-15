@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en" data-theme="light">
       <body>
         <Navbar />
-        {children}
+        <div className="pt-20">{children}</div>
       </body>
     </html>
   );
