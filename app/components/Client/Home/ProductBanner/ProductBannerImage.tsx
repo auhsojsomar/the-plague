@@ -6,7 +6,14 @@ type ImageType = {
 };
 
 const ProductBannerImage = ({ src, alt }: ImageType) => {
-  return <Image className="lg:px-4 object-cover" src={src} alt={alt} fill />;
+  return (
+    <Image
+      className="object-cover hover:scale-110 transition-all duration-500"
+      src={src}
+      alt={alt}
+      fill
+    />
+  );
 };
 
 export default ProductBannerImage;

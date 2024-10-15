@@ -3,9 +3,9 @@ import ProductBannerText from "./ProductBannerText";
 
 const ProductBanner = () => {
   return (
-    <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-5 lg:px-0 py-12 sm:py-20">
+    <div className="container grid grid-cols-1 py-12 sm:py-20 md:grid-cols-2 lg:grid-cols-3 gap-4 px-5 lg:px-0">
       {/* row 1 column 1 */}
-      <div className="relative min-h-60 order-1">
+      <div className="relative min-h-60 order-1 overflow-hidden lg:px-4">
         <ProductBannerImage
           src="https://placehold.co/370x247?text=Place+your+image+here"
           alt="banner-1"
@@ -28,21 +28,21 @@ const ProductBanner = () => {
         />
       </div>
       {/* row 2 column 2 */}
-      <div className="relative min-h-60 order-3 md:order-4">
+      <div className="relative min-h-60 order-3 overflow-hidden md:order-4 lg:px-4">
         <ProductBannerImage
           src="https://placehold.co/370x247?text=Place+your+image+here"
           alt="banner-2"
         />
       </div>
       {/* row 1 & 2 column 3 */}
-      <div className="relative min-h-[31rem] lg:row-span-2 lg:row-start-1 lg:col-start-3 order-5">
+      <div className="relative min-h-[31rem] order-5 overflow-hidden lg:row-span-2 lg:row-start-1 lg:col-start-3 lg:px-4">
         <ProductBannerImage
           src="https://placehold.co/370x510?text=Place+your+image+here"
           alt="banner-3"
         />
       </div>
       {/* row 2 column 3 */}
-      <div className="relative lg:row-start-2 lg:col-start-3 order-6">
+      <div className="relative order-6 lg:row-start-2 lg:col-start-3">
         <ProductBannerText
           category="Mid season sale"
           description="Men’s Fashion"

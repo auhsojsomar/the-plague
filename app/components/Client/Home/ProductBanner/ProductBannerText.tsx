@@ -23,7 +23,7 @@ const ProductBannerText = ({
       >
         <div
           className={`${
-            vertical ? "lg:bg-gray-100 lg:py-5 lg:px-4 lg:mx-8 lg:mb-5" : ""
+            vertical ? "lg:bg-gray-50 lg:py-5 lg:px-4 lg:mx-8 lg:mb-5" : ""
           }`}
         >
           <h6 className="text-2xl/10">{description}</h6>
