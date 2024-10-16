@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en" data-theme="light">
       <body className={inter.className}>
         <Navbar />
-        <div className="pt-20">{children}</div>
+        <div className="pt-20 font-display">{children}</div>
       </body>
     </html>
   );

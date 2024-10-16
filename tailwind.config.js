@@ -13,6 +13,9 @@ module.exports = {
         xl: "1280px",
       },
     },
+    fontFamily: {
+      display: "Oswald",
+    },
     extend: {
       colors: {
         "primary-color": "var(--primary-color)",
