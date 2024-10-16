@@ -21,7 +21,7 @@ const HomeCarousel = () => {
           <div className="relative w-full h-full">
             <CustomImage
               className="object-contain lg:object-cover mx-auto"
-              src="/image/main-banner-full.jpg" // Path from the public folder
+              src="/image/main-banner.jpg" // Path from the public folder
               alt="banner-1"
               loading="lazy" // Optional: Use lazy loading
               decoding="async" // Optional: For better performance
