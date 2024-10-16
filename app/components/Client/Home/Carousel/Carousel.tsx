@@ -4,8 +4,6 @@ import type { CustomFlowbiteTheme } from "flowbite-react";
 import { Flowbite } from "flowbite-react";
 import styles from "./Carousel.module.css";
 
-import banner from "@/image/main-banner.jpg";
-
 const customTheme: CustomFlowbiteTheme = {
   carousel: {
     scrollContainer: {
@@ -20,32 +18,54 @@ const HomeCarousel = () => {
     <div className="h-56 sm:h-80 md:h-96 lg:h-auto max-w-screen-2xl mx-auto">
       <Flowbite theme={{ theme: customTheme }}>
         <Carousel slide={false}>
-          <div className="relative">
+          {/* First Slide */}
+          <div className="relative h-[calc(100vh-80px)]">
             <Image
-              className={`${styles.carouselImage} object-contain lg:object-cover mx-auto`}
-              src={banner}
+              className="object-contain lg:object-cover mx-auto"
+              src="/image/main-banner.jpg" // Path from the public folder
               alt="banner-1"
+              layout="fill" // Makes the image fill the parent div
+              loading="lazy" // Optional: Use lazy loading
+              decoding="async" // Optional: For better performance
             />
           </div>
-          <div className="relative">
-            <img
-              className={`${styles.carouselImage} object-contain lg:object-cover mx-auto`}
+
+          {/* Second Slide */}
+          <div className="relative h-[calc(100vh-80px)]">
+            <Image
+              className="object-contain lg:object-cover mx-auto"
               src="https://placehold.co/1536x650?text=Place+your+image+here"
               alt="banner-2"
+              layout="fill" // Fill the parent div
+              objectFit="cover" // Ensure the image covers the area
+              loading="lazy" // Optional: Use lazy loading
+              decoding="async" // Optional: For better performance
             />
           </div>
-          <div className="relative">
-            <img
-              className={`${styles.carouselImage} object-contain lg:object-cover mx-auto`}
+
+          {/* Third Slide */}
+          <div className="relative h-[calc(100vh-80px)]">
+            <Image
+              className="object-contain lg:object-cover mx-auto"
               src="https://placehold.co/1536x650?text=Place+your+image+here"
               alt="banner-3"
+              layout="fill" // Fill the parent div
+              objectFit="cover" // Ensure the image covers the area
+              loading="lazy" // Optional: Use lazy loading
+              decoding="async" // Optional: For better performance
             />
           </div>
-          <div className="relative">
-            <img
-              className={`${styles.carouselImage} object-contain lg:object-cover mx-auto`}
+
+          {/* Fourth Slide */}
+          <div className="relative h-[calc(100vh-80px)]">
+            <Image
+              className="object-contain lg:object-cover mx-auto"
               src="https://placehold.co/1536x650?text=Place+your+image+here"
               alt="banner-4"
+              layout="fill" // Fill the parent div
+              objectFit="cover" // Ensure the image covers the area
+              loading="lazy" // Optional: Use lazy loading
+              decoding="async" // Optional: For better performance
             />
           </div>
         </Carousel>
