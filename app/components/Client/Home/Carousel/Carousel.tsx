@@ -14,7 +14,7 @@ const customTheme: CustomFlowbiteTheme = {
 
 const HomeCarousel = () => {
   return (
-    <div className="h-auto max-w-screen-2xl lg:h-screen lg:relative -top-20">
+    <div className="h-auto max-w-screen-2xl lg:h-screen lg:relative -top-20 mx-auto">
       <Flowbite theme={{ theme: customTheme }}>
         <Carousel slide={false}>
           {/* First Slide */}
