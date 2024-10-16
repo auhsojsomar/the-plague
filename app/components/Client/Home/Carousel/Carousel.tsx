@@ -14,14 +14,14 @@ const customTheme: CustomFlowbiteTheme = {
 
 const HomeCarousel = () => {
   return (
-    <div className="h-56 sm:h-80 md:h-96 lg:h-auto max-w-screen-2xl mx-auto">
+    <div className="h-auto max-w-screen-2xl lg:h-screen lg:relative -top-20">
       <Flowbite theme={{ theme: customTheme }}>
         <Carousel slide={false}>
           {/* First Slide */}
-          <div className="relative h-[calc(100vh-80px)]">
+          <div className="relative w-full h-full">
             <CustomImage
               className="object-contain lg:object-cover mx-auto"
-              src="/image/main-banner.jpg" // Path from the public folder
+              src="/image/main-banner-full.jpg" // Path from the public folder
               alt="banner-1"
               loading="lazy" // Optional: Use lazy loading
               decoding="async" // Optional: For better performance
@@ -31,10 +31,10 @@ const HomeCarousel = () => {
           </div>
 
           {/* Second Slide */}
-          <div className="relative h-[calc(100vh-80px)]">
+          <div className="relative w-full h-auto">
             <CustomImage
               className="object-contain lg:object-cover mx-auto h-full"
-              src="https://placehold.co/1536x650?text=Place+your+image+here"
+              src="https://placehold.co/1920x1080?text=Place+your+image+here"
               alt="banner-2"
               loading="lazy" // Optional: Use lazy loading
               decoding="async" // Optional: For better performance
@@ -42,10 +42,10 @@ const HomeCarousel = () => {
           </div>
 
           {/* Third Slide */}
-          <div className="relative h-[calc(100vh-80px)]">
+          <div className="relative w-full h-auto">
             <CustomImage
               className="object-contain lg:object-cover mx-auto h-full"
-              src="https://placehold.co/1536x650?text=Place+your+image+here"
+              src="https://placehold.co/1920x1080?text=Place+your+image+here"
               alt="banner-3"
               loading="lazy" // Optional: Use lazy loading
               decoding="async" // Optional: For better performance
@@ -53,10 +53,10 @@ const HomeCarousel = () => {
           </div>
 
           {/* Fourth Slide */}
-          <div className="relative h-[calc(100vh-80px)]">
+          <div className="relative w-full h-auto">
             <CustomImage
               className="object-contain lg:object-cover mx-auto h-full"
-              src="https://placehold.co/1536x650?text=Place+your+image+here"
+              src="https://placehold.co/1920x1080?text=Place+your+image+here"
               alt="banner-4"
               loading="lazy" // Optional: Use lazy loading
               decoding="async" // Optional: For better performance
