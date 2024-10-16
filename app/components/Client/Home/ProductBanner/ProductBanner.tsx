@@ -3,7 +3,7 @@ import ProductBannerText from "./ProductBannerText";
 
 const ProductBanner = () => {
   return (
-    <div className="container grid grid-cols-1 py-12 sm:py-20 md:grid-cols-2 lg:grid-cols-3 gap-4 px-5 lg:px-0">
+    <div className="container grid grid-cols-1 py-12 px-5 sm:py-20 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:px-0">
       {/* row 1 column 1 */}
       <div className="relative min-h-60 order-1 overflow-hidden lg:px-4">
         <ProductBannerImage
