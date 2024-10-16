@@ -2,7 +2,6 @@ import Image from "next/image";
 import { Carousel } from "flowbite-react";
 import type { CustomFlowbiteTheme } from "flowbite-react";
 import { Flowbite } from "flowbite-react";
-import styles from "./Carousel.module.css";
 
 const customTheme: CustomFlowbiteTheme = {
   carousel: {
