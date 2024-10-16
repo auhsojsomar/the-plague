@@ -1,4 +1,9 @@
-import { faComment, faShare, faTruck } from "@fortawesome/free-solid-svg-icons";
+import {
+  faComment,
+  faShare,
+  faTruck,
+  IconDefinition,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const BestProductFooter = () => {
@@ -7,7 +12,7 @@ const BestProductFooter = () => {
     title,
     description,
   }: {
-    icon: any;
+    icon: IconDefinition;
     title: string;
     description: string;
   }) => (
