@@ -1,3 +1,4 @@
+import BestProductFooter from "./BestProductFooter";
 import BestProductTitle from "./BestProductTitle";
 import ProductList from "./ProductList";
 
@@ -7,6 +8,7 @@ const BestProduct = () => {
       <div className="container">
         <BestProductTitle />
         <ProductList />
+        <BestProductFooter />
       </div>
     </div>
   );
