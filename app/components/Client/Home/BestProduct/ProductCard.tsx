@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import AddToCartButton from "./AddToCartButton";
 import ViewProductButton from "./ViewProductButton";
 import { Product } from "@/app/shared/interfaces/Product";
+import CustomImage from "@/app/components/Shared/CustomImage";
 
 // Utility function to convert a string to kebab-case
 const toKebabCase = (str: string) =>
@@ -34,7 +34,11 @@ const ProductCard = ({
       )}
 
       {/* Product image */}
-      <Image src={image} alt={kebabCaseName} fill className="object-cover" />
+      <CustomImage
+        src={image}
+        alt={kebabCaseName}
+        className="object-cover w-full h-full"
+      />
 
       {/* Product details */}
       <div className="absolute inset-0 flex flex-col items-center justify-center m-6 bg-gray-50 opacity-0 transition-opacity duration-300 hover:opacity-100 cursor-pointer">
