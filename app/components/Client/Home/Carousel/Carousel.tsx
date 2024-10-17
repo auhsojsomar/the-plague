@@ -1,7 +1,8 @@
 import { Carousel } from "flowbite-react";
 import type { CustomFlowbiteTheme } from "flowbite-react";
 import { Flowbite } from "flowbite-react";
-import CustomImage from "@/app/components/Shared/CustomImage";
+import CustomImage from "@/app/components/Shared/CustomImage"; // Custom wrapper for the Next.js Image
+import { homeCarouselImage } from "@/app/constants";
 
 const customTheme: CustomFlowbiteTheme = {
   carousel: {
@@ -14,54 +15,26 @@ const customTheme: CustomFlowbiteTheme = {
 
 const HomeCarousel = () => {
   return (
-    <div className="h-auto max-w-screen-2xl lg:h-screen lg:relative -top-20 mx-auto">
+    <div className="h-auto max-w-screen-2xl max-h-[1080px] lg:h-screen lg:relative lg:-top-20 mx-auto overflow-hidden">
+      {/* Added overflow-hidden */}
       <Flowbite theme={{ theme: customTheme }}>
         <Carousel slide={false}>
-          {/* First Slide */}
-          <div className="relative w-full h-full">
-            <CustomImage
-              className="object-contain lg:object-cover mx-auto"
-              src="/image/main-banner.jpg" // Path from the public folder
-              alt="banner-1"
-              loading="lazy" // Optional: Use lazy loading
-              decoding="async" // Optional: For better performance
-              useNextImage={true}
-              fill
-            />
-          </div>
-
-          {/* Second Slide */}
-          <div className="relative w-full h-auto">
-            <CustomImage
-              className="object-contain lg:object-cover mx-auto h-full"
-              src="https://placehold.co/1920x1080?text=Place+your+image+here"
-              alt="banner-2"
-              loading="lazy" // Optional: Use lazy loading
-              decoding="async" // Optional: For better performance
-            />
-          </div>
-
-          {/* Third Slide */}
-          <div className="relative w-full h-auto">
-            <CustomImage
-              className="object-contain lg:object-cover mx-auto h-full"
-              src="https://placehold.co/1920x1080?text=Place+your+image+here"
-              alt="banner-3"
-              loading="lazy" // Optional: Use lazy loading
-              decoding="async" // Optional: For better performance
-            />
-          </div>
-
-          {/* Fourth Slide */}
-          <div className="relative w-full h-auto">
-            <CustomImage
-              className="object-contain lg:object-cover mx-auto h-full"
-              src="https://placehold.co/1920x1080?text=Place+your+image+here"
-              alt="banner-4"
-              loading="lazy" // Optional: Use lazy loading
-              decoding="async" // Optional: For better performance
-            />
-          </div>
+          {homeCarouselImage.map((image, index) => (
+            <div
+              key={index}
+              className={`relative w-full h-${index === 0 ? "full" : "auto"}`}
+            >
+              <CustomImage
+                className="object-contain lg:object-cover mx-auto h-full"
+                src={image.src}
+                alt={image.alt}
+                loading="lazy"
+                decoding="async"
+                useNextImage={index === 0}
+                fill={index === 0}
+              />
+            </div>
+          ))}
         </Carousel>
       </Flowbite>
     </div>

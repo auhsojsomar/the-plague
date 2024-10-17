@@ -6,7 +6,7 @@ import React from "react";
 type Link = {
   href: string;
   children?: React.ReactNode;
-  exact?: true | null;
+  exact?: boolean | null;
   className?: string;
 };
 
