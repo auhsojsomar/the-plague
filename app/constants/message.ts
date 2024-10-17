@@ -1,6 +1,8 @@
 import { Messages } from "./types";
-import { bestProduct } from "./product";
+import { bestProduct, featureProduct } from "./product";
 import { faComment, faShare, faTruck } from "@fortawesome/free-solid-svg-icons";
+
+const { BEST_SELLER, MUST_HAVE, NEW_PRODUCTS } = featureProduct;
 
 export const MESSAGE: Messages = {
   PRODUCT_BANNER: [
@@ -51,7 +53,15 @@ export const MESSAGE: Messages = {
     },
   ],
   FEATURE_PRODUCTS: {
-    title: ["Bestseller", "New Products", "Must have"],
-    products: bestProduct,
+    title: [
+      { label: "Best Seller", link: "/?filter=Best Seller" },
+      { label: "New Products", link: "/?filter=New Products" },
+      { label: "Must Have", link: "/?filter=Must Have" },
+    ],
+    products: {
+      BEST_SELLER,
+      NEW_PRODUCTS,
+      MUST_HAVE,
+    },
   },
 };
