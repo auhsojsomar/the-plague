@@ -1,6 +1,6 @@
 import { Product } from "../shared/interfaces/Product";
 
-export const BestProduct: Product[] = [
+export const bestProduct: Product[] = [
   {
     productName: "Leather Bag",
     price: 99.12,

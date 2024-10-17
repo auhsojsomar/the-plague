@@ -3,6 +3,7 @@
 import LinkGeneric from "./NavbarLink";
 import { useNavbarContext } from "@/app/context/NavbarContext";
 import AddToCart from "./AddToCart";
+import { ROUTES } from "@/app/constants";
 
 const NavbarContent = () => {
   const { isOpen } = useNavbarContext();
@@ -17,12 +18,11 @@ const NavbarContent = () => {
         <ul
           className={`flex flex-col sm:flex-row sm:items-center mt-5 sm:mt-0`}
         >
-          <LinkGeneric exact href="/">
-            Home
-          </LinkGeneric>
-          <LinkGeneric href="/about-us">About Us</LinkGeneric>
-          <LinkGeneric href="/products">Products</LinkGeneric>
-          <LinkGeneric href="/login">Login</LinkGeneric>
+          {Object.entries(ROUTES).map(([key, { label, link }], index) => (
+            <LinkGeneric key={key} exact={index === 0} href={link}>
+              {label}
+            </LinkGeneric>
+          ))}
         </ul>
       </div>
       <AddToCart />
