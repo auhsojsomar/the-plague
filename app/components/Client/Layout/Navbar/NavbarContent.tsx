@@ -1,8 +1,8 @@
 "use client";
 
-import LinkGeneric from "./NavbarLink";
+import NavbarLink from "./NavbarLink";
 import { useNavbarContext } from "@/app/context/NavbarContext";
-import AddToCart from "./AddToCart";
+import AddToCart from "./NavbarAddToCart";
 import { ROUTES } from "@/app/constants";
 
 const NavbarContent = () => {
@@ -19,9 +19,9 @@ const NavbarContent = () => {
           className={`flex flex-col sm:flex-row sm:items-center mt-5 sm:mt-0`}
         >
           {Object.entries(ROUTES).map(([key, { label, link }], index) => (
-            <LinkGeneric key={key} exact={index === 0} href={link}>
+            <NavbarLink key={key} exact={index === 0} href={link}>
               {label}
-            </LinkGeneric>
+            </NavbarLink>
           ))}
         </ul>
       </div>
