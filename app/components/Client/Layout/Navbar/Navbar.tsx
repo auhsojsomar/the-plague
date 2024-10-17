@@ -12,6 +12,7 @@ const Navbar = () => {
           alt="the-plague-icon"
           width={60}
           height={60}
+          priority
         />
         <NavbarContextProvider>
           <NavbarBurgerButton />
