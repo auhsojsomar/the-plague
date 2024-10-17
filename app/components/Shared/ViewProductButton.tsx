@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React from "react";
 
-const BestProductViewProductButton = ({ href }: { href: string }) => {
+const ViewProductButton = ({ href }: { href: string }) => {
   return (
     <Link href={href}>
       <button className="h-10 w-10 rounded-full bg-white border border-solid border-gray-300 shadow-sm mx-1 hover:bg-primary-color hover:text-white transition-all duration-400">
@@ -13,4 +13,4 @@ const BestProductViewProductButton = ({ href }: { href: string }) => {
   );
 };
 
-export default BestProductViewProductButton;
+export default ViewProductButton;
