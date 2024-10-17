@@ -25,14 +25,18 @@ export type Routes = {
 
 export type Messages = {
   PRODUCT_BANNER: Banner[];
-  BEST_PRODUCT?: {
+  BEST_PRODUCT: {
     title: string;
     products: Product[];
   };
   OFFER: Offer;
   FEATURE_PRODUCTS: {
-    title: string[];
-    products: Product[];
+    title: Route[];
+    products: {
+      BEST_SELLER: Product[];
+      NEW_PRODUCTS: Product[];
+      MUST_HAVE: Product[];
+    };
   };
 };
 

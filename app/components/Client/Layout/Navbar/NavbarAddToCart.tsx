@@ -1,7 +1,7 @@
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const AddToCart = () => {
+const NavbarAddToCart = () => {
   return (
     <button className="absolute sm:static top-6 right-16 mt-0.5 sm:mt-0 flex items-center">
       <FontAwesomeIcon
@@ -12,4 +12,4 @@ const AddToCart = () => {
   );
 };
 
-export default AddToCart;
+export default NavbarAddToCart;

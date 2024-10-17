@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import "@/app/globals.css";
-import Navbar from "@/app/components/Client/Layout/Navbar/NavbarGeneric";
+import Navbar from "@/app/components/Client/Layout/Navbar/Navbar";
 
 export const metadata: Metadata = {
   title: "The Plague",
@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en" data-theme="light">
       <body className={inter.className}>
         <Navbar />
-        <div className="font-display">{children}</div>
+        {children}
       </body>
     </html>
   );

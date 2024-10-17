@@ -1,7 +1,7 @@
 import { bestProduct } from "@/app/constants";
-import ProductCard from "./ProductCard";
+import ProductCard from "./BestProductCard";
 
-const ProductList = () => {
+const BestProductList = () => {
   const getOrderClass = (index: number) => {
     switch (index) {
       case 1:
@@ -29,4 +29,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default BestProductList;

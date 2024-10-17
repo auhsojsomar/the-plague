@@ -1,26 +1,18 @@
 import Link from "next/link";
-import AddToCartButton from "./AddToCartButton";
-import ViewProductButton from "./ViewProductButton";
+import AddToCartButton from "@/app/components/Shared/AddToCartButton";
+import ViewProductButton from "@/app/components/Shared/ViewProductButton";
 import { Product } from "@/app/shared/interfaces/Product";
 import CustomImage from "@/app/components/Shared/CustomImage";
+import { toKebabCase } from "@/app/utils/stringUtils";
+import { formatPrice } from "@/app/utils/priceUtils";
 
-// Utility function to convert a string to kebab-case
-const toKebabCase = (str: string) =>
-  str
-    .toLowerCase() // Convert to lowercase
-    .replace(/\s+/g, "-") // Replace spaces with dashes
-    .replace(/[^\w-]+/g, "") // Remove all non-word characters except dashes
-    .replace(/--+/g, "-") // Replace multiple dashes with a single dash
-    .replace(/^-+|-+$/g, ""); // Trim dashes from start and end
-
-const ProductCard = ({
+const BestProductCard = ({
   productName,
   image,
   price,
   isSale,
   salePrice,
 }: Product) => {
-  const formatPrice = (amount: number) => `₱${amount.toFixed(2)}`;
   const kebabCaseName = toKebabCase(productName); // Convert product name to kebab-case
   const productLink = `/products/${kebabCaseName}`; // Generate product link
 
@@ -67,4 +59,4 @@ const ProductCard = ({
   );
 };
 
-export default ProductCard;
+export default BestProductCard;

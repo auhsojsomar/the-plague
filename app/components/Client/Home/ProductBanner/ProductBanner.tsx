@@ -6,7 +6,7 @@ const ProductBanner = () => {
   const { PRODUCT_BANNER } = MESSAGE;
 
   return (
-    <div className="container grid grid-cols-1 gap-4 py-12 px-5 sm:py-20 md:grid-cols-2 lg:grid-cols-3 lg:pt-0 lg:px-0">
+    <div className="container grid grid-cols-1 gap-4 py-12 px-5 font-display sm:py-20 md:grid-cols-2 lg:grid-cols-3 lg:pt-0 lg:px-0">
       {/* Row 1 - Column 1 */}
       <div className="relative order-1 overflow-hidden w-full h-auto">
         <ProductBannerImage
