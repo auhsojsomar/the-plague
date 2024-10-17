@@ -1,6 +1,6 @@
 import BestProductFooter from "./BestProductFooter";
 import BestProductTitle from "./BestProductTitle";
-import ProductList from "./ProductList";
+import ProductList from "./BestProductList";
 
 const BestProduct = () => {
   return (
