@@ -1,10 +1,11 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 interface LabelWithIcon {
   label: string;
-  icon: any; // Replace with actual icon type if needed
+  icon: IconDefinition;
 }
 
 interface LabelWithLink {
