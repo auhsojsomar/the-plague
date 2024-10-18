@@ -1,6 +1,7 @@
 import { Product } from "@/app/shared/interfaces/Product";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
+// Basic Types
 export type Route = {
   label: string;
   link: string;
@@ -16,6 +17,31 @@ export type ImageProps = {
   alt: string;
 };
 
+// Complex Types
+export type LabelWithIcon = {
+  label: string;
+  icon: IconDefinition;
+};
+
+export type IconWithLink = {
+  icon: IconDefinition;
+  link: string;
+};
+
+export type Footer = {
+  title: string;
+  label: Route[];
+};
+
+export type Messages = {
+  PRODUCT_BANNER: Banner[];
+  BEST_PRODUCT: BestProduct;
+  OFFER: Offer[];
+  FEATURE_PRODUCTS: FeatureProducts;
+  FOOTER: FooterSection;
+};
+
+// Specific Types
 export type Routes = {
   HOME: Route;
   ABOUT_US: Route;
@@ -23,23 +49,47 @@ export type Routes = {
   LOGIN: Route;
 };
 
-export type Messages = {
-  PRODUCT_BANNER: Banner[];
-  BEST_PRODUCT: {
-    title: string;
-    products: Product[];
-  };
-  OFFER: Offer;
-  FEATURE_PRODUCTS: {
-    title: Route[];
-    products: {
-      BEST_SELLER: Product[];
-      NEW_PRODUCTS: Product[];
-      MUST_HAVE: Product[];
-    };
+type Banner = TitleDescription & Route & ImageProps;
+
+type BestProduct = {
+  title: string;
+  products: Product[];
+};
+
+type FeatureProducts = {
+  title: Route[];
+  products: {
+    BEST_SELLER: Product[];
+    NEW_PRODUCTS: Product[];
+    MUST_HAVE: Product[];
   };
 };
 
-type Banner = TitleDescription & Route & ImageProps;
+type ContactUsFooter = {
+  title: string;
+  label: LabelWithIcon[];
+};
 
-type Offer = (TitleDescription & { icon: IconDefinition })[];
+type FooterSection = {
+  CONTACT_US: ContactUsFooter;
+  INFORMATION: Footer;
+  OUR_OFFERS: Footer;
+  OUR_POLICY: Footer;
+  GET_NEWSLETTERS: NewsletterSection;
+};
+
+type NewsletterSection = {
+  title: string;
+  textbox: {
+    placeholder: string;
+  };
+  button: {
+    text: string;
+  };
+  CONNECT_US: {
+    title: string;
+    label: IconWithLink[];
+  };
+};
+
+type Offer = TitleDescription & { icon: IconDefinition };
