@@ -93,16 +93,22 @@ const Footer: React.FC = () => {
             }{" "}
             All Rights Reserved
           </span>
-          <div className="flex flex-wrap h-28 gap-6 py-4 order-1 sm:order-2">
+          <div className="flex h-20 gap-4 my-4 order-1 sm:order-2">
             <CustomImage
-              className="w-auto h-full"
+              className="h-full w-auto" // Use h-full and w-auto to maintain aspect ratio
               src="/image/payment-cod.jpg"
               alt="payment-cod"
+              useNextImage
+              width={319}
+              height={189}
             />
             <CustomImage
-              className="w-auto h-full"
+              className="h-full w-auto" // Use h-full and w-auto to maintain aspect ratio
               src="/image/payment-gcash.jpg"
               alt="payment-gcash"
+              useNextImage
+              width={319}
+              height={189}
             />
           </div>
         </div>
