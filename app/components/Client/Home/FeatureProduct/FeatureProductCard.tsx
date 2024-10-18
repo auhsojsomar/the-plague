@@ -15,20 +15,20 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     <div className="text-center aspect-square shadow-lg border">
-      <div className="w-full h-auto relative">
+      <div className="w-full h-full relative">
         <CustomImage
+          className="object-cover w-full h-full"
           src={product.image}
           alt={kebabCaseName}
-          className="object-cover"
         />
-
         {/* Product card on hover */}
-        <div className="absolute inset-0 flex items-center justify-center m-6 bg-gray-50 opacity-0 transition-opacity duration-300 hover:opacity-100 cursor-pointer">
+        <div className="absolute inset-0 flex items-center justify-center m-4 sm:m-3 bg-gray-50 opacity-0 transition-opacity duration-300 hover:opacity-100 cursor-pointer">
           <ViewProductButton href={productLink} />
           <AddToCartButton />
         </div>
       </div>
       <div className="py-3">
+        {/* Product name */}
         <h2 className="text-md">{product.productName}</h2>
         {/* Show dash price if sale */}
         {product.isSale && product.salePrice && (
@@ -36,6 +36,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             {formatPrice(product.salePrice)}
           </small>
         )}
+        {/* Product original price */}
         <small className="px-1">{formatPrice(product.price)}</small>
       </div>
     </div>
