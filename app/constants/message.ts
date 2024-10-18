@@ -1,6 +1,19 @@
 import { Messages } from "./types";
 import { bestProduct, featureProduct } from "./product";
-import { faComment, faShare, faTruck } from "@fortawesome/free-solid-svg-icons";
+import {
+  faComment,
+  faEnvelope,
+  faLocationDot,
+  faPhone,
+  faShare,
+  faTruck,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  faFacebookF,
+  faInstagram,
+  faLinkedinIn,
+  faThreads,
+} from "@fortawesome/free-brands-svg-icons";
 
 const { BEST_SELLER, MUST_HAVE, NEW_PRODUCTS } = featureProduct;
 
@@ -62,6 +75,134 @@ export const MESSAGE: Messages = {
       BEST_SELLER,
       NEW_PRODUCTS,
       MUST_HAVE,
+    },
+  },
+  FOOTER: {
+    CONTACT_US: {
+      title: "Contact Us",
+      label: [
+        {
+          label: "Caloocan City",
+          icon: faLocationDot,
+        },
+        {
+          label: "placeholder@gmail.com",
+          icon: faEnvelope,
+        },
+        {
+          label: "(+63) 912 345 6789",
+          icon: faPhone,
+        },
+      ],
+    },
+    INFORMATION: {
+      title: "Information",
+      label: [
+        {
+          label: "My account",
+          link: "/",
+        },
+        {
+          label: "Order history",
+          link: "/",
+        },
+        {
+          label: "Returns",
+          link: "/",
+        },
+        {
+          label: "Privacy Policy",
+          link: "/",
+        },
+        {
+          label: "Site Map",
+          link: "/",
+        },
+      ],
+    },
+    OUR_OFFERS: {
+      title: "Our Offers",
+      label: [
+        {
+          label: "New collection",
+          link: "/",
+        },
+        {
+          label: "Best sellers",
+          link: "/",
+        },
+        {
+          label: "Manufacturers",
+          link: "/",
+        },
+        {
+          label: "New products",
+          link: "/",
+        },
+        {
+          label: "Delivery & Returns",
+          link: "/",
+        },
+      ],
+    },
+    OUR_POLICY: {
+      title: "Our Policy",
+      label: [
+        {
+          label: "Help & Contact",
+          link: "/",
+        },
+        {
+          label: "Shipping & Taxes",
+          link: "/",
+        },
+        {
+          label: "Return policy",
+          link: "/",
+        },
+        {
+          label: "Careens",
+          link: "/",
+        },
+        {
+          label: "Affiliates",
+          link: "/",
+        },
+        {
+          label: "Legal Notice",
+          link: "/",
+        },
+      ],
+    },
+    GET_NEWSLETTERS: {
+      title: "Get Newsletters",
+      textbox: {
+        placeholder: "Email",
+      },
+      button: {
+        text: "Subscribe",
+      },
+      CONNECT_US: {
+        title: "Connect Us",
+        label: [
+          {
+            icon: faFacebookF,
+            link: "/",
+          },
+          {
+            icon: faInstagram,
+            link: "/",
+          },
+          {
+            icon: faThreads,
+            link: "/",
+          },
+          {
+            icon: faLinkedinIn,
+            link: "/",
+          },
+        ],
+      },
     },
   },
 };
