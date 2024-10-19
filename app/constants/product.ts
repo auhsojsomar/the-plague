@@ -1,175 +1,71 @@
-import { Product } from "../shared/interfaces/Product";
+import { Product } from "../shared/types/Product";
 
-export const bestProduct: Product[] = [
+// Helper function to generate a variant
+const createVariant = (
+  size: string,
+  colorName: string,
+  hex: string,
+  quantity: number
+) => ({
+  id: Math.random(), // Generates unique ID
+  size: { id: Math.random(), name: size },
+  color: { id: Math.random(), name: colorName, hex },
+  quantity,
+});
+
+// List of products (reusable data)
+const products: Product[] = [
   {
     productName: "Leather Bag",
     price: 99.12,
-    image: "https://placehold.co/500x500?text=Place+your+image+here",
+    image: "https://placehold.co/500x500",
     isSale: true,
     salePrice: 89.0,
+    variants: createVariant("Large", "Brown", "#8B4513", 10),
   },
   {
-    productName: "Leather Shoe",
-    price: 149.99,
-    image: "https://placehold.co/500x500?text=Place+your+image+here",
-  },
-  {
-    productName: "Vintage Lambskin Shoe",
-    price: 199.99,
-    image: "https://placehold.co/500x500?text=Place+your+image+here",
-  },
-  {
-    productName: "Skin Leather Bag",
+    productName: "Premium Tote Bag",
     price: 129.99,
-    image: "https://placehold.co/500x500?text=Place+your+image+here",
+    image: "https://placehold.co/500x500",
+    variants: createVariant("Medium", "Tan", "#D2B48C", 8),
   },
   {
-    productName: "Luxury Leather Bag",
-    price: 299.99,
-    image: "https://placehold.co/500x500?text=Place+your+image+here",
+    productName: "Classic Oxford Shoes",
+    price: 179.0,
+    image: "https://placehold.co/500x500",
+    variants: createVariant("10", "Black", "#000000", 5),
   },
+  {
+    productName: "Luxury Watch",
+    price: 299.99,
+    image: "https://placehold.co/500x500",
+    variants: createVariant("One Size", "Silver", "#C0C0C0", 2),
+  },
+  // Add more products here to ensure each category has 20 items
 ];
 
-// Featured products grouped into categories
+// Helper function to create a product list by duplicating sample products
+const generateProductList = (count: number): Product[] => {
+  const result: Product[] = [];
+  for (let i = 0; i < count; i++) {
+    result.push({
+      ...products[i % products.length], // Use modulo to cycle through sample products
+      productName: `${products[i % products.length].productName} ${i + 1}`, // Unique name
+    });
+  }
+  return result;
+};
+
+// Featured products grouped into categories with 20 products each
 export const featureProduct: {
   BEST_SELLER: Product[];
   NEW_PRODUCTS: Product[];
   MUST_HAVE: Product[];
 } = {
-  BEST_SELLER: [
-    {
-      productName: "Leather Bag",
-      price: 99.12,
-      image: "https://placehold.co/500x500",
-      isSale: true,
-      salePrice: 89.0,
-    },
-    {
-      productName: "Premium Tote Bag",
-      price: 129.99,
-      image: "https://placehold.co/500x500",
-    },
-    {
-      productName: "Designer Wallet",
-      price: 59.99,
-      image: "https://placehold.co/500x500",
-    },
-    {
-      productName: "Classic Oxford Shoes",
-      price: 179.0,
-      image: "https://placehold.co/500x500",
-    },
-    {
-      productName: "Luxury Watch",
-      price: 299.99,
-      image: "https://placehold.co/500x500",
-    },
-    {
-      productName: "Travel Backpack",
-      price: 89.99,
-      image: "https://placehold.co/500x500",
-      isSale: true,
-      salePrice: 79.0,
-    },
-    {
-      productName: "Elegant Handbag",
-      price: 249.99,
-      image: "https://placehold.co/500x500",
-    },
-    {
-      productName: "Vintage Sunglasses",
-      price: 79.99,
-      image: "https://placehold.co/500x500",
-    },
-  ],
-  NEW_PRODUCTS: [
-    {
-      productName: "Suede Backpack",
-      price: 199.0,
-      image: "https://placehold.co/500x500",
-    },
-    {
-      productName: "Canvas Shoulder Bag",
-      price: 89.99,
-      image: "https://placehold.co/500x500",
-    },
-    {
-      productName: "Wool Scarf",
-      price: 39.99,
-      image: "https://placehold.co/500x500",
-    },
-    {
-      productName: "Sports Watch",
-      price: 159.0,
-      image: "https://placehold.co/500x500",
-    },
-    {
-      productName: "Running Shoes",
-      price: 129.99,
-      image: "https://placehold.co/500x500",
-    },
-    {
-      productName: "Casual T-Shirt",
-      price: 19.99,
-      image: "https://placehold.co/500x500",
-    },
-    {
-      productName: "Hiking Boots",
-      price: 189.0,
-      image: "https://placehold.co/500x500",
-      isSale: true,
-      salePrice: 169.0,
-    },
-    {
-      productName: "Summer Hat",
-      price: 24.99,
-      image: "https://placehold.co/500x500",
-    },
-  ],
-  MUST_HAVE: [
-    {
-      productName: "Luxury Wallet",
-      price: 59.99,
-      image: "https://placehold.co/500x500",
-      isSale: true,
-      salePrice: 49.99,
-    },
-    {
-      productName: "Leather Gloves",
-      price: 79.99,
-      image: "https://placehold.co/500x500",
-    },
-    {
-      productName: "Classic Messenger Bag",
-      price: 149.0,
-      image: "https://placehold.co/500x500",
-    },
-    {
-      productName: "Silk Tie",
-      price: 29.99,
-      image: "https://placehold.co/500x500",
-    },
-    {
-      productName: "Formal Belt",
-      price: 49.99,
-      image: "https://placehold.co/500x500",
-    },
-    {
-      productName: "Winter Jacket",
-      price: 199.99,
-      image: "https://placehold.co/500x500",
-    },
-    {
-      productName: "Premium Socks",
-      price: 9.99,
-      image: "https://placehold.co/500x500",
-      isSale: true,
-      salePrice: 7.99,
-    },
-    {
-      productName: "Leather Journal",
-      price: 39.99,
-      image: "https://placehold.co/500x500",
-    },
-  ],
+  BEST_SELLER: generateProductList(20),
+  NEW_PRODUCTS: generateProductList(20),
+  MUST_HAVE: generateProductList(20),
 };
+
+// Best Products and generate 5 products
+export const bestProduct: Product[] = generateProductList(5);
