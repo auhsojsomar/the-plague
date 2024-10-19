@@ -34,7 +34,7 @@ const BackToTopButton = () => {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 w-14 h-14 text-white text-2xl rounded-full shadow-2xl bg-primary-color transition-all duration-500 hover:brightness-125"
+          className="fixed bottom-8 right-8 w-14 h-14 text-white text-2xl rounded-full shadow-2xl bg-primary-color transition-all duration-500 hover:brightness-125 z-50"
           aria-label="Back to top"
         >
           <FontAwesomeIcon icon={faChevronUp} />
