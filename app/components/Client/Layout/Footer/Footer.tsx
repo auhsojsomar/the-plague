@@ -1,4 +1,3 @@
-import React from "react";
 import { MESSAGE } from "@/app/constants"; // Import your footer data
 import FooterSection from "./FooterSection";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

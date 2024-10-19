@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-
 import "@/app/globals.css";
+
 import Navbar from "@/app/components/Client/Layout/Navbar/Navbar";
-import Footer from "@/app/components/Client/Layout/Footer/Footer";
 
 export const metadata: Metadata = {
   title: "The Plague",
@@ -25,7 +24,6 @@ export default function RootLayout({
       <body className={inter.className}>
         <Navbar />
         {children}
-        <Footer />
       </body>
     </html>
   );
