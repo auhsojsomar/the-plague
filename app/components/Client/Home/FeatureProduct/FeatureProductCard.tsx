@@ -1,5 +1,5 @@
 import { formatPrice } from "@/app/utils/priceUtils";
-import { Product } from "@/app/shared/interfaces/Product";
+import { Product } from "@/app/shared/types/Product";
 import CustomImage from "@/app/components/Shared/CustomImage";
 import ViewProductButton from "@/app/components/Shared/ViewProductButton";
 import AddToCartButton from "@/app/components/Shared/AddToCartButton";

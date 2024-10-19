@@ -1,4 +1,4 @@
-import { Messages } from "./types";
+import { Messages } from "@/app/types/messages/messages";
 import { bestProduct, featureProduct } from "./product";
 import {
   faComment,

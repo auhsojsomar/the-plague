@@ -1,4 +1,4 @@
-import { ImageProps } from "./types";
+import { ImageProps } from "../types/common/imageProps";
 
 export const homeCarouselImage: ImageProps[] = [
   {

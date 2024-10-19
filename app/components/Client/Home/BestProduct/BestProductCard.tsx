@@ -1,7 +1,7 @@
 import Link from "next/link";
 import AddToCartButton from "@/app/components/Shared/AddToCartButton";
 import ViewProductButton from "@/app/components/Shared/ViewProductButton";
-import { Product } from "@/app/shared/interfaces/Product";
+import { Product } from "@/app/shared/types/Product";
 import CustomImage from "@/app/components/Shared/CustomImage";
 import { toKebabCase } from "@/app/utils/stringUtils";
 import { formatPrice } from "@/app/utils/priceUtils";

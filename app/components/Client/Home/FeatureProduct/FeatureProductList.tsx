@@ -4,7 +4,7 @@ import { featureProduct } from "@/app/constants";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCard from "./FeatureProductCard";
 import { Navigation } from "swiper/modules";
-import { Product } from "@/app/shared/interfaces/Product";
+import { Product } from "@/app/shared/types/Product";
 import { useEffect, useState } from "react";
 
 const FeatureProductList = () => {
