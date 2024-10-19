@@ -59,13 +59,13 @@ const Footer: React.FC = () => {
               <h2 className="text-lg font-semibold mb-2 uppercase">
                 {MESSAGE.FOOTER.GET_NEWSLETTERS.CONNECT_US.title}
               </h2>
-              <div className="flex space-x-3">
+              <div className="flex flex-wrap">
                 {MESSAGE.FOOTER.GET_NEWSLETTERS.CONNECT_US.label.map(
                   (item, index) => (
                     <Link
                       key={index}
                       href={item.link}
-                      className="text-gray-300 hover:text-white"
+                      className="text-gray-300 hover:text-white mr-3 mb-1"
                     >
                       <FontAwesomeIcon
                         icon={item.icon}
@@ -92,7 +92,7 @@ const Footer: React.FC = () => {
             }{" "}
             All Rights Reserved
           </span>
-          <div className="flex h-20 gap-4 my-4 order-1 sm:order-2">
+          <div className="flex h-14 gap-4 my-4 order-1 sm:order-2 overflow-x-hidden">
             <CustomImage
               className="h-full w-auto" // Use h-full and w-auto to maintain aspect ratio
               src="/image/payment-cod.jpg"

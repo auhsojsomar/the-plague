@@ -46,7 +46,7 @@ const FooterSection: React.FC<FooterSectionProps> = ({
                 {item.label}
               </Link>
             ) : (
-              <span className="text-gray-300">{item.label}</span>
+              <p className="text-gray-300 break-all">{item.label}</p>
             )}
           </li>
         ))}
