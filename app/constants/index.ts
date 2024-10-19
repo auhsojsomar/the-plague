@@ -1,4 +1,4 @@
 export * from "./images";
-export * from "./message";
+export * from "./messages";
 export * from "./product";
 export * from "./routes";
