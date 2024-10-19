@@ -1,7 +1,7 @@
-import { BestProduct } from "@/app/data/BestProduct";
-import ProductCard from "./ProductCard";
+import { bestProduct } from "@/app/constants";
+import ProductCard from "./BestProductCard";
 
-const ProductList = () => {
+const BestProductList = () => {
   const getOrderClass = (index: number) => {
     switch (index) {
       case 1:
@@ -15,7 +15,7 @@ const ProductList = () => {
 
   return (
     <div className="py-4 grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
-      {BestProduct.map((product, index) => (
+      {bestProduct.map((product, index) => (
         <div
           key={index}
           className={`w-full h-auto aspect-square relative ${getOrderClass(
@@ -29,4 +29,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default BestProductList;

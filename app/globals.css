@@ -2,7 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
+
 :root {
   --primary-color: #da6c0a;
   --secondary-color: #060606;
+}
+
+/* Override default Swiper button styles using Tailwind */
+.swiper-button-next,
+.swiper-button-prev {
+  @apply absolute top-1/2 transform -translate-y-1/2 bg-black/40 text-white 
+    rounded-full p-2 w-10 h-10 flex items-center justify-center z-10 transition-all duration-300;
+}
+
+.swiper-button-next {
+  @apply right-2; /* Positioning for the right arrow */
+}
+
+.swiper-button-prev {
+  @apply left-2; /* Positioning for the left arrow */
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  @apply bg-black/80; /* Darker background on hover */
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  @apply text-xl; /* Resize default arrow icons */
 }

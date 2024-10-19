@@ -1,52 +1,60 @@
 import ProductBannerImage from "./ProductBannerImage";
 import ProductBannerText from "./ProductBannerText";
+import { MESSAGE } from "@/app/constants";
 
 const ProductBanner = () => {
+  const { PRODUCT_BANNER } = MESSAGE;
+
   return (
-    <div className="container grid grid-cols-1 py-12 px-5 sm:py-20 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:px-0">
-      {/* row 1 column 1 */}
+    <div className="container grid grid-cols-1 gap-4 py-12 px-5 font-display sm:py-20 md:grid-cols-2 lg:grid-cols-3 lg:pt-0 lg:px-0">
+      {/* Row 1 - Column 1 */}
       <div className="relative order-1 overflow-hidden w-full h-auto">
         <ProductBannerImage
-          src="https://placehold.co/370x247?text=Place+your+image+here"
-          alt="banner-1"
+          src={PRODUCT_BANNER[0].src}
+          alt={PRODUCT_BANNER[0].alt}
         />
       </div>
-      {/* row 1 column 2 */}
+
+      {/* Row 1 - Column 2 */}
       <div className="relative order-2">
         <ProductBannerText
-          category="Send her your love"
-          description="New design"
-          link="Get it now"
+          title={PRODUCT_BANNER[0].title} // Correct title
+          description={PRODUCT_BANNER[0].description} // Correct description
+          label={PRODUCT_BANNER[0].label}
         />
       </div>
-      {/* row 2 column 1 */}
+
+      {/* Row 2 - Column 1 */}
       <div className="relative order-4 md:order-3">
         <ProductBannerText
-          category="Send her your love"
-          description="New design"
-          link="Get it now"
+          title={PRODUCT_BANNER[1].title} // Correct title
+          description={PRODUCT_BANNER[1].description} // Correct description
+          label={PRODUCT_BANNER[1].label}
         />
       </div>
-      {/* row 2 column 2 */}
+
+      {/* Row 2 - Column 2 */}
       <div className="relative order-3 overflow-hidden w-full h-auto md:order-4">
         <ProductBannerImage
-          src="https://placehold.co/370x247?text=Place+your+image+here"
-          alt="banner-2"
+          src={PRODUCT_BANNER[1].src}
+          alt={PRODUCT_BANNER[1].alt}
         />
       </div>
-      {/* row 1 & 2 column 3 */}
+
+      {/* Row 1 & 2 - Column 3 */}
       <div className="relative min-h-[31rem] order-5 overflow-hidden w-full h-auto lg:row-span-2 lg:row-start-1 lg:col-start-3">
         <ProductBannerImage
-          src="https://placehold.co/370x510?text=Place+your+image+here"
-          alt="banner-3"
+          src={PRODUCT_BANNER[2].src}
+          alt={PRODUCT_BANNER[2].alt}
         />
       </div>
-      {/* row 2 column 3 */}
+
+      {/* Row 2 - Column 3 */}
       <div className="relative order-6 lg:row-start-2 lg:col-start-3">
         <ProductBannerText
-          category="Mid season sale"
-          description="Men’s Fashion"
-          link="View Collection"
+          title={PRODUCT_BANNER[2].title} // Correct title
+          description={PRODUCT_BANNER[2].description} // Correct description
+          label={PRODUCT_BANNER[2].label}
           vertical
         />
       </div>

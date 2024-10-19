@@ -1,18 +1,13 @@
 import Link from "next/link";
 
 type Banner = {
-  category: string;
+  title: string;
   description: string;
-  link: string;
+  label: string;
   vertical?: boolean;
 };
 
-const ProductBannerText = ({
-  category,
-  description,
-  link,
-  vertical,
-}: Banner) => {
+const ProductBannerText = ({ title, description, label, vertical }: Banner) => {
   return (
     <>
       {/* Check if vertical banner */}
@@ -27,12 +22,12 @@ const ProductBannerText = ({
           }`}
         >
           <h6 className="text-2xl/10">{description}</h6>
-          <h5 className="text-3xl/10">{category}</h5>
+          <h5 className="text-3xl/10">{title}</h5>
           <Link
             className="before:content-[''] before:absolute before:w-full before:h-[1px] before:bg-primary-color before:-top-2 before:left-0 text-primary-color relative inline-block mt-7"
             href="/"
           >
-            {link}
+            {label}
           </Link>
         </div>
       </div>
