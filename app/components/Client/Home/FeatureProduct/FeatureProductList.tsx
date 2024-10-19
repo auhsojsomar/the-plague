@@ -19,7 +19,7 @@ const FeatureProductList = () => {
 
   return (
     <Swiper
-      className="mt-16 mx-12 sm:mx-6"
+      className="mt-16 mx-4 sm:mx-6"
       slidesPerView={1}
       spaceBetween={10}
       navigation

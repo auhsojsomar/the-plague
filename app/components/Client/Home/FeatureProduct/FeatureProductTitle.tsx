@@ -29,7 +29,7 @@ const FeatureProductTitle = () => {
   const anyActive = title?.some((route) => isActive(route.link));
 
   return (
-    <ul className="flex justify-center gap-x-5 sm:gap-x-8">
+    <ul className="flex flex-col items-center gap-x-5 sm:gap-x-8 sm:flex-row sm:items-start sm:justify-center">
       {title?.map((route, index) => {
         // Mark the link active if it matches OR it’s the center link when nothing else is active
         const active =
@@ -38,17 +38,17 @@ const FeatureProductTitle = () => {
         return (
           <li
             key={index}
-            className={`relative group ${
+            className={`relative group before:hidden after:hidden my-1 sm:my-0 ${
               index % 2 === 0
                 ? ""
-                : `before:block before:absolute before:w-px before:bg-gray-400
+                : `sm:before:block before:absolute before:w-px before:bg-gray-400
                    before:h-8 before:-left-2 before:top-0 before:sm:-left-4
-                   after:block after:absolute after:w-px after:bg-gray-400
+                   sm:after:block after:absolute after:w-px after:bg-gray-400
                    after:h-8 after:-right-2 after:top-0 after:sm:-right-4`
             }`}
           >
             <Link
-              className={`uppercase text-lg font-bold sm:text-2xl ${
+              className={`uppercase font-bold text-2xl text-nowrap ${
                 active
                   ? "text-secondary-color"
                   : "text-gray-300 hover:text-primary-color"
@@ -60,7 +60,7 @@ const FeatureProductTitle = () => {
             </Link>
             {active && (
               <div
-                className="rounded-full h-4 w-4 left-1/2 -bottom-2 -translate-x-1/2 border-gray-400 border-2 border-solid relative
+                className="rounded-full hidden sm:block h-4 w-4 left-1/2 -bottom-2 -translate-x-1/2 border-gray-400 border-2 border-solid relative
                 before:content-[''] before:h-px before:w-10 before:bg-gray-400 before:absolute
                 before:top-1/2 before:-translate-y-1/2 before:-left-12
                 after:content-[''] after:h-px after:w-10 after:bg-gray-400 after:absolute
