@@ -5,7 +5,7 @@ type ProductBase = {
   productName: string;
   image: string;
   price: number;
-  variants: Variant;
+  variants: Variant[];
 };
 
 // Product required fields if sale
