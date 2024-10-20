@@ -3,7 +3,7 @@ import { allProduct } from "@/app/constants/";
 
 const ProductList = () => {
   return (
-    <div className="mt-4 grid grid-cols-5 gap-4">
+    <div className="mt-4 flex flex-wrap gap-4">
       {allProduct.map((product) => (
         <ProductCard key={product.productName} product={product} />
       ))}
