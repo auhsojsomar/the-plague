@@ -1,6 +1,6 @@
 "use client";
 
-import { Checkbox, Label, Sidebar } from "flowbite-react";
+import { Sidebar } from "flowbite-react";
 import { sidebarData } from "@/app/constants/sidebar";
 import ColorPills from "../../Shared/ColorPills";
 import SizePills from "../../Shared/SizePills";
