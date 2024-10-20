@@ -1,19 +1,33 @@
-import { Product } from "../shared/types/Product";
+import { Product } from "@/app/shared/types/Product";
+import { Variant } from "@/app/shared/interfaces/Variant";
 
-// Helper function to generate a variant
+// Helper function to generate a single variant
 const createVariant = (
   size: string,
   colorName: string,
   hex: string,
   quantity: number
-) => ({
+): Variant => ({
   id: Math.random(), // Generates unique ID
   size: { id: Math.random(), name: size },
   color: { id: Math.random(), name: colorName, hex },
   quantity,
 });
 
-// List of products (reusable data)
+// Helper function to create a variant array for a product
+const createVariants = (
+  variantsData: {
+    size: string;
+    colorName: string;
+    hex: string;
+    quantity: number;
+  }[]
+): Variant[] =>
+  variantsData.map(({ size, colorName, hex, quantity }) =>
+    createVariant(size, colorName, hex, quantity)
+  );
+
+// List of products with multiple variants
 const products: Product[] = [
   {
     productName: "Leather Bag",
@@ -21,36 +35,50 @@ const products: Product[] = [
     image: "https://placehold.co/500x500",
     isSale: true,
     salePrice: 89.0,
-    variants: createVariant("Large", "Brown", "#8B4513", 10),
+    variants: createVariants([
+      { size: "Large", colorName: "Brown", hex: "#8B4513", quantity: 10 },
+      { size: "Medium", colorName: "Black", hex: "#000000", quantity: 5 },
+      { size: "Small", colorName: "Tan", hex: "#D2B48C", quantity: 8 },
+    ]),
   },
   {
     productName: "Premium Tote Bag",
     price: 129.99,
     image: "https://placehold.co/500x500",
-    variants: createVariant("Medium", "Tan", "#D2B48C", 8),
+    variants: createVariants([
+      { size: "Large", colorName: "Tan", hex: "#D2B48C", quantity: 10 },
+      { size: "Small", colorName: "Brown", hex: "#8B4513", quantity: 15 },
+    ]),
   },
   {
     productName: "Classic Oxford Shoes",
     price: 179.0,
     image: "https://placehold.co/500x500",
-    variants: createVariant("10", "Black", "#000000", 5),
+    variants: createVariants([
+      { size: "8", colorName: "Black", hex: "#000000", quantity: 5 },
+      { size: "9", colorName: "Brown", hex: "#8B4513", quantity: 3 },
+      { size: "10", colorName: "Blue", hex: "#0000FF", quantity: 2 },
+    ]),
   },
   {
     productName: "Luxury Watch",
     price: 299.99,
     image: "https://placehold.co/500x500",
-    variants: createVariant("One Size", "Silver", "#C0C0C0", 2),
+    variants: createVariants([
+      { size: "One Size", colorName: "Gold", hex: "#FFD700", quantity: 2 },
+      { size: "One Size", colorName: "Silver", hex: "#C0C0C0", quantity: 4 },
+    ]),
   },
-  // Add more products here to ensure each category has 20 items
 ];
 
 // Helper function to create a product list by duplicating sample products
 const generateProductList = (count: number): Product[] => {
   const result: Product[] = [];
   for (let i = 0; i < count; i++) {
+    const baseProduct = products[i % products.length];
     result.push({
-      ...products[i % products.length], // Use modulo to cycle through sample products
-      productName: `${products[i % products.length].productName} ${i + 1}`, // Unique name
+      ...baseProduct,
+      productName: `${baseProduct.productName} ${i + 1}`, // Unique name
     });
   }
   return result;
@@ -69,3 +97,6 @@ export const featureProduct: {
 
 // Best Products and generate 5 products
 export const bestProduct: Product[] = generateProductList(5);
+
+// Generate all products for Product list page
+export const allProduct: Product[] = generateProductList(100);
