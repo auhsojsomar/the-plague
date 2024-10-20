@@ -99,4 +99,4 @@ export const featureProduct: {
 export const bestProduct: Product[] = generateProductList(5);
 
 // Generate all products for Product list page
-export const allProduct: Product[] = generateProductList(100);
+export const allProduct: Product[] = generateProductList(10);
