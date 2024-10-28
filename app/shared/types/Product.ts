@@ -1,3 +1,4 @@
+import { Image } from "@/app/types/product/image";
 import { Discount, Variant } from "../interfaces/Variant";
 
 // Product all required fields
@@ -5,7 +6,7 @@ type ProductBase = {
   id: string;
   name: string;
   description: string;
-  image: string;
+  image: Image;
   price: number;
   variants: Variant[];
 };

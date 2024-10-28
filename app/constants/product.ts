@@ -1,5 +1,7 @@
 import { Product } from "@/app/shared/types/Product";
 import { Variant } from "@/app/shared/interfaces/Variant";
+import { Image } from "@/app/types/product/image";
+import { Discount } from "@/app/shared/interfaces/Variant";
 
 // Helper function to generate a unique number ID
 const generateUniqueId = () => Math.floor(Math.random() * 1000000).toString(); // Generate a random ID
@@ -33,6 +35,12 @@ const createVariants = (
     createVariant(size, colorName, hexCode, quantity, price)
   );
 
+// Helper function to create image structure
+const createImage = (main: string, thumbnails: string[]): Image => ({
+  main,
+  thumbnails,
+});
+
 // List of products with multiple variants
 const products: Product[] = [
   {
@@ -40,7 +48,11 @@ const products: Product[] = [
     name: "Leather Bag",
     description: "A stylish leather bag perfect for daily use.",
     price: 99.12,
-    image: "https://placehold.co/500x500",
+    image: createImage("https://placehold.co/500x500", [
+      "https://placehold.co/400?text=1",
+      "https://placehold.co/400?text=2",
+      "https://placehold.co/400?text=3",
+    ]),
     isSale: true,
     salePrice: 89.0,
     discount: { id: "1", type: 1, value: 10 }, // Example discount
@@ -73,7 +85,10 @@ const products: Product[] = [
     name: "Premium Tote Bag",
     description: "A spacious tote bag for everyday essentials.",
     price: 129.99,
-    image: "https://placehold.co/500x500",
+    image: createImage("https://placehold.co/500x500", [
+      "https://placehold.co/400?text=1",
+      "https://placehold.co/400?text=2",
+    ]),
     variants: createVariants([
       {
         size: "Large",
@@ -96,7 +111,10 @@ const products: Product[] = [
     name: "Classic Oxford Shoes",
     description: "Elegant shoes suitable for formal occasions.",
     price: 179.0,
-    image: "https://placehold.co/500x500",
+    image: createImage("https://placehold.co/500x500", [
+      "https://placehold.co/400?text=1",
+      "https://placehold.co/400?text=2",
+    ]),
     variants: createVariants([
       {
         size: "8",
@@ -126,7 +144,10 @@ const products: Product[] = [
     name: "Luxury Watch",
     description: "A luxurious watch to elevate your style.",
     price: 299.99,
-    image: "https://placehold.co/500x500",
+    image: createImage("https://placehold.co/500x500", [
+      "https://placehold.co/400?text=1",
+      "https://placehold.co/400?text=2",
+    ]),
     variants: createVariants([
       {
         size: "One Size",
