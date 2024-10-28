@@ -6,22 +6,21 @@ import React from "react";
 type Link = {
   href: string;
   children?: React.ReactNode;
-  exact?: boolean | null;
+  exact?: boolean;
   className?: string;
 };
 
 const NavbarLink = ({
   href,
   children = null,
-  exact = null,
+  exact = false,
   className = "",
 }: Link) => {
   const pathname = usePathname();
 
   // Add background color on active navbar link and hover
   const classString = () => {
-    const isActive =
-      exact !== null ? pathname === href : pathname.startsWith(href);
+    const isActive = exact ? pathname === href : pathname.startsWith(href);
 
     return `${
       isActive
