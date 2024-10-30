@@ -1,5 +1,3 @@
-// ProductPageSizePills.tsx
-
 "use client";
 
 import SizePills from "@/app/components/Shared/SizePills";
@@ -20,21 +18,30 @@ const ProductPageSizePills: React.FC<ProductPageSizePillsProps> = ({
   const { product } = useProductPageContext();
   const allSizes = product.variants.map((variant) => variant.size);
 
-  const availableSizes = selectedColor
-    ? getAvailableSizesForColor(selectedColor)
-    : allSizes;
-
   function getAvailableSizesForColor(color: Color): Size[] {
     return product.variants
       .filter((variant) => variant.color.id === color.id)
       .map((variant) => variant.size);
   }
 
+  // Get available sizes based on the currently selected color
+  const availableSizes = selectedColor
+    ? getAvailableSizesForColor(selectedColor)
+    : allSizes;
+
+  // Create an array of disabled size names
+  const disabledSizeNames = allSizes
+    .filter(
+      (size) =>
+        !availableSizes.some((availableSize) => availableSize.id === size.id)
+    )
+    .map((size) => size.name);
+
   return (
     <SizePills
       sizes={allSizes}
       onSizeSelect={onSizeSelect}
-      disabledSizeNames={[]} // Pass in your logic for disabled sizes
+      disabledSizeNames={disabledSizeNames}
       selectedSizeName={selectedSize?.name}
     />
   );

@@ -1,5 +1,3 @@
-// ProductPageVariant.tsx
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -33,19 +31,18 @@ const ProductPageVariant: React.FC<ProductPageVariantProps> = ({
       <div className="flex gap-2">
         <ProductPageColorPills
           selectedColor={selectedColor}
+          selectedSize={selectedSize} // Pass selectedSize
           onColorSelect={(color) => {
             setSelectedColor(color);
-            setSelectedSize(null); // Reset size when color changes
           }}
         />
       </div>
       <div className="flex gap-2">
         <ProductPageSizePills
           selectedSize={selectedSize}
-          selectedColor={selectedColor} // Pass selectedColor here
+          selectedColor={selectedColor}
           onSizeSelect={(size) => {
             setSelectedSize(size);
-            // Optionally reset color here if needed
           }}
         />
       </div>
