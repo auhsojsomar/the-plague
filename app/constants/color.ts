@@ -1,10 +1,10 @@
 import { Color } from "@/app/shared/interfaces/Variant";
 
 export const colors: Color[] = [
-  { id: 1, name: "Red", hex: "#FF0000" },
-  { id: 2, name: "Blue", hex: "#0000FF" },
-  { id: 3, name: "Green", hex: "#008000" },
-  { id: 4, name: "Black", hex: "#000000" },
-  { id: 5, name: "White", hex: "#FFFFFF" },
-  { id: 6, name: "Gray", hex: "#808080" },
+  { name: "Red", hexCode: "#FF0000" },
+  { name: "Blue", hexCode: "#0000FF" },
+  { name: "Green", hexCode: "#008000" },
+  { name: "Black", hexCode: "#000000" },
+  { name: "White", hexCode: "#FFFFFF" },
+  { name: "Gray", hexCode: "#808080" },
 ];
