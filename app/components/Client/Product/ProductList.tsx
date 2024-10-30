@@ -1,12 +1,20 @@
 import ProductCard from "./ProductCard";
-import { allProduct } from "@/app/constants/";
+import { Product } from "@/app/shared/types/Product";
 
-const ProductList = () => {
+interface ProductListProps {
+  products: Product[];
+}
+
+const ProductList = ({ products }: ProductListProps) => {
   return (
     <div className="mt-4 flex flex-wrap gap-4">
-      {allProduct.map((product) => (
-        <ProductCard key={product.productName} product={product} />
-      ))}
+      {products.length > 0 ? (
+        products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))
+      ) : (
+        <p>No products available.</p>
+      )}
     </div>
   );
 };
