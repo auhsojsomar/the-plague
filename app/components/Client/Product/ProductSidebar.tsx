@@ -5,8 +5,17 @@ import { sidebarData } from "@/app/constants/sidebar";
 import ColorPills from "../../Shared/ColorPills";
 import SizePills from "../../Shared/SizePills";
 import ProductCategoryList from "./ProductCategoryList";
+import { Color, Size } from "@/app/shared/interfaces/Variant";
 
 const ProductSidebar = () => {
+  const handleColorSelect = (selectedColor: Color) => {
+    console.log("Selected Color:", selectedColor);
+  };
+
+  const handleSizeSelect = (selectedSize: Size) => {
+    console.log("Selected Size:", selectedSize);
+  };
+
   return (
     <Sidebar
       className="fixed top-20 w-64 z-40 overflow-y-auto shadow-lg"
@@ -33,15 +42,21 @@ const ProductSidebar = () => {
         <Sidebar.ItemGroup>
           <h3 className="mb-1">{sidebarData.variant.size.title}</h3>
           <div className="flex flex-wrap gap-2">
-            <SizePills size={sidebarData.variant.size.options} />
+            <SizePills
+              sizes={sidebarData.variant.size.options}
+              onSizeSelect={handleSizeSelect}
+            />
           </div>
         </Sidebar.ItemGroup>
 
         {/* Color */}
         <Sidebar.ItemGroup>
           <h3 className="mb-1">{sidebarData.variant.color.title}</h3>
-          <div className="inline-flex flex-wrap">
-            <ColorPills colors={sidebarData.variant.color.options} />
+          <div className="flex flex-wrap gap-2">
+            <ColorPills
+              colors={sidebarData.variant.color.options}
+              onColorSelect={handleColorSelect}
+            />
           </div>
         </Sidebar.ItemGroup>
       </Sidebar.Items>
