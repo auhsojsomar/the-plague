@@ -12,11 +12,11 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const kebabCaseName = toKebabCase(product.productName);
+  const kebabCaseName = toKebabCase(product.name);
   const productLink = `/products/${kebabCaseName}`;
 
   return (
-    <div className="relative max-w-72 rounded-md flex-grow overflow-hidden border shadow-md bg-white">
+    <div className="relative rounded-md overflow-hidden border shadow-md bg-white">
       {/* Product card link wrapping the entire card */}
       <Link href={productLink} className="absolute inset-0 z-10" />
 
@@ -35,7 +35,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       {/* Product Details */}
       <div className="p-2">
         <h2 className="relative font-bold mb-2 h-12 line-clamp-2 z-20">
-          {product.productName}
+          {product.name}
         </h2>
 
         {/* Price Display */}
@@ -61,7 +61,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               <Tooltip content={variant.color.name}>
                 <button
                   className="w-5 h-5 rounded-full"
-                  style={{ backgroundColor: variant.color.hex }}
+                  style={{ backgroundColor: variant.color.hexCode }}
                 ></button>
               </Tooltip>
             </div>

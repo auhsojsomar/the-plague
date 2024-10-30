@@ -1,4 +1,3 @@
-import { sidebarData } from "@/app/constants/sidebar";
 import { Size } from "@/app/shared/interfaces/Variant";
 
 interface SizeProps {

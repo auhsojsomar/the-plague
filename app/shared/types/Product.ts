@@ -1,9 +1,12 @@
-import { Variant } from "../interfaces/Variant";
+import { Image } from "@/app/types/product/image";
+import { Discount, Variant } from "../interfaces/Variant";
 
 // Product all required fields
 type ProductBase = {
-  productName: string;
-  image: string;
+  id: string;
+  name: string;
+  description: string;
+  image: Image;
   price: number;
   variants: Variant[];
 };
@@ -12,6 +15,7 @@ type ProductBase = {
 type ProductWithSale = ProductBase & {
   isSale: true;
   salePrice: number;
+  discount: Discount;
 };
 
 // Product required fields if not on sale

@@ -1,16 +1,23 @@
 import { Product } from "@/app/shared/types/Product";
 import { Variant } from "@/app/shared/interfaces/Variant";
+import { Image } from "@/app/types/product/image";
+import { Discount } from "@/app/shared/interfaces/Variant";
+
+// Helper function to generate a unique number ID
+const generateUniqueId = () => Math.floor(Math.random() * 1000000).toString(); // Generate a random ID
 
 // Helper function to generate a single variant
 const createVariant = (
   size: string,
   colorName: string,
-  hex: string,
-  quantity: number
+  hexCode: string,
+  quantity: number,
+  price: number
 ): Variant => ({
-  id: Math.random(), // Generates unique ID
-  size: { id: Math.random(), name: size },
-  color: { id: Math.random(), name: colorName, hex },
+  id: generateUniqueId(), // Generates unique ID
+  size: { id: generateUniqueId(), name: size }, // Unique ID for size
+  color: { id: generateUniqueId(), name: colorName, hexCode }, // Unique ID for color
+  price,
   quantity,
 });
 
@@ -19,54 +26,143 @@ const createVariants = (
   variantsData: {
     size: string;
     colorName: string;
-    hex: string;
+    hexCode: string;
     quantity: number;
+    price: number; // Added price field
   }[]
 ): Variant[] =>
-  variantsData.map(({ size, colorName, hex, quantity }) =>
-    createVariant(size, colorName, hex, quantity)
+  variantsData.map(({ size, colorName, hexCode, quantity, price }) =>
+    createVariant(size, colorName, hexCode, quantity, price)
   );
+
+// Helper function to create image structure
+const createImage = (main: string, thumbnails: string[]): Image => ({
+  main,
+  thumbnails,
+});
 
 // List of products with multiple variants
 const products: Product[] = [
   {
-    productName: "Leather Bag",
+    id: "1", // Unique ID for the product
+    name: "Leather Bag",
+    description: "A stylish leather bag perfect for daily use.",
     price: 99.12,
-    image: "https://placehold.co/500x500",
+    image: createImage("https://placehold.co/500x500", [
+      "https://placehold.co/400?text=1",
+      "https://placehold.co/400?text=2",
+      "https://placehold.co/400?text=3",
+    ]),
     isSale: true,
     salePrice: 89.0,
+    discount: { id: "1", type: 1, value: 10 }, // Example discount
     variants: createVariants([
-      { size: "Large", colorName: "Brown", hex: "#8B4513", quantity: 10 },
-      { size: "Medium", colorName: "Black", hex: "#000000", quantity: 5 },
-      { size: "Small", colorName: "Tan", hex: "#D2B48C", quantity: 8 },
+      {
+        size: "Large",
+        colorName: "Brown",
+        hexCode: "#8B4513",
+        quantity: 10,
+        price: 99.12,
+      },
+      {
+        size: "Medium",
+        colorName: "Black",
+        hexCode: "#000000",
+        quantity: 5,
+        price: 99.12,
+      },
+      {
+        size: "Small",
+        colorName: "Tan",
+        hexCode: "#D2B48C",
+        quantity: 8,
+        price: 99.12,
+      },
     ]),
   },
   {
-    productName: "Premium Tote Bag",
+    id: "2", // Unique ID for the product
+    name: "Premium Tote Bag",
+    description: "A spacious tote bag for everyday essentials.",
     price: 129.99,
-    image: "https://placehold.co/500x500",
+    image: createImage("https://placehold.co/500x500", [
+      "https://placehold.co/400?text=1",
+      "https://placehold.co/400?text=2",
+    ]),
     variants: createVariants([
-      { size: "Large", colorName: "Tan", hex: "#D2B48C", quantity: 10 },
-      { size: "Small", colorName: "Brown", hex: "#8B4513", quantity: 15 },
+      {
+        size: "Large",
+        colorName: "Tan",
+        hexCode: "#D2B48C",
+        quantity: 10,
+        price: 129.99,
+      },
+      {
+        size: "Small",
+        colorName: "Brown",
+        hexCode: "#8B4513",
+        quantity: 15,
+        price: 129.99,
+      },
     ]),
   },
   {
-    productName: "Classic Oxford Shoes",
+    id: "3", // Unique ID for the product
+    name: "Classic Oxford Shoes",
+    description: "Elegant shoes suitable for formal occasions.",
     price: 179.0,
-    image: "https://placehold.co/500x500",
+    image: createImage("https://placehold.co/500x500", [
+      "https://placehold.co/400?text=1",
+      "https://placehold.co/400?text=2",
+    ]),
     variants: createVariants([
-      { size: "8", colorName: "Black", hex: "#000000", quantity: 5 },
-      { size: "9", colorName: "Brown", hex: "#8B4513", quantity: 3 },
-      { size: "10", colorName: "Blue", hex: "#0000FF", quantity: 2 },
+      {
+        size: "8",
+        colorName: "Black",
+        hexCode: "#000000",
+        quantity: 5,
+        price: 179.0,
+      },
+      {
+        size: "9",
+        colorName: "Brown",
+        hexCode: "#8B4513",
+        quantity: 3,
+        price: 179.0,
+      },
+      {
+        size: "10",
+        colorName: "Blue",
+        hexCode: "#0000FF",
+        quantity: 2,
+        price: 179.0,
+      },
     ]),
   },
   {
-    productName: "Luxury Watch",
+    id: "4", // Unique ID for the product
+    name: "Luxury Watch",
+    description: "A luxurious watch to elevate your style.",
     price: 299.99,
-    image: "https://placehold.co/500x500",
+    image: createImage("https://placehold.co/500x500", [
+      "https://placehold.co/400?text=1",
+      "https://placehold.co/400?text=2",
+    ]),
     variants: createVariants([
-      { size: "One Size", colorName: "Gold", hex: "#FFD700", quantity: 2 },
-      { size: "One Size", colorName: "Silver", hex: "#C0C0C0", quantity: 4 },
+      {
+        size: "One Size",
+        colorName: "Gold",
+        hexCode: "#FFD700",
+        quantity: 2,
+        price: 299.99,
+      },
+      {
+        size: "One Size",
+        colorName: "Silver",
+        hexCode: "#C0C0C0",
+        quantity: 4,
+        price: 299.99,
+      },
     ]),
   },
 ];
@@ -78,7 +174,8 @@ const generateProductList = (count: number): Product[] => {
     const baseProduct = products[i % products.length];
     result.push({
       ...baseProduct,
-      productName: `${baseProduct.productName} ${i + 1}`, // Unique name
+      id: generateUniqueId(), // Unique ID
+      name: `${baseProduct.name} ${i + 1}`, // Unique name
     });
   }
   return result;
