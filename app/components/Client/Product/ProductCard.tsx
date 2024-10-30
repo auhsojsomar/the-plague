@@ -23,7 +23,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       {/* Product Image */}
       <div className="relative">
         <CustomImage
-          src="/image/product-placeholder.jpg"
+          src={product.image.main || "/image/product-placeholder.jpg"}
           alt={kebabCaseName}
           width={230}
           height={230}
@@ -42,15 +42,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {product.isSale ? (
           <div className="flex items-center">
             <span className="text-primary-color text-xl font-bold z-20">
-              {formatPrice(product.salePrice)}
+              {product.salePrice !== undefined
+                ? formatPrice(product.salePrice)
+                : formatPrice(product.price)}
             </span>
-            <span className="relative ml-2 text-gray-500 z-20 before:content-[''] before:w-full before:h-[1.1px] before:bg-gray-500 before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:-rotate-12">
-              {formatPrice(product.price)}
+            <span className="relative ml-2 text-sm text-gray-500 z-20 before:content-[''] before:w-full before:h-[1.1px] before:bg-gray-500 before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:-rotate-12">
+              {product.price !== undefined ? formatPrice(product.price) : ""}
             </span>
           </div>
         ) : (
           <span className="relative text-secondary-color font-bold text-lg z-20">
-            {formatPrice(product.price)}
+            {product.price !== undefined ? formatPrice(product.price) : ""}
           </span>
         )}
 
@@ -58,7 +60,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="mt-4">
           {product.variants.map((variant) => (
             <div key={variant.id} className="relative inline-block mr-2 z-20">
-              <Tooltip content={variant.color.name}>
+              <Tooltip className="text-nowrap" content={variant.color.name}>
                 <button
                   className="w-5 h-5 rounded-full"
                   style={{ backgroundColor: variant.color.hexCode }}
