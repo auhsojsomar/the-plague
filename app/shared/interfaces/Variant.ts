@@ -14,7 +14,7 @@ export interface Variant {
   size: Size; // Size of the variant
   color: Color; // Color of the variant
   price: number;
-  discount: Discount; // Assuming discount is always present, if not, make it optional
+  discount?: Discount; // Assuming discount is always present, if not, make it optional
   quantity: number; // Available quantity for this variant
   salePrice?: number; // Optional: add this field to accommodate sale price when applicable
 }
