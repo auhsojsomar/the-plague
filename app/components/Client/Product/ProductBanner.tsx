@@ -2,6 +2,7 @@
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import CustomImage from "../../Shared/CustomImage";
 
 // Sample banner images
 const bannerImages = [
@@ -34,7 +35,7 @@ const ProductBanner = () => {
       >
         {bannerImages.map((banner) => (
           <SwiperSlide key={banner.id}>
-            <img
+            <CustomImage
               src={banner.image}
               alt={banner.alt}
               className="w-full h-full object-cover"

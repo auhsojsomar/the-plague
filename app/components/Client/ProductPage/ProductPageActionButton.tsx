@@ -6,12 +6,11 @@ import { Variant } from "@/app/shared/interfaces/Variant";
 
 interface ProductPageActionButtonProps {
   disabled: boolean;
-  variant: Variant | null;
+  variant?: Variant | null;
 }
 
 const ProductPageActionButton: React.FC<ProductPageActionButtonProps> = ({
   disabled,
-  variant,
 }) => {
   return (
     <div className="flex gap-2">

@@ -1,5 +1,4 @@
 import Product from "@/app/components/Client/Product/Product";
-import { allProduct } from "@/app/constants";
 import { Variant } from "@/app/shared/interfaces/Variant";
 import { Product as ProductType } from "@/app/shared/types/Product";
 

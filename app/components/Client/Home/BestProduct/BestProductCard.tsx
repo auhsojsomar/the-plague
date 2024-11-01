@@ -7,13 +7,13 @@ import { toKebabCase } from "@/app/utils/stringUtils";
 import { formatPrice } from "@/app/utils/priceUtils";
 
 const BestProductCard = ({
-  productName,
+  name,
   image,
   price,
   isSale,
   salePrice,
 }: Product) => {
-  const kebabCaseName = toKebabCase(productName); // Convert product name to kebab-case
+  const kebabCaseName = toKebabCase(name); // Convert product name to kebab-case
   const productLink = `/products/${kebabCaseName}`; // Generate product link
 
   return (
@@ -27,7 +27,7 @@ const BestProductCard = ({
 
       {/* Product image */}
       <CustomImage
-        src={image}
+        src={image.main}
         alt={kebabCaseName}
         className="object-cover w-full h-full"
       />
@@ -36,7 +36,7 @@ const BestProductCard = ({
       <div className="absolute inset-0 flex flex-col items-center justify-center m-6 bg-gray-50 opacity-0 transition-opacity duration-300 hover:opacity-100 cursor-pointer">
         {/* Product name */}
         <Link href={productLink} className="uppercase text-black">
-          {productName}
+          {name}
         </Link>
 
         {/* Product price */}

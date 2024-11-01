@@ -10,7 +10,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const kebabCaseName = toKebabCase(product.productName); // Convert product name to kebab-case
+  const kebabCaseName = toKebabCase(product.name); // Convert product name to kebab-case
   const productLink = `/products/${kebabCaseName}`; // Generate product link
 
   return (
@@ -18,7 +18,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       <div className="w-full h-full relative">
         <CustomImage
           className="object-cover w-full h-full"
-          src={product.image}
+          src={product.image.main}
           alt={kebabCaseName}
         />
         {/* Product card on hover */}
@@ -29,7 +29,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       </div>
       <div className="py-3">
         {/* Product name */}
-        <h2 className="text-md">{product.productName}</h2>
+        <h2 className="text-md">{product.name}</h2>
         {/* Show dash price if sale */}
         {product.isSale && product.salePrice && (
           <small className="relative px-1 text-gray-400 before:content-[''] before:w-full before:h-[1px] before:bg-gray-400 before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:-rotate-12">
