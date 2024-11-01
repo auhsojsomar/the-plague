@@ -4,24 +4,26 @@ import { useState, useEffect } from "react";
 import { Variant, Color, Size } from "@/app/shared/interfaces/Variant";
 import ProductPageColorPills from "./ProductPageColorPills";
 import ProductPageSizePills from "./ProductPageSizePills";
-import { Product } from "@/app/shared/types/Product";
+import { useProductPageContext } from "@/app/context/ProductPageContext";
 
 interface ProductPageVariantProps {
-  product: Product;
   onVariantChange: (variant: Variant | null) => void; // Ensure the correct type for the handler
+  variant: Variant | null;
 }
 
 const ProductPageVariant: React.FC<ProductPageVariantProps> = ({
-  product,
   onVariantChange,
+  variant,
 }) => {
+  const { product } = useProductPageContext();
   const [selectedColor, setSelectedColor] = useState<Color | null>(null);
   const [selectedSize, setSelectedSize] = useState<Size | null>(null);
 
   useEffect(() => {
     // Find the matching variant based on selected size and color
     const variant = product.variants.find(
-      (v) => v.color.id === selectedColor?.id && v.size.id === selectedSize?.id
+      (v: Variant) =>
+        v.color.id === selectedColor?.id && v.size.id === selectedSize?.id
     );
     onVariantChange(variant || null); // Pass variant to parent
   }, [selectedColor, selectedSize, product.variants, onVariantChange]);
@@ -45,6 +47,11 @@ const ProductPageVariant: React.FC<ProductPageVariantProps> = ({
             setSelectedSize(size);
           }}
         />
+      </div>
+      <div className="min-h-6">
+        {!variant && (
+          <p className="text-red-500 font-medium">Please select a variant.</p>
+        )}
       </div>
     </div>
   );

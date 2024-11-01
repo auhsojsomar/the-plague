@@ -1,7 +1,7 @@
 "use client";
 
 import SizePills from "@/app/components/Shared/SizePills";
-import { Color, Size } from "@/app/shared/interfaces/Variant";
+import { Color, Size, Variant } from "@/app/shared/interfaces/Variant";
 import { useProductPageContext } from "@/app/context/ProductPageContext";
 
 interface ProductPageSizePillsProps {
@@ -16,12 +16,12 @@ const ProductPageSizePills: React.FC<ProductPageSizePillsProps> = ({
   selectedColor,
 }) => {
   const { product } = useProductPageContext();
-  const allSizes = product.variants.map((variant) => variant.size);
+  const allSizes = product.variants.map((variant: Variant) => variant.size);
 
   function getAvailableSizesForColor(color: Color): Size[] {
     return product.variants
-      .filter((variant) => variant.color.id === color.id)
-      .map((variant) => variant.size);
+      .filter((variant: Variant) => variant.color.id === color.id)
+      .map((variant: Variant) => variant.size);
   }
 
   // Get available sizes based on the currently selected color
@@ -32,10 +32,12 @@ const ProductPageSizePills: React.FC<ProductPageSizePillsProps> = ({
   // Create an array of disabled size names
   const disabledSizeNames = allSizes
     .filter(
-      (size) =>
-        !availableSizes.some((availableSize) => availableSize.id === size.id)
+      (size: Size) =>
+        !availableSizes.some(
+          (availableSize: Size) => availableSize.id === size.id
+        )
     )
-    .map((size) => size.name);
+    .map((size: Size) => size.name);
 
   return (
     <SizePills

@@ -1,9 +1,7 @@
-// ProductPageColorPills.tsx
-
 "use client";
 
 import ColorPills from "@/app/components/Shared/ColorPills";
-import { Color, Size } from "@/app/shared/interfaces/Variant";
+import { Color, Size, Variant } from "@/app/shared/interfaces/Variant";
 import { useProductPageContext } from "@/app/context/ProductPageContext";
 
 interface ProductPageColorPillsProps {
@@ -18,32 +16,32 @@ const ProductPageColorPills: React.FC<ProductPageColorPillsProps> = ({
   selectedSize,
 }) => {
   const { product } = useProductPageContext();
-  const allColors = product.variants.map((variant) => variant.color);
+  const allColors = product.variants.map((variant: Variant) => variant.color);
 
   function getAvailableColorsForSize(size: Size): Color[] {
     return product.variants
-      .filter((variant) => variant.size.id === size.id)
-      .map((variant) => variant.color);
+      .filter((variant: Variant) => variant.size.id === size.id)
+      .map((variant: Variant) => variant.color);
   }
 
-  const availableColors = selectedSize // Simplified: it should depend on selected size
-    ? getAvailableColorsForSize(selectedSize) // Change this if necessary
+  const availableColors = selectedSize
+    ? getAvailableColorsForSize(selectedSize)
     : allColors;
 
   const disabledColorNames = allColors
     .filter(
-      (color) =>
+      (color: Color) =>
         !availableColors.some(
-          (availableColor) => availableColor.id === color.id
+          (availableColor: Color) => availableColor.id === color.id
         )
     )
-    .map((color) => color.name);
+    .map((color: Color) => color.name);
 
   return (
     <ColorPills
       colors={allColors}
       onColorSelect={onColorSelect}
-      disabledColorNames={disabledColorNames} // Pass in your logic for disabled colors
+      disabledColorNames={disabledColorNames}
       selectedColorName={selectedColor?.name}
     />
   );

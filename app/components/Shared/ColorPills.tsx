@@ -45,11 +45,11 @@ const ColorPills: React.FC<ColorPillsProps> = ({
     const isActive = activeColor?.id === color.id;
 
     return [
-      "flex items-center px-4 py-2 rounded-full border-2 border-gray-200 text-sm font-medium transition-all",
-      isDisabled
-        ? "cursor-no-drop opacity-50 hover:shadow-none"
-        : isActive
-        ? "cursor-pointer border-gray-500 border-2 shadow-md"
+      "flex items-center px-4 py-2 rounded-full border-2 border-gray-200 text-sm font-medium transition-all cursor-pointer",
+      isActive
+        ? "border-gray-500 border-2 shadow-md"
+        : isDisabled
+        ? "opacity-50 hover:shadow-none"
         : "hover:shadow-md",
     ].join(" ");
   };
@@ -58,7 +58,7 @@ const ColorPills: React.FC<ColorPillsProps> = ({
     <>
       {uniqueColors.map((color: Color) => (
         <button
-          disabled={disabledColorNames.includes(color.name)} // Disable if not available
+          // disabled={disabledColorNames.includes(color.name)} // Disable if not available
           key={color.id ?? color.name} // Fallback to name if ID is undefined
           className={getButtonClass(color)}
           onClick={() => handleColorClick(color)}

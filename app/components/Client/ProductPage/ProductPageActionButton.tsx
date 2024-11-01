@@ -1,5 +1,3 @@
-// ProductPageActionButton.tsx
-
 "use client";
 
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";

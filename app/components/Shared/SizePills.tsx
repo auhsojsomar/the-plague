@@ -41,15 +41,15 @@ const SizePills: React.FC<SizePillsProps> = ({
   };
 
   const getButtonClass = (size: Size): string => {
-    const isDisabled = disabledSizeNames.includes(size.name);
     const isActive = activeSize?.id === size.id;
+    const isDisabled = disabledSizeNames.includes(size.name);
 
     return [
-      "px-4 py-2 rounded-full font-medium border-2 shadow-sm text-xs text-secondary-color transition-all",
-      isDisabled
-        ? "cursor-no-drop opacity-50 hover:shadow-none"
-        : isActive
-        ? "cursor-pointer border-gray-500 border-2 shadow-md"
+      "px-4 py-2 rounded-full font-medium border-2 shadow-sm text-xs text-secondary-color transition-all cursor-pointer",
+      isActive
+        ? "border-gray-500 border-2 shadow-md"
+        : isDisabled
+        ? "opacity-50 hover:shadow-none"
         : "hover:shadow-md",
     ].join(" ");
   };
@@ -58,7 +58,7 @@ const SizePills: React.FC<SizePillsProps> = ({
     <>
       {uniqueSizes.map((size) => (
         <button
-          disabled={disabledSizeNames.includes(size.name)} // Disable button if size is in the disabled list
+          // disabled={disabledSizeNames.includes(size.name)} // Disable button if size is in the disabled list
           key={size.id}
           className={getButtonClass(size)}
           onClick={() => handleSizeClick(size)}

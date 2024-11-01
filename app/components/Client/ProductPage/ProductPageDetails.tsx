@@ -1,5 +1,3 @@
-// ProductPageDetails.tsx
-
 "use client";
 
 import { useProductPageContext } from "@/app/context/ProductPageContext";
