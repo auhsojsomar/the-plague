@@ -1,18 +1,27 @@
 import Product from "@/app/components/Client/Product/Product";
+import { allProduct } from "@/app/constants";
 import { Variant } from "@/app/shared/interfaces/Variant";
 import { Product as ProductType } from "@/app/shared/types/Product";
 
 const fetchProducts = async (): Promise<ProductType[]> => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
-    next: { revalidate: 30 }, // Re-fetch after 30 seconds
-  });
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/products`,
+      {
+        next: { revalidate: 30 }, // Re-fetch after 30 seconds
+      }
+    );
 
-  if (!response.ok) {
-    console.error("Failed to fetch products:", response.statusText);
+    if (!response.ok) {
+      console.error("Failed to fetch products:", response.statusText);
+      return [];
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching products:", error);
     return [];
   }
-
-  return response.json();
 };
 
 const getBestVariant = (variants: Variant[]) => {
