@@ -22,7 +22,12 @@ const ProductPageActionButton: React.FC<ProductPageActionButtonProps> = ({
       >
         Buy Now
       </button>
-      <button className="flex justify-center items-center gap-2 bg-secondary-color text-lg w-56 h-12 text-white rounded-md">
+      <button
+        className={`flex justify-center items-center gap-2 bg-secondary-color text-lg w-56 h-12 text-white rounded-md ${
+          disabled ? "opacity-50 cursor-not-allowed" : ""
+        }`}
+        disabled={disabled}
+      >
         <FontAwesomeIcon icon={faShoppingCart} />
         Add to cart
       </button>
