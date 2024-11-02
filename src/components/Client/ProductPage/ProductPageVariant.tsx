@@ -18,15 +18,26 @@ const ProductPageVariant: React.FC<ProductPageVariantProps> = ({
   const { product } = useProductPageContext();
   const [selectedColor, setSelectedColor] = useState<Color | null>(null);
   const [selectedSize, setSelectedSize] = useState<Size | null>(null);
+  const [hasSelectedVariant, setHasSelectedVariant] = useState(false); // New state to track user interaction
 
   useEffect(() => {
     // Find the matching variant based on selected size and color
-    const variant = product.variants.find(
+    const selectedVariant = product.variants.find(
       (v: Variant) =>
         v.color.id === selectedColor?.id && v.size.id === selectedSize?.id
     );
-    onVariantChange(variant || null); // Pass variant to parent
+    onVariantChange(selectedVariant || null); // Pass variant to parent
   }, [selectedColor, selectedSize, product.variants, onVariantChange]);
+
+  const handleColorSelect = (color: Color | null) => {
+    setSelectedColor(color);
+    setHasSelectedVariant(true); // Mark as selected on color change
+  };
+
+  const handleSizeSelect = (size: Size | null) => {
+    setSelectedSize(size);
+    setHasSelectedVariant(true); // Mark as selected on size change
+  };
 
   return (
     <div className="flex flex-col gap-y-2">
@@ -34,24 +45,23 @@ const ProductPageVariant: React.FC<ProductPageVariantProps> = ({
         <ProductPageColorPills
           selectedColor={selectedColor}
           selectedSize={selectedSize} // Pass selectedSize
-          onColorSelect={(color) => {
-            setSelectedColor(color);
-          }}
+          onColorSelect={handleColorSelect} // Update to use the new handler
         />
       </div>
       <div className="flex gap-2">
         <ProductPageSizePills
           selectedSize={selectedSize}
           selectedColor={selectedColor}
-          onSizeSelect={(size) => {
-            setSelectedSize(size);
-          }}
+          onSizeSelect={handleSizeSelect} // Update to use the new handler
         />
       </div>
       <div className="min-h-6">
-        {!variant && (
-          <p className="text-red-500 font-medium">Please select a variant.</p>
-        )}
+        {hasSelectedVariant &&
+          !variant && ( // Show the message only if a variant was attempted to be selected
+            <p className="text-red-500 font-medium">
+              Please choose a valid variant.
+            </p>
+          )}
       </div>
     </div>
   );
