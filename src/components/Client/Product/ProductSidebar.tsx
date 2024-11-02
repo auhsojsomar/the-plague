@@ -18,7 +18,7 @@ const ProductSidebar = () => {
 
   return (
     <Sidebar
-      className="fixed top-20 w-64 z-40 overflow-y-auto shadow-lg"
+      className="z-40 h-auto absolute w-64 hidden sm:block overflow-y-auto shadow-lg"
       aria-label="Sidebar"
     >
       <Sidebar.Items>

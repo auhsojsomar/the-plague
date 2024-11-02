@@ -25,7 +25,7 @@ const bannerImages = [
 
 const ProductBanner = () => {
   return (
-    <div className="w-auto h-auto">
+    <div className="w-full h-auto">
       <Swiper
         modules={[Autoplay, Pagination, Navigation]}
         autoplay={{ delay: 3000, disableOnInteraction: false }}

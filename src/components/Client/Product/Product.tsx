@@ -10,12 +10,12 @@ interface ProductProps {
 const Product = ({ products }: ProductProps) => {
   return (
     <div>
-      <div className="max-w-screen-2xl mx-auto">
+      <div className="max-w-screen-2xl mx-auto relative">
         {/* Sidebar */}
         <ProductSidebar />
 
         {/* Main content */}
-        <div className="p-4 ml-64">
+        <div className="p-4 sm:ml-64">
           <ProductBanner />
           <ProductList products={products} />
         </div>
