@@ -3,7 +3,7 @@ import Navbar from "./Navbar/Navbar";
 import BackToTopButton from "../../Shared/BackToTopButton";
 import Footer from "./Footer/Footer";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Navbar />
