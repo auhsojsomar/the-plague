@@ -13,9 +13,9 @@ const ProductPageActionButton: React.FC<ProductPageActionButtonProps> = ({
   disabled,
 }) => {
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-col gap-2 sm:flex-row lg:flex-col xl:flex-row">
       <button
-        className={`bg-primary-color text-lg w-56 h-12 text-white rounded-md ${
+        className={`bg-primary-color text-lg w-full h-12 text-white rounded-md sm:w-56 lg:w-full xl:w-56 ${
           disabled ? "opacity-50 cursor-not-allowed" : ""
         }`}
         disabled={disabled}
@@ -23,7 +23,7 @@ const ProductPageActionButton: React.FC<ProductPageActionButtonProps> = ({
         Buy Now
       </button>
       <button
-        className={`flex justify-center items-center gap-2 bg-secondary-color text-lg w-56 h-12 text-white rounded-md ${
+        className={`flex justify-center items-center gap-2 bg-secondary-color text-lg w-full h-12 text-white rounded-md sm:w-56 lg:w-full xl:w-56 ${
           disabled ? "opacity-50 cursor-not-allowed" : ""
         }`}
         disabled={disabled}

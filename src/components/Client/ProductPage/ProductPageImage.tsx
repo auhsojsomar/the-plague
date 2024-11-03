@@ -12,7 +12,7 @@ const ProductPageImage = () => {
   const [selectedImage, setSelectedImage] = useState(main);
 
   return (
-    <div className="flex gap-2 flex-shrink-0">
+    <div className="flex flex-col items-center gap-2 flex-shrink-0 sm:flex-row sm:items-start">
       {/* Main Image */}
       <CustomImage
         src={selectedImage}
@@ -23,7 +23,7 @@ const ProductPageImage = () => {
       />
 
       {/* Thumbnail Images */}
-      <div className="flex flex-col pr-2 gap-2 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-xl scrollbar-thumb-primary-color scrollbar-track-gray-200 max-h-[500px]">
+      <div className="flex flex-row flex-wrap justify-center gap-2 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-xl scrollbar-thumb-primary-color scrollbar-track-gray-200 max-h-[500px] sm:flex-col sm:pr-2 sm:flex-nowrap sm:justify-start md:grid md:grid-cols-2 lg:flex">
         {[main, ...thumbnails].map((image, index) => (
           <button
             key={index}

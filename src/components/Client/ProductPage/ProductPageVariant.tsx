@@ -58,7 +58,7 @@ const ProductPageVariant: React.FC<ProductPageVariantProps> = ({
       <div className="min-h-6">
         {hasSelectedVariant &&
           !variant && ( // Show the message only if a variant was attempted to be selected
-            <p className="text-red-500 font-medium">
+            <p className="text-red-500 font-medium text-sm sm:text-base">
               Please choose a valid variant.
             </p>
           )}

@@ -13,9 +13,12 @@ const ProductPage = () => {
   const isBuyDisabled = !selectedVariant; // Disable if no variant is selected
 
   return (
-    <div className="container flex py-20">
+    <div className="container flex flex-col lg:flex-row p-2 sm:pt-5 sm:pb-10 md:py-8 lg:py-10 xl:py-20">
+      {/* Product Image and thumbnails */}
       <ProductPageImage />
-      <div className="flex flex-col ml-5 gap-y-5">
+
+      {/* Product details */}
+      <div className="flex flex-col gap-y-3 lg:ml-5 lg:gap-y-5">
         <ProductPageDetails variant={selectedVariant} />
         <ProductPageVariant
           onVariantChange={setSelectedVariant}
