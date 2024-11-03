@@ -41,14 +41,14 @@ const ProductPageVariant: React.FC<ProductPageVariantProps> = ({
 
   return (
     <div className="flex flex-col gap-y-2">
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-wrap">
         <ProductPageColorPills
           selectedColor={selectedColor}
           selectedSize={selectedSize} // Pass selectedSize
           onColorSelect={handleColorSelect} // Update to use the new handler
         />
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-wrap">
         <ProductPageSizePills
           selectedSize={selectedSize}
           selectedColor={selectedColor}
