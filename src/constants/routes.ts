@@ -13,6 +13,10 @@ export const ROUTES: Routes = {
     label: "Product",
     link: "/products",
   },
+  SIGN_UP: {
+    label: "Sign Up",
+    link: "/sign-up",
+  },
   LOGIN: {
     label: "Login",
     link: "/login",
