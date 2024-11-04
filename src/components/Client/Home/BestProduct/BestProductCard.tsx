@@ -27,9 +27,11 @@ const BestProductCard = ({
 
       {/* Product image */}
       <CustomImage
+        className="object-cover w-full h-full"
         src={image.main}
         alt={kebabCaseName}
-        className="object-cover w-full h-full"
+        width={500}
+        height={500}
       />
 
       {/* Product details */}

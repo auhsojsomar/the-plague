@@ -20,6 +20,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
           className="object-cover w-full h-full"
           src={product.image.main}
           alt={kebabCaseName}
+          width={500}
+          height={500}
         />
         {/* Product card on hover */}
         <div className="absolute inset-0 flex items-center justify-center m-4 sm:m-3 bg-gray-50 opacity-0 transition-opacity duration-300 hover:opacity-100 cursor-pointer">

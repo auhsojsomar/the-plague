@@ -6,7 +6,7 @@ export const PRODUCT_BANNER: Banner[] = [
     description: "New design",
     label: "Get it now",
     link: "/",
-    src: "https://placehold.co/370x247?text=Place+your+image+here",
+    src: "https://placehold.co/416x286?text=Place+your+image+here",
     alt: "product-banner-1",
   },
   {
@@ -14,7 +14,7 @@ export const PRODUCT_BANNER: Banner[] = [
     description: "New design",
     label: "Get it now",
     link: "/",
-    src: "https://placehold.co/370x247?text=Place+your+image+here",
+    src: "https://placehold.co/416x286?text=Place+your+image+here",
     alt: "product-banner-2",
   },
   {
@@ -22,7 +22,7 @@ export const PRODUCT_BANNER: Banner[] = [
     description: "Mid season sale",
     label: "View collection",
     link: "/",
-    src: "https://placehold.co/370x510?text=Place+your+image+here",
+    src: "https://placehold.co/416x588?text=Place+your+image+here",
     alt: "product-banner-3",
   },
 ];

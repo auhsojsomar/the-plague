@@ -18,7 +18,7 @@ const CustomImage: React.FC<CustomImageProps> = ({
   alt,
   width,
   height,
-  useNextImage = false,
+  useNextImage = true,
   fill = false,
   className = "", // Optional custom class names
   loading = "lazy", // Default lazy loading
