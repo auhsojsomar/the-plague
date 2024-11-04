@@ -15,11 +15,11 @@ const ProductPageImage = () => {
     <div className="flex flex-col items-center gap-2 flex-shrink-0 sm:flex-row sm:items-start">
       {/* Main Image */}
       <CustomImage
+        className="object-cover rounded-md"
         src={selectedImage}
         alt="Product Image"
         width={500}
         height={500}
-        className="object-cover rounded-md"
       />
 
       {/* Thumbnail Images */}
@@ -35,11 +35,11 @@ const ProductPageImage = () => {
             }`}
           >
             <CustomImage
+              className="object-cover rounded"
               src={image}
               alt={`Thumbnail ${index + 1}`}
               width={80}
               height={80}
-              className="object-cover rounded"
             />
           </button>
         ))}

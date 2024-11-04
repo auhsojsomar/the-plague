@@ -8,17 +8,17 @@ import CustomImage from "../../Shared/CustomImage";
 const bannerImages = [
   {
     id: 1,
-    image: "https://placehold.co/600x100?text=Banner+1",
+    image: "https://placehold.co/1248x208?text=Banner+1",
     alt: "Banner 1",
   },
   {
     id: 2,
-    image: "https://placehold.co/600x100?text=Banner+2",
+    image: "https://placehold.co/1248x208?text=Banner+2",
     alt: "Banner 2",
   },
   {
     id: 3,
-    image: "https://placehold.co/600x100?text=Banner+3",
+    image: "https://placehold.co/1248x208?text=Banner+3",
     alt: "Banner 3",
   },
 ];
@@ -36,9 +36,11 @@ const ProductBanner = () => {
         {bannerImages.map((banner) => (
           <SwiperSlide key={banner.id}>
             <CustomImage
+              className="w-full h-full object-cover"
               src={banner.image}
               alt={banner.alt}
-              className="w-full h-full object-cover"
+              width={1248}
+              height={208}
             />
           </SwiperSlide>
         ))}
