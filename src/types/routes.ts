@@ -5,4 +5,5 @@ export type Routes = {
   ABOUT_US: Route;
   PRODUCTS: Route;
   LOGIN: Route;
+  SIGN_UP: Route;
 };
