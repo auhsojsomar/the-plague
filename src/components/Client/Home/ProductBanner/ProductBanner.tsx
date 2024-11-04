@@ -12,6 +12,8 @@ const ProductBanner = () => {
         <ProductBannerImage
           src={PRODUCT_BANNER[0].src}
           alt={PRODUCT_BANNER[0].alt}
+          width={416}
+          height={286}
         />
       </div>
 
@@ -38,6 +40,8 @@ const ProductBanner = () => {
         <ProductBannerImage
           src={PRODUCT_BANNER[1].src}
           alt={PRODUCT_BANNER[1].alt}
+          width={416}
+          height={286}
         />
       </div>
 
@@ -46,6 +50,8 @@ const ProductBanner = () => {
         <ProductBannerImage
           src={PRODUCT_BANNER[2].src}
           alt={PRODUCT_BANNER[2].alt}
+          width={416}
+          height={588}
         />
       </div>
 

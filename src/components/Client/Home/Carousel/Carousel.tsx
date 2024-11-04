@@ -20,18 +20,15 @@ const HomeCarousel = () => {
       <Flowbite theme={{ theme: customTheme }}>
         <Carousel slide={false}>
           {homeCarouselImage.map((image, index) => (
-            <div
-              key={index}
-              className={`relative w-full h-${index === 0 ? "full" : "auto"}`}
-            >
+            <div key={index} className="relative w-full h-full">
               <CustomImage
                 className="object-contain lg:object-cover mx-auto h-full"
                 src={image.src}
                 alt={image.alt}
+                width={1920}
+                height={1080}
                 loading="lazy"
                 decoding="async"
-                useNextImage={index === 0}
-                fill={index === 0}
               />
             </div>
           ))}
