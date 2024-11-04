@@ -97,7 +97,6 @@ const Footer: React.FC = () => {
               className="h-full w-auto" // Use h-full and w-auto to maintain aspect ratio
               src="/image/payment-cod.jpg"
               alt="payment-cod"
-              useNextImage
               width={319}
               height={189}
             />
@@ -105,7 +104,6 @@ const Footer: React.FC = () => {
               className="h-full w-auto" // Use h-full and w-auto to maintain aspect ratio
               src="/image/payment-gcash.jpg"
               alt="payment-gcash"
-              useNextImage
               width={319}
               height={189}
             />
