@@ -31,7 +31,7 @@ const InputField = ({
       value={value}
       onChange={onChange}
       onBlur={onBlur}
-      className="p-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-color"
+      className="p-2 mt-1 border rounded-md focus:ring-2 focus:ring-primary-color focus:border-transparent"
     />
     <span
       className={`text-red-500 my-1 text-sm transition-opacity ${
