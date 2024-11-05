@@ -108,7 +108,7 @@ export default function SignUpForm() {
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh_-_5rem)] p-4 relative overflow-hidden">
       <div
         className="absolute -inset-4 bg-cover bg-center filter blur-sm -z-10 bg-no-repeat opacity-95"
-        style={{ backgroundImage: 'url("/image/main-banner.jpg")' }}
+        style={{ backgroundImage: 'url("/image/main-banner.webp")' }}
       ></div>
 
       <form

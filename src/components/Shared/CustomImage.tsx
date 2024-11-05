@@ -11,6 +11,8 @@ interface CustomImageProps extends ImgHTMLAttributes<HTMLImageElement> {
   className?: string; // Optional custom class names
   loading?: "lazy" | "eager"; // Loading attribute
   decoding?: "async" | "auto" | "sync"; // Decoding attribute
+  priority?: boolean;
+  quality?: number;
 }
 
 const CustomImage: React.FC<CustomImageProps> = ({

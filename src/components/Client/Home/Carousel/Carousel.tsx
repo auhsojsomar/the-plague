@@ -27,8 +27,9 @@ const HomeCarousel = () => {
                 alt={image.alt}
                 width={1920}
                 height={1080}
-                loading="lazy"
-                decoding="async"
+                loading={index === 0 ? "eager" : "lazy"}
+                priority={index === 0}
+                quality={40}
               />
             </div>
           ))}
