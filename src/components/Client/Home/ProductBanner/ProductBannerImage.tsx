@@ -7,7 +7,7 @@ type ImageType = {
   height: number;
 };
 
-const ProductBannerImage = ({ src, alt, width, height }: ImageType) => {
+const ProductBannerImage = ({ src, alt }: ImageType) => {
   return (
     <CustomImage
       className="w-full h-full"

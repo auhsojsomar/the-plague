@@ -36,8 +36,13 @@ export default function LoginForm() {
       setTimeout(() => {
         router.push("/products"); // Redirect to /products
       }, 1500);
-    } catch (error: any) {
-      setError(error.message || "An error occurred during login"); // Set error message
+    } catch (error: unknown) {
+      // Use unknown instead of any
+      if (error instanceof Error) {
+        setError(error.message || "An error occurred during login"); // Set error message
+      } else {
+        setError("An unknown error occurred during login");
+      }
     } finally {
       setLoading(false); // Reset loading state after the request completes
     }
