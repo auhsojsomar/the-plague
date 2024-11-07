@@ -2,13 +2,20 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import CustomImage from "@/src/components/Shared/CustomImage";
+import { LoginFormData, loginUser } from "@/src/lib/api"; // Import the loginUser function
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
-  const [formData, setFormData] = useState({
-    username: "",
+  const [formData, setFormData] = useState<LoginFormData>({
+    email: "",
     password: "",
     rememberMe: false,
   });
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false); // Add loading state
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -18,39 +25,74 @@ export default function LoginForm() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic, e.g., API call
-    console.log("Login submitted:", formData);
+    setError(null); // Reset any previous errors
+    setLoading(true); // Set loading to true when submitting
+
+    try {
+      const result = await loginUser(formData); // Call loginUser with the form data
+      setSuccessMessage(result);
+      setTimeout(() => {
+        router.push("/products"); // Redirect to /products
+      }, 1500);
+    } catch (error: any) {
+      setError(error.message || "An error occurred during login"); // Set error message
+    } finally {
+      setLoading(false); // Reset loading state after the request completes
+    }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh_-_5rem)] p-4 relative overflow-hidden">
+      <div className="absolute -inset-4 bg-cover bg-center filter blur-sm -z-10 bg-no-repeat opacity-95">
+        <CustomImage
+          className="w-full h-full"
+          imageClass="object-cover"
+          src="main-banner.webp"
+          alt="main-banner"
+          fill
+          quality={50}
+          useBucket
+        />
+      </div>
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md"
+        className="w-full max-w-md p-8 space-y-3 bg-white rounded-lg shadow-md"
       >
         <h2 className="text-2xl font-semibold text-center text-gray-800">
           Log In
         </h2>
 
-        {/* Username */}
+        {/* Error and Success Messages */}
+        <div className="flex flex-col items-center">
+          <div className="h-5">
+            {" "}
+            {/* Fixed height for message container */}
+            {error && (
+              <div className="text-red-500 text-sm text-center">{error}</div>
+            )}
+            {successMessage && (
+              <div className="text-green-500 text-sm text-center">
+                {successMessage}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Email */}
         <div className="flex flex-col">
-          <label
-            htmlFor="username"
-            className="text-sm font-medium text-gray-600"
-          >
-            Username
+          <label htmlFor="email" className="text-sm font-medium text-gray-600">
+            Email
           </label>
           <input
-            type="text"
-            id="username"
-            name="username"
-            required
-            placeholder="Username"
-            value={formData.username}
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
             onChange={handleChange}
-            className="p-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-color"
+            className="p-2 mt-1 border rounded-md focus:border-transparent focus:ring-2 focus:ring-primary-color"
           />
         </div>
 
@@ -66,11 +108,10 @@ export default function LoginForm() {
             type="password"
             id="password"
             name="password"
-            required
             placeholder="••••••••"
             value={formData.password}
             onChange={handleChange}
-            className="p-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-color"
+            className="p-2 mt-1 border rounded-md focus:border-transparent focus:ring-2 focus:ring-primary-color"
           />
         </div>
 
@@ -97,9 +138,14 @@ export default function LoginForm() {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full p-3 text-white rounded-md bg-primary-color hover:bg-secondary-color focus:outline-none focus:ring-2 focus:ring-primary-color"
+          disabled={loading} // Disable button while loading
+          className={`w-full p-3 text-white rounded-md ${
+            loading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-primary-color hover:bg-secondary-color"
+          } focus:border-transparent focus:ring-2 focus:ring-primary-color`}
         >
-          Log In
+          {loading ? "Logging In..." : "Log In"}
         </button>
       </form>
     </div>
