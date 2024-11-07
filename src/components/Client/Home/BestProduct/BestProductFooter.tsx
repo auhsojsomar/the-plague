@@ -23,7 +23,9 @@ const BestProductFooter = () => {
           transition-colors duration-300 group-hover:bg-primary-color group-hover:outline-0
         "
       >
-        <FontAwesomeIcon className="text-3xl ml-1" icon={icon} />
+        <div className="w-8 h-8">
+          <FontAwesomeIcon className="text-3xl w-full h-full" icon={icon} />
+        </div>
       </div>
       <span
         className="

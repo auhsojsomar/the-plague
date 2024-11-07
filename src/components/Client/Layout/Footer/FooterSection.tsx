@@ -31,12 +31,14 @@ const FooterSection: React.FC<FooterSectionProps> = ({
       <h2 className="text-lg font-semibold mb-2 uppercase">{title}</h2>
       <ul className="space-y-2">
         {labels.map((item, index) => (
-          <li key={index} className="flex items-center">
+          <li key={index} className="flex items-center gap-x-2">
             {hasIcons && "icon" in item && (
-              <FontAwesomeIcon
-                icon={item.icon}
-                className="mr-2 text-gray-300"
-              />
+              <div className="w-4 h-4 self-start mt-px">
+                <FontAwesomeIcon
+                  icon={item.icon}
+                  className="mr-2 text-gray-300 w-full h-full"
+                />
+              </div>
             )}
             {"link" in item ? (
               <Link
