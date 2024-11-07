@@ -57,7 +57,8 @@ export default function SignUpForm() {
       }));
     } else {
       setErrors((prev) => {
-        const { [field]: _, ...rest } = prev;
+        const rest = { ...prev };
+        delete rest[field];
         return rest;
       });
     }

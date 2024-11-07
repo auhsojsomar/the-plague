@@ -28,7 +28,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           width={230}
           height={230}
           className="aspect-square object-cover"
-          useNextImage
         />
       </div>
 
