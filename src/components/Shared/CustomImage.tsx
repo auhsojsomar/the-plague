@@ -1,16 +1,23 @@
+"use client";
+
 import Image from "next/image";
-import { ImgHTMLAttributes } from "react";
+import { ImgHTMLAttributes, useEffect, useState } from "react";
+import ImageSkeleton from "@/src/components/Skeleton/ImageSkeleton";
 
 interface CustomImageProps extends ImgHTMLAttributes<HTMLImageElement> {
-  src: string;
+  src: string; // The S3 key for fetching the image
   alt: string;
-  width?: number; // Only accept number for Next.js Image
-  height?: number; // Only accept number for Next.js Image
-  useNextImage?: boolean; // Flag to use Next.js Image
-  fill?: boolean; // New prop for Next.js Image to fill the parent
-  className?: string; // Optional custom class names
-  loading?: "lazy" | "eager"; // Loading attribute
-  decoding?: "async" | "auto" | "sync"; // Decoding attribute
+  width?: number;
+  height?: number;
+  useNextImage?: boolean;
+  fill?: boolean;
+  className?: string;
+  loading?: "lazy" | "eager";
+  decoding?: "async" | "auto" | "sync";
+  priority?: boolean;
+  quality?: number;
+  useBucket?: boolean; // Use S3 bucket
+  imageClass?: string; // Image Object fit class
 }
 
 const CustomImage: React.FC<CustomImageProps> = ({
@@ -20,38 +27,99 @@ const CustomImage: React.FC<CustomImageProps> = ({
   height,
   useNextImage = true,
   fill = false,
-  className = "", // Optional custom class names
-  loading = "lazy", // Default lazy loading
-  decoding = "async", // Default decoding
-  ...props // Spread any additional props
+  className = "",
+  loading = "lazy",
+  decoding = "async",
+  priority,
+  quality,
+  useBucket = false,
+  imageClass,
+  ...props
 }) => {
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchImageUrl = async () => {
+      if (useBucket && src) {
+        try {
+          const response = await fetch(`/api/s3-bucket?key=${src}`);
+          if (response.ok) {
+            const data = await response.json();
+            setImageUrl(data.url);
+          } else {
+            console.error(
+              "Failed to fetch image from S3:",
+              response.statusText
+            );
+          }
+        } catch (error) {
+          console.error("Error fetching S3 image:", error);
+        }
+      } else if (!useBucket) {
+        // Use local path if not using S3 bucket
+        setImageUrl(src);
+      }
+    };
+
+    fetchImageUrl();
+  }, [src, useBucket]);
+
+  const handleImageLoad = () => {
+    setIsLoading(false);
+  };
+
+  if (!imageUrl) {
+    return <ImageSkeleton />;
+  }
+
+  const loadingProp = priority ? undefined : loading;
+
+  // Define sizes based on how you want the image to behave responsively
+  const sizes = fill
+    ? "(max-width: 640px) 100vw, (max-width: 768px) 50vw, 60vw" // Example sizes
+    : undefined;
+
   if (useNextImage) {
     return (
-      <Image
-        src={src}
-        alt={alt}
-        fill={fill} // Use fill to make the image cover the parent
-        width={width}
-        height={height}
-        loading={loading}
-        decoding={decoding}
-        className={className} // Additional styles
-        {...props} // Spread other props if necessary
-      />
+      <div className={`relative ${className}`}>
+        {isLoading && <ImageSkeleton />}
+        <Image
+          className={`${imageClass} ${isLoading ? "opacity-0" : "opacity-100"}`}
+          src={imageUrl}
+          alt={alt}
+          fill={fill}
+          width={width}
+          height={height}
+          loading={loadingProp}
+          decoding={decoding}
+          onLoad={handleImageLoad}
+          priority={priority}
+          quality={quality}
+          sizes={sizes} // Add sizes prop here
+          {...props}
+        />
+      </div>
     );
   }
 
   return (
-    <img
-      src={src}
-      alt={alt}
-      width={width} // Use width for <img>
-      height={height} // Use height for <img>
-      className={className} // Use any custom classes
-      loading={loading} // Lazy loading
-      decoding={decoding} // Decoding strategy
-      {...props} // Spread other props if necessary
-    />
+    <div className={`relative ${className}`}>
+      {isLoading && <ImageSkeleton />}
+      <img
+        className={`transition-opacity duration-300 ${
+          isLoading ? "opacity-0" : "opacity-100"
+        }`}
+        src={imageUrl}
+        alt={alt}
+        width={width}
+        height={height}
+        loading={loadingProp}
+        decoding={decoding}
+        onLoad={handleImageLoad}
+        {...props}
+      />
+    </div>
   );
 };
 

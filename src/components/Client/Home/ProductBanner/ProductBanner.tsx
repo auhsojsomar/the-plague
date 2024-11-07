@@ -8,7 +8,7 @@ const ProductBanner = () => {
   return (
     <div className="container grid grid-cols-1 gap-4 py-12 px-5 font-display sm:py-20 md:grid-cols-2 lg:grid-cols-3 lg:pt-0 lg:px-0">
       {/* Row 1 - Column 1 */}
-      <div className="relative order-1 overflow-hidden w-full h-auto">
+      <div className="relative min-h-[286px] order-1 overflow-hidden w-full h-auto">
         <ProductBannerImage
           src={PRODUCT_BANNER[0].src}
           alt={PRODUCT_BANNER[0].alt}
@@ -36,7 +36,7 @@ const ProductBanner = () => {
       </div>
 
       {/* Row 2 - Column 2 */}
-      <div className="relative order-3 overflow-hidden w-full h-auto md:order-4">
+      <div className="relative min-h-[286px] order-3 overflow-hidden w-full h-auto md:order-4">
         <ProductBannerImage
           src={PRODUCT_BANNER[1].src}
           alt={PRODUCT_BANNER[1].alt}

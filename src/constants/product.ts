@@ -104,7 +104,7 @@ const products: Product[] = [
     name: "Classic Oxford Shoes",
     description: "Elegant shoes suitable for formal occasions.",
     price: 179.0,
-    image: createImage("https://placehold.co/500x500?text=Oxford+Shoes", [
+    image: createImage("https://placehold.co/600x600?text=Oxford+Shoes", [
       "https://placehold.co/500x500?text=Oxford+Shoes+1",
       "https://placehold.co/500x500?text=Oxford+Shoes+2",
     ]),

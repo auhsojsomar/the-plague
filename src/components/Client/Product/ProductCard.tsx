@@ -23,7 +23,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       {/* Product Image */}
       <div className="relative">
         <CustomImage
-          src={product.image.main || "/image/product-placeholder.jpg"}
+          src={product.image.main || "/image/product-placeholder.webp"}
           alt={kebabCaseName}
           width={230}
           height={230}

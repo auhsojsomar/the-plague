@@ -59,18 +59,15 @@ const Footer: React.FC = () => {
               <h2 className="text-lg font-semibold mb-2 uppercase">
                 {MESSAGE.FOOTER.GET_NEWSLETTERS.CONNECT_US.title}
               </h2>
-              <div className="flex flex-wrap">
+              <div className="flex flex-wrap gap-3">
                 {MESSAGE.FOOTER.GET_NEWSLETTERS.CONNECT_US.label.map(
                   (item, index) => (
                     <Link
                       key={index}
                       href={item.link}
-                      className="text-gray-300 hover:text-white mr-3 mb-1"
+                      className="flex justify-center items-center text-gray-300 hover:text-white w-12 h-12 rounded-full border border-white hover:bg-primary-color hover:border-transparent"
                     >
-                      <FontAwesomeIcon
-                        icon={item.icon}
-                        className="text-lg w-5 h-5 p-2 rounded-full border border-white hover:bg-primary-color hover:border-transparent"
-                      />
+                      <FontAwesomeIcon className="w-5 h-5" icon={item.icon} />
                     </Link>
                   )
                 )}
@@ -92,21 +89,27 @@ const Footer: React.FC = () => {
             }{" "}
             All Rights Reserved
           </span>
-          <div className="flex h-14 gap-4 my-4 order-1 sm:order-2 overflow-x-hidden">
-            <CustomImage
-              className="h-full w-auto" // Use h-full and w-auto to maintain aspect ratio
-              src="/image/payment-cod.jpg"
-              alt="payment-cod"
-              width={319}
-              height={189}
-            />
-            <CustomImage
-              className="h-full w-auto" // Use h-full and w-auto to maintain aspect ratio
-              src="/image/payment-gcash.jpg"
-              alt="payment-gcash"
-              width={319}
-              height={189}
-            />
+          <div className="flex h-14 gap-4 my-4 order-1 sm:order-2 overflow-hidden">
+            <div className="aspect-[319/189]">
+              <CustomImage
+                className="w-auto h-full" // Use h-full and w-auto to maintain aspect ratio
+                src="image/payment-cod.webp"
+                alt="payment-cod"
+                fill
+                useNextImage
+                useBucket
+              />
+            </div>
+            <div className="aspect-[319/189]">
+              <CustomImage
+                className="h-full w-full" // Use h-full and w-auto to maintain aspect ratio
+                src="image/payment-gcash.webp"
+                alt="payment-gcash"
+                fill
+                useNextImage
+                useBucket
+              />
+            </div>
           </div>
         </div>
       </div>
