@@ -35,7 +35,7 @@ const ProductPageImage = () => {
             }`}
           >
             <CustomImage
-              className="object-cover rounded"
+              imageClass="object-cover rounded"
               src={image}
               alt={`Thumbnail ${index + 1}`}
               width={80}

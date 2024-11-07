@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { registerUser, FormData } from "@/lib/api";
 import InputField from "@/shared/InputField";
+import CustomImage from "@/src/components/Shared/CustomImage";
 
 // Define Zod schema for form validation
 const formSchema = z.object({
@@ -106,10 +107,17 @@ export default function SignUpForm() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh_-_5rem)] p-4 relative overflow-hidden">
-      <div
-        className="absolute -inset-4 bg-cover bg-center filter blur-sm -z-10 bg-no-repeat opacity-95"
-        style={{ backgroundImage: 'url("/image/main-banner.webp")' }}
-      ></div>
+      <div className="absolute -inset-4 bg-cover bg-center filter blur-sm -z-10 bg-no-repeat opacity-95">
+        <CustomImage
+          className="w-full h-full"
+          imageClass="object-cover"
+          src="main-banner.webp"
+          alt="main-banner"
+          fill
+          quality={50}
+          useBucket
+        />
+      </div>
 
       <form
         onSubmit={handleSubmit}
@@ -119,9 +127,13 @@ export default function SignUpForm() {
           Sign Up
         </h2>
 
-        {errors.api && <div className="text-red-500 text-sm">{errors.api}</div>}
+        {errors.api && (
+          <div className="text-red-500 text-sm text-center">{errors.api}</div>
+        )}
         {successMessage && (
-          <div className="text-green-500 text-sm">{successMessage}</div>
+          <div className="text-green-500 text-sm text-center">
+            {successMessage}
+          </div>
         )}
 
         <InputField
@@ -173,7 +185,7 @@ export default function SignUpForm() {
             loading
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-primary-color hover:bg-secondary-color"
-          } focus:outline-none focus:ring-2 focus:ring-primary-color`}
+          } focus:border-transparent focus:ring-2 focus:ring-primary-color`}
         >
           {loading ? "Signing Up..." : "Sign Up"}
         </button>

@@ -1,13 +1,13 @@
 import { Carousel } from "flowbite-react";
 import type { CustomFlowbiteTheme } from "flowbite-react";
 import { Flowbite } from "flowbite-react";
-import CustomImage from "@/src/components/Shared/CustomImage"; // Custom wrapper for the Next.js Image
+import CustomImage from "@/src/components/Shared/CustomImage";
 import { homeCarouselImage } from "@/src/constants";
 
 const customTheme: CustomFlowbiteTheme = {
   carousel: {
     scrollContainer: {
-      base: "flex h-full snap-mandatory overflow-y-hidden overflow-x-scroll scroll-smooth",
+      base: "flex h-full snap-mandatory overflow-x-scroll scroll-smooth",
       snap: "snap-x",
     },
   },
@@ -15,23 +15,21 @@ const customTheme: CustomFlowbiteTheme = {
 
 const HomeCarousel = () => {
   return (
-    <div className="h-auto max-w-screen-2xl max-h-[1080px] lg:h-screen lg:relative lg:-top-20 mx-auto overflow-hidden">
-      {/* Added overflow-hidden */}
+    <div className="h-auto max-w-screen-2xl max-h-[1080px] lg:h-screen lg:relative lg:-top-20 mx-auto overflow-hidden aspect-video lg:aspect-auto">
       <Flowbite theme={{ theme: customTheme }}>
         <Carousel slide={false}>
           {homeCarouselImage.map((image, index) => (
-            <div key={index} className="relative w-full h-full">
-              <CustomImage
-                className="object-contain lg:object-cover mx-auto h-full"
-                src={image.src}
-                alt={image.alt}
-                width={1920}
-                height={1080}
-                loading={index === 0 ? "eager" : "lazy"}
-                priority={index === 0}
-                quality={40}
-              />
-            </div>
+            <CustomImage
+              key={index}
+              className="w-full h-full"
+              src={image.src}
+              alt={image.alt}
+              fill
+              loading={index === 0 ? "eager" : "lazy"}
+              priority={index === 0}
+              useBucket={index === 0}
+              imageClass="object-contain lg:object-cover"
+            />
           ))}
         </Carousel>
       </Flowbite>
