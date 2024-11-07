@@ -21,7 +21,8 @@
       "@/*": ["./*"],
       "@/lib/*": ["./src/lib/*"],
       "@/shared/*": ["./src/components/Shared/*"],
-      "@/skeleton/*": ["./src/components/Skeleton/*"]
+      "@/skeleton/*": ["./src/components/Skeleton/*"],
+      "@/components/*": ["./src/components/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
