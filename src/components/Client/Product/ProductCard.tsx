@@ -3,9 +3,19 @@ import CustomImage from "@/src/components/Shared/CustomImage";
 import { toKebabCase } from "@/src/utils/stringUtils";
 import { formatPrice } from "@/src/utils/priceUtils";
 import { Tooltip } from "flowbite-react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+import IconSkeleton from "../../Skeleton/IconSkeleton";
+
+const FontAwesomeIcon = dynamic(
+  () =>
+    import("@fortawesome/react-fontawesome").then((mod) => mod.FontAwesomeIcon),
+  {
+    ssr: false,
+    loading: () => <IconSkeleton />,
+  }
+);
 
 interface ProductCardProps {
   product: Product;
@@ -21,13 +31,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <Link href={productLink} className="absolute inset-0 z-10" />
 
       {/* Product Image */}
-      <div className="relative">
+      <div className="w-[230px] h-[230px]">
         <CustomImage
-          src={product.image.main || "/image/product-placeholder.webp"}
+          className="w-full h-full"
+          src={product.image.main || "image/product-placeholder.webp"} // Use main image or fallback to placeholder
           alt={kebabCaseName}
-          width={230}
-          height={230}
-          className="aspect-square object-cover"
+          imageClass="aspect-square object-cover"
+          fill
+          useBucket={
+            product.image.main && !product.image.main.includes("placehold.co")
+              ? true
+              : false
+          } // If no image or if it’s not a placehold.co domain, use the S3 bucket image
         />
       </div>
 
@@ -82,10 +97,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             className="z-30 whitespace-nowrap max-w-xs"
           >
             <button className="flex items-center justify-center bg-secondary-color rounded-md hover:opacity-80 transition w-10 h-10">
-              <FontAwesomeIcon
-                icon={faShoppingCart}
-                className="text-white text-xl"
-              />
+              <div className="w-6 h-6">
+                <FontAwesomeIcon
+                  icon={faShoppingCart}
+                  className="text-white text-xl w-full h-full"
+                />
+              </div>
             </button>
           </Tooltip>
         </div>
