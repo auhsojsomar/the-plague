@@ -6,41 +6,39 @@ import ProductCard from "./FeatureProductCard";
 import { Navigation } from "swiper/modules";
 import { Product } from "@/src/shared/types/Product";
 import { useEffect, useState } from "react";
+import ProductCardSkeleton from "@/skeleton/ProductCardSkeleton";
 
 const FeatureProductList = () => {
   const [isMounted, setIsMounted] = useState(false);
   const products: Product[] = featureProduct.BEST_SELLER;
 
   useEffect(() => {
-    setIsMounted(true); // Ensure this component is only rendered on the client
+    setIsMounted(true);
   }, []);
 
-  if (!isMounted) return null; // Prevent server-side rendering issues
+  if (!isMounted) {
+    // Render skeletons with a fixed height
+    return (
+      <div className="mt-16 mx-4 sm:mx-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {Array(4)
+          .fill(0)
+          .map((_, index) => (
+            <ProductCardSkeleton key={index} />
+          ))}
+      </div>
+    );
+  }
 
   return (
     <Swiper
       className="mt-16 mx-4 sm:mx-6"
-      slidesPerView={1}
+      slidesPerView="auto" // Use 'auto' for dynamic slide width
       spaceBetween={10}
       navigation
       modules={[Navigation]}
-      breakpoints={{
-        640: {
-          slidesPerView: 2,
-          spaceBetween: 20,
-        },
-        768: {
-          slidesPerView: 3,
-          spaceBetween: 40,
-        },
-        1280: {
-          slidesPerView: 4,
-          spaceBetween: 30,
-        },
-      }}
     >
       {products.map((product, index) => (
-        <SwiperSlide key={index}>
+        <SwiperSlide key={index} className="w-auto">
           <ProductCard product={product} />
         </SwiperSlide>
       ))}

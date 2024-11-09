@@ -3,24 +3,27 @@
 import { useState } from "react";
 import CustomImage from "../../Shared/CustomImage";
 import { useProductPageContext } from "@/src/context/ProductPageContext";
+import { toKebabCase } from "@/src/utils/stringUtils";
 
 const ProductPageImage = () => {
-  const {
-    product: { image },
-  } = useProductPageContext();
-  const { main, thumbnails = [] } = image;
+  const { product } = useProductPageContext();
+  const { main, thumbnails = [] } = product.image;
   const [selectedImage, setSelectedImage] = useState(main);
+
+  const productName = toKebabCase(product.name);
 
   return (
     <div className="flex flex-col items-center gap-2 flex-shrink-0 sm:flex-row sm:items-start">
       {/* Main Image */}
-      <CustomImage
-        className="object-cover rounded-md"
-        src={selectedImage}
-        alt="Product Image"
-        width={500}
-        height={500}
-      />
+      <div className="sm:w-[500px] aspect-square">
+        <CustomImage
+          className="w-full h-full"
+          src={selectedImage}
+          alt={`${productName}-main`}
+          fill
+          imageClass="object-cover rounded-md"
+        />
+      </div>
 
       {/* Thumbnail Images */}
       <div className="flex flex-row flex-wrap justify-center gap-2 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded-xl scrollbar-thumb-primary-color scrollbar-track-gray-200 max-h-[500px] sm:flex-col sm:pr-2 sm:flex-nowrap sm:justify-start md:grid md:grid-cols-2 lg:flex">
@@ -34,13 +37,16 @@ const ProductPageImage = () => {
                 : "border-gray-300"
             }`}
           >
-            <CustomImage
-              imageClass="object-cover rounded"
-              src={image}
-              alt={`Thumbnail ${index + 1}`}
-              width={80}
-              height={80}
-            />
+            <div className="w-20 h-20">
+              <CustomImage
+                className="w-full h-full"
+                imageClass="object-cover rounded"
+                src={image}
+                alt={`${productName}-${index + 1}`}
+                loading="lazy"
+                fill
+              />
+            </div>
           </button>
         ))}
       </div>

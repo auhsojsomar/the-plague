@@ -14,14 +14,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const productLink = `/products/${kebabCaseName}`; // Generate product link
 
   return (
-    <div className="text-center aspect-square shadow-lg border">
-      <div className="w-full h-full relative">
+    <div className="text-center shadow-lg border">
+      <div className="aspect-square h-64 relative">
         <CustomImage
-          className="object-cover w-full h-full"
+          className="w-full h-full"
+          imageClass="object-cover"
           src={product.image.main}
           alt={kebabCaseName}
-          width={500}
-          height={500}
+          fill
         />
         {/* Product card on hover */}
         <div className="absolute inset-0 flex items-center justify-center m-4 sm:m-3 bg-gray-50 opacity-0 transition-opacity duration-300 hover:opacity-100 cursor-pointer">

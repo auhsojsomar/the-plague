@@ -28,7 +28,9 @@ const ProductPageActionButton: React.FC<ProductPageActionButtonProps> = ({
         }`}
         disabled={disabled}
       >
-        <FontAwesomeIcon icon={faShoppingCart} />
+        <div className="w-5 h-auto">
+          <FontAwesomeIcon icon={faShoppingCart} />
+        </div>
         Add to cart
       </button>
     </div>
