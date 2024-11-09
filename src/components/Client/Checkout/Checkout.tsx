@@ -46,7 +46,7 @@ const Checkout = () => {
         {/* Main section */}
         <section className="flex flex-col lg:flex-row gap-6 pt-2">
           {/* Cart Items Section */}
-          <div className="flex-1 max-h-[calc(100vh-200px)] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-rounded-full scrollbar-thumb-primary-color scrollbar-track-gray-200">
+          <div className="flex-1 max-h-screen overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-rounded-full scrollbar-thumb-primary-color scrollbar-track-gray-200">
             <h3 className="text-base sm:text-lg font-semibold text-secondary-color">
               {cartTitle}
             </h3>
