@@ -10,6 +10,7 @@ import { Variant } from "@/src/shared/interfaces/Variant";
 
 const ProductPage = () => {
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
+  const [quantity, setQuantity] = useState(1);
   const isBuyDisabled = !selectedVariant; // Disable if no variant is selected
 
   return (
@@ -24,10 +25,14 @@ const ProductPage = () => {
           onVariantChange={setSelectedVariant}
           variant={selectedVariant}
         />
-        <ProductPageQuantityButton />
+        <ProductPageQuantityButton
+          quantity={quantity}
+          onQuantityChange={setQuantity}
+        />
         <ProductPageActionButton
           disabled={isBuyDisabled}
           variant={selectedVariant}
+          quantity={quantity}
         />
       </div>
     </div>
