@@ -10,7 +10,7 @@ interface ProductProps {
 const Product = ({ products }: ProductProps) => {
   return (
     <div>
-      <div className="max-w-screen-2xl mx-auto relative">
+      <div className="max-w-screen-2xl min-h-[calc(100vh-80px)] mx-auto relative">
         {/* Sidebar */}
         <ProductSidebar />
 
