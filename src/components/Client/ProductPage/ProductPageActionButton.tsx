@@ -7,8 +7,9 @@ import { useProductCartContext } from "@/src/context/ProductCartContext";
 import { useState } from "react";
 import { Spinner } from "flowbite-react";
 import { useRouter } from "next/navigation";
-import { useCartCookies } from "@/src/hooks/useCartCookies";
+import { useCartStorage } from "@/src/hooks/useCartStorage";
 import { CartData } from "@/src/shared/interfaces/CartData";
+import { useCheckoutContext } from "@/src/context/CheckoutContext";
 
 interface ProductPageActionButtonProps {
   disabled: boolean;
@@ -21,12 +22,15 @@ const ProductPageActionButton: React.FC<ProductPageActionButtonProps> = ({
   disabled,
   quantity,
 }) => {
+  const { addToCartStorage } = useCartStorage();
+  const { product } = useProductCartContext();
+  const { setBuy } = useCheckoutContext();
+
   const router = useRouter();
-  const { addToCartCookies } = useCartCookies();
-  const { product, addToCart } = useProductCartContext();
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isBuying, setIsBuying] = useState(false);
 
+  // Handle adding to cart
   const handleAddToCart = () => {
     if (!isAddingToCart && variant && product && quantity > 0) {
       const newProduct: CartData = {
@@ -36,9 +40,7 @@ const ProductPageActionButton: React.FC<ProductPageActionButtonProps> = ({
       };
 
       setIsAddingToCart(true);
-
-      addToCartCookies(newProduct);
-      addToCart(newProduct);
+      addToCartStorage(newProduct); // Add to cart
 
       setTimeout(() => {
         setIsAddingToCart(false);
@@ -46,6 +48,7 @@ const ProductPageActionButton: React.FC<ProductPageActionButtonProps> = ({
     }
   };
 
+  // Handle buying now
   const handleBuyNow = () => {
     if (!isBuying && variant && product && quantity > 0) {
       const newProduct: CartData = {
@@ -55,12 +58,10 @@ const ProductPageActionButton: React.FC<ProductPageActionButtonProps> = ({
       };
 
       setIsBuying(true);
-
-      addToCartCookies(newProduct);
-      addToCart(newProduct);
+      setBuy(newProduct); // Clear cart and add the new product for "Buy Now"
 
       setTimeout(() => {
-        router.push("/checkout");
+        router.push("/checkout"); // Navigate to checkout after adding to cart
       }, 1000);
     }
   };
