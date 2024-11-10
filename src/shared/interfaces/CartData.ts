@@ -1,5 +1,8 @@
+import { Product } from "@/types/Product";
+import { Variant } from "./Variant";
+
 export interface CartData {
-  productId: string;
-  variantId: string | undefined;
+  product: Product;
+  variant: Variant;
   quantity: number;
 }

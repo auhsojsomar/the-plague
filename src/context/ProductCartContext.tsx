@@ -2,12 +2,7 @@
 
 import { createContext, ReactNode, useContext, useState } from "react";
 import { Product } from "@/shared/types/Product";
-
-interface CartData {
-  productId: string;
-  variantId: string;
-  quantity: number;
-}
+import { CartData } from "@/interfaces/CartData";
 
 interface ProductCartContextType {
   product: Product;
@@ -31,8 +26,8 @@ export const ProductCartContextProvider: React.FC<{
     setCart((prevCart) => {
       const existingItemIndex = prevCart.findIndex(
         (item) =>
-          item.productId === newItem.productId &&
-          item.variantId === newItem.variantId
+          item.product.id === newItem.product.id &&
+          item.variant.id === newItem.variant.id
       );
 
       if (existingItemIndex !== -1) {

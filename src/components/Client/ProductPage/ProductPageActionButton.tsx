@@ -8,6 +8,7 @@ import { useState } from "react";
 import { Spinner } from "flowbite-react";
 import { useRouter } from "next/navigation";
 import { useCartCookies } from "@/src/hooks/useCartCookies";
+import { CartData } from "@/src/shared/interfaces/CartData";
 
 interface ProductPageActionButtonProps {
   disabled: boolean;
@@ -28,12 +29,14 @@ const ProductPageActionButton: React.FC<ProductPageActionButtonProps> = ({
 
   const handleAddToCart = () => {
     if (!isAddingToCart && variant && product && quantity > 0) {
-      setIsAddingToCart(true);
-      const newProduct = {
-        productId: product.id,
-        variantId: variant.id,
+      const newProduct: CartData = {
+        product,
+        variant,
         quantity,
       };
+
+      setIsAddingToCart(true);
+
       addToCartCookies(newProduct);
       addToCart(newProduct);
 
@@ -45,20 +48,19 @@ const ProductPageActionButton: React.FC<ProductPageActionButtonProps> = ({
 
   const handleBuyNow = () => {
     if (!isBuying && variant && product && quantity > 0) {
-      setIsBuying(true);
-
-      const newProduct = {
-        productId: product.id,
-        variantId: variant.id,
+      const newProduct: CartData = {
+        product,
+        variant,
         quantity,
       };
+
+      setIsBuying(true);
 
       addToCartCookies(newProduct);
       addToCart(newProduct);
 
       setTimeout(() => {
         router.push("/checkout");
-        setIsBuying(false);
       }, 1000);
     }
   };

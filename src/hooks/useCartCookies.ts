@@ -15,8 +15,8 @@ export const useCartCookies = () => {
 
     let itemHandled = false;
     const updatedCart = existedCart.map((existingItem) => {
-      if (existingItem.productId === newItem.productId) {
-        if (existingItem.variantId === newItem.variantId) {
+      if (existingItem.product.id === newItem.product.id) {
+        if (existingItem.variant.id === newItem.variant.id) {
           itemHandled = true;
           return {
             ...existingItem,
