@@ -24,7 +24,7 @@ export const ProductCartContextProvider: React.FC<{
   children: ReactNode;
   initialProduct: Product;
 }> = ({ children, initialProduct }) => {
-  const [product, setProduct] = useState<Product>(initialProduct);
+  const [, setProduct] = useState<Product>(initialProduct);
   const [cart, setCart] = useState<CartData[]>([]);
 
   const addToCart = (newItem: CartData) => {
