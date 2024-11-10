@@ -1,13 +1,10 @@
 "use client";
 
 import { createContext, ReactNode, useContext, useState } from "react";
-import { CartData } from "@/interfaces/CartData";
 import { Product } from "@/types/Product";
 
 interface ProductCartContextType {
   product: Product;
-  cart: CartData[];
-  addToCart: (newItem: CartData) => void;
   setProduct: (product: Product) => void;
 }
 
@@ -34,30 +31,9 @@ export const ProductCartContextProvider: React.FC<{
   initialProduct?: Product;
 }> = ({ children, initialProduct = defaultProduct }) => {
   const [product, setProduct] = useState<Product>(initialProduct);
-  const [cart, setCart] = useState<CartData[]>([]);
-
-  const addToCart = (newItem: CartData) => {
-    setCart((prevCart) => {
-      const existingItemIndex = prevCart.findIndex(
-        (item) =>
-          item.product.id === newItem.product.id &&
-          item.variant.id === newItem.variant.id
-      );
-
-      if (existingItemIndex !== -1) {
-        const updatedCart = [...prevCart];
-        updatedCart[existingItemIndex].quantity += newItem.quantity;
-        return updatedCart;
-      } else {
-        return [...prevCart, newItem];
-      }
-    });
-  };
 
   return (
-    <ProductCartContext.Provider
-      value={{ product, cart, addToCart, setProduct }}
-    >
+    <ProductCartContext.Provider value={{ product, setProduct }}>
       {children}
     </ProductCartContext.Provider>
   );
