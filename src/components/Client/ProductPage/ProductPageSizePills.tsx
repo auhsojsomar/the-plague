@@ -2,7 +2,7 @@
 
 import SizePills from "@/src/components/Shared/SizePills";
 import { Color, Size, Variant } from "@/src/shared/interfaces/Variant";
-import { useProductPageContext } from "@/src/context/ProductPageContext";
+import { useProductCartContext } from "@/src/context/ProductCartContext";
 
 interface ProductPageSizePillsProps {
   selectedSize: Size | null;
@@ -15,7 +15,7 @@ const ProductPageSizePills: React.FC<ProductPageSizePillsProps> = ({
   onSizeSelect,
   selectedColor,
 }) => {
-  const { product } = useProductPageContext();
+  const { product } = useProductCartContext();
   const allSizes = product.variants.map((variant: Variant) => variant.size);
 
   function getAvailableSizesForColor(color: Color): Size[] {

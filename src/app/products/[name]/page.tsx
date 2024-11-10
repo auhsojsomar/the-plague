@@ -1,6 +1,6 @@
 import { Product } from "@/src/shared/types/Product";
 import ProductPageComponent from "@/src/components/Client/ProductPage/ProductPage";
-import { ProductPageContextProvider } from "@/src/context/ProductPageContext";
+import { ProductCartContextProvider } from "@/src/context/ProductCartContext";
 
 // Fetch product details by product name (kebab-case)
 const fetchProductByName = async (name: string): Promise<Product | null> => {
@@ -26,7 +26,6 @@ const fetchProductByName = async (name: string): Promise<Product | null> => {
   }
 };
 
-// Define revalidation period
 export const revalidate = 30; // Revalidate every 30 seconds
 
 interface ProductPageProps {
@@ -43,9 +42,9 @@ const ProductPage = async ({ params }: ProductPageProps) => {
   }
 
   return (
-    <ProductPageContextProvider initialProduct={product}>
+    <ProductCartContextProvider initialProduct={product}>
       <ProductPageComponent />
-    </ProductPageContextProvider>
+    </ProductCartContextProvider>
   );
 };
 

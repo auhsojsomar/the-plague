@@ -1,6 +1,6 @@
 "use client";
 
-import { useProductPageContext } from "@/src/context/ProductPageContext";
+import { useProductCartContext } from "@/src/context/ProductCartContext";
 import { Variant } from "@/src/shared/interfaces/Variant";
 import { formatPrice } from "@/src/utils/priceUtils";
 
@@ -9,7 +9,7 @@ interface ProductPageDetailsProps {
 }
 
 const ProductPageDetails: React.FC<ProductPageDetailsProps> = ({ variant }) => {
-  const { product } = useProductPageContext(); // Access product data
+  const { product } = useProductCartContext(); // Access product data
   const price = variant?.salePrice || variant?.price || 0;
 
   return (

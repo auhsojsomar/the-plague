@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import CustomImage from "../../Shared/CustomImage";
-import { useProductPageContext } from "@/src/context/ProductPageContext";
 import { toKebabCase } from "@/src/utils/stringUtils";
+import { useProductCartContext } from "@/src/context/ProductCartContext";
 
 const ProductPageImage = () => {
-  const { product } = useProductPageContext();
+  const { product } = useProductCartContext();
   const { main, thumbnails = [] } = product.image;
   const [selectedImage, setSelectedImage] = useState(main);
 
