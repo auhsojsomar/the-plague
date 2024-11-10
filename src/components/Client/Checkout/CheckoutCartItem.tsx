@@ -2,17 +2,18 @@ import { formatPrice } from "@/src/utils/priceUtils";
 import CustomImage from "../../Shared/CustomImage";
 import { Product } from "@/src/shared/types/Product";
 import { toKebabCase } from "@/src/utils/stringUtils";
+import { Variant } from "@/src/shared/interfaces/Variant";
 
 interface CneckoutCartItemProps {
   product: Product;
+  variant: Variant;
   quantity: number;
-  totalPrice: number;
 }
 
 const CneckoutCartItem = ({
   product,
+  variant,
   quantity,
-  totalPrice,
 }: CneckoutCartItemProps) => {
   const kebabCaseName = toKebabCase(product.name);
 
@@ -34,16 +35,18 @@ const CneckoutCartItem = ({
         <div className="flex flex-col gap-px">
           <p className="text-sm sm:text-base font-medium">{product.name}</p>
           <p className="text-gray-500 text-xs sm:text-sm">
-            <span>{product.variants[0].size.name}</span>
+            <span>{variant.color.name}</span>
             <span>, </span>
-            <span>{product.variants[0].color.name}</span>
+            <span>{variant.size.name}</span>
           </p>
         </div>
 
         {/* Price and Quantity section */}
         <div className="flex flex-col gap-px">
           <p className="text-sm sm:text-base font-semibold">
-            {formatPrice(totalPrice)}
+            {variant.salePrice
+              ? formatPrice(variant.salePrice * quantity)
+              : formatPrice(variant.price * quantity)}
           </p>
           <p className="text-xs sm:text-sm text-gray-500 sm:text-end">
             Qty: {quantity}

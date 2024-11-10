@@ -1,10 +1,9 @@
 import CustomImage from "@/shared/CustomImage";
-import CheckoutCartItem from "./CheckoutCartItem";
 import CheckoutOrderSummary from "./CheckoutOrderSummary";
 import CheckoutContactForm from "./CheckoutContactForm";
-import { allProduct } from "@/src/constants";
 import { CHECKOUT } from "@/src/constants/checkout";
 import CheckoutPaymentDetails from "./CheckoutPaymentDetails";
+import CheckoutCart from "@/src/components/Client/Checkout/CheckoutCart";
 
 const Checkout = () => {
   const {
@@ -51,14 +50,7 @@ const Checkout = () => {
               {cartTitle}
             </h3>
             <div className="space-y-4">
-              {allProduct.map((product) => (
-                <CheckoutCartItem
-                  key={product.id}
-                  product={product}
-                  quantity={1}
-                  totalPrice={120}
-                />
-              ))}
+              <CheckoutCart />
             </div>
           </div>
 
