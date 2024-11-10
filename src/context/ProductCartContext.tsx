@@ -1,25 +1,39 @@
 "use client";
 
 import { createContext, ReactNode, useContext, useState } from "react";
-import { Product } from "@/shared/types/Product";
 import { CartData } from "@/interfaces/CartData";
+import { Product } from "@/types/Product";
 
 interface ProductCartContextType {
   product: Product;
   cart: CartData[];
   addToCart: (newItem: CartData) => void;
-  setProduct: (product: Product) => void; // To update the product in context
+  setProduct: (product: Product) => void;
 }
 
 const ProductCartContext = createContext<ProductCartContextType | undefined>(
   undefined
 );
 
+const defaultProduct = {
+  id: "",
+  name: "",
+  description: "",
+  image: {
+    main: "",
+    thumbnails: [],
+  },
+  variants: [],
+  price: 0,
+  salePrice: undefined,
+  isSale: false,
+};
+
 export const ProductCartContextProvider: React.FC<{
   children: ReactNode;
-  initialProduct: Product;
-}> = ({ children, initialProduct }) => {
-  const [, setProduct] = useState<Product>(initialProduct);
+  initialProduct?: Product;
+}> = ({ children, initialProduct = defaultProduct }) => {
+  const [product, setProduct] = useState<Product>(initialProduct);
   const [cart, setCart] = useState<CartData[]>([]);
 
   const addToCart = (newItem: CartData) => {
@@ -33,13 +47,8 @@ export const ProductCartContextProvider: React.FC<{
       if (existingItemIndex !== -1) {
         const updatedCart = [...prevCart];
         updatedCart[existingItemIndex].quantity += newItem.quantity;
-        console.log(
-          "Updated quantity:",
-          updatedCart[existingItemIndex].quantity
-        );
         return updatedCart;
       } else {
-        console.log("Adding new item to cart:", newItem);
         return [...prevCart, newItem];
       }
     });
@@ -47,7 +56,7 @@ export const ProductCartContextProvider: React.FC<{
 
   return (
     <ProductCartContext.Provider
-      value={{ product: initialProduct, cart, addToCart, setProduct }}
+      value={{ product, cart, addToCart, setProduct }}
     >
       {children}
     </ProductCartContext.Provider>
