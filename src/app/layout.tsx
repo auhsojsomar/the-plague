@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "@/src/globals.css";
 import Layout from "@/src/components/Client/Layout/Layout";
+import { CheckoutContextProvider } from "../context/CheckoutContext";
 
 export const metadata: Metadata = {
   title: "The Plague",
@@ -21,7 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="light">
       <body className={inter.className}>
-        <Layout>{children}</Layout>
+        <CheckoutContextProvider>
+          <Layout>{children}</Layout>
+        </CheckoutContextProvider>
       </body>
     </html>
   );
