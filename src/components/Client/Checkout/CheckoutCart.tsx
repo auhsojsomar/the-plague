@@ -4,22 +4,26 @@ import CheckoutCartItem from "./CheckoutCartItem"; // Ensure the name is correct
 import { useCheckoutContext } from "@/src/context/CheckoutContext";
 
 const CheckoutCart = () => {
-  const { buy } = useCheckoutContext(); // Get the 'buy' item from the context
+  const { checkout } = useCheckoutContext(); // Get the 'checkout' item from the context
 
-  // If 'buy' is empty, show "No items in the cart"
-  if (!buy) {
+  // If 'checkout' is empty, show "No items in the cart"
+  if (!checkout) {
     return <div>No items in the cart</div>;
   }
 
   return (
     <div>
-      {/* If 'buy' is not empty, display the item */}
-      <CheckoutCartItem
-        key="buy-now"
-        product={buy.product}
-        variant={buy.variant}
-        quantity={buy.quantity}
-      />
+      {/* If 'checkout' is not empty, display the item */}
+      {checkout.map((c) => {
+        return (
+          <CheckoutCartItem
+            key="checkout-now"
+            product={c.product}
+            variant={c.variant}
+            quantity={c.quantity}
+          />
+        );
+      })}
     </div>
   );
 };
