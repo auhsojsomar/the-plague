@@ -7,8 +7,9 @@ import { CartData } from "@/shared/interfaces/CartData";
 interface CheckoutContextType {
   checkout: CartData[] | null;
   setCheckout: (product: CartData[] | null) => void;
-  paymentTransactionImage: string;
-  setPaymentTransactionImage: (image: string) => void;
+  paymentTransactionImage: File | null; // Updated type to File | null
+  setPaymentTransactionImage: (image: File | null) => void; // Updated type to File | null
+  resetFileInput: () => void;
 }
 
 // Define the props for the CheckoutContextProvider to accept children
@@ -37,7 +38,11 @@ export const CheckoutContextProvider: React.FC<
 > = ({ children }) => {
   const [checkout, setCheckout] = useState<CartData[] | null>(null);
   const [paymentTransactionImage, setPaymentTransactionImage] =
-    useState<string>("");
+    useState<File | null>(null);
+
+  const resetFileInput = () => {
+    setPaymentTransactionImage(null);
+  };
 
   return (
     <CheckoutContext.Provider
@@ -46,6 +51,7 @@ export const CheckoutContextProvider: React.FC<
         setCheckout,
         paymentTransactionImage,
         setPaymentTransactionImage,
+        resetFileInput,
       }}
     >
       {children}
