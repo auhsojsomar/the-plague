@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation"; // Import useRouter from next/router
+import { useRouter } from "next/navigation";
 import { ContactDetails } from "@/src/types/checkout/checkout";
 import CustomImage from "../../Shared/CustomImage";
 import { useCheckoutContext } from "@/src/context/CheckoutContext";
@@ -11,11 +11,6 @@ import { z } from "zod";
 import { Spinner, Toast } from "flowbite-react";
 import { HiExclamation } from "react-icons/hi";
 
-interface CheckoutContactFormProps {
-  details: ContactDetails;
-  buttonText: string;
-}
-
 // Define a Zod schema for form validation
 const formSchema = z.object({
   fullName: z.string().min(1, { message: "Full name is required" }),
@@ -24,9 +19,38 @@ const formSchema = z.object({
     message: "Contact number must start with '9' and be 10 digits long",
   }),
   paymentTransactionFile: z
-    .string()
-    .min(1, { message: "Payment transaction file is required" }),
+    .instanceof(File)
+    .nullable()
+    .refine(
+      (file) => {
+        if (file === null) return false; // The file should not be null
+        return file.size > 0; // The file size should be greater than 0
+      },
+      {
+        message: "Payment transaction file is required",
+      }
+    )
+    .refine(
+      (file) => {
+        if (file === null) return true; // Skip the file type check if file is null
+        const allowedTypes = [
+          "image/jpeg",
+          "image/png",
+          "image/gif",
+          "image/webp",
+        ];
+        return allowedTypes.includes(file.type);
+      },
+      {
+        message: "File must be a valid image (JPG, PNG, GIF, or WEBP)",
+      }
+    ),
 });
+
+interface CheckoutContactFormProps {
+  details: ContactDetails;
+  buttonText: string;
+}
 
 const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
   details: {
@@ -41,11 +65,16 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
   },
   buttonText,
 }) => {
-  const { checkout, paymentTransactionImage } = useCheckoutContext();
+  const {
+    checkout,
+    paymentTransactionImage,
+    setPaymentTransactionImage,
+    resetFileInput,
+  } = useCheckoutContext();
   const [items, setItems] = useState<Items[]>([]);
   const [errors, setErrors] = useState<string[]>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false); // Track form submission status
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
   // Map checkout items to the required structure
@@ -61,7 +90,12 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
   }, [checkout]);
 
   // Validate form data
-  const validateForm = (formValues: Record<string, string>) => {
+  const validateForm = (formValues: {
+    fullName: string;
+    address: string;
+    contactNumber: string;
+    paymentTransactionFile: File | null;
+  }) => {
     const validation = formSchema.safeParse(formValues);
     if (!validation.success) {
       setErrors(validation.error.errors.map((error) => error.message));
@@ -85,12 +119,41 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
       fullName: formData.get("fullName") as string,
       address: formData.get("address") as string,
       contactNumber: formData.get("contactNumber") as string,
-      paymentTransactionFile: paymentTransactionImage,
+      paymentTransactionFile: paymentTransactionImage, // Can be null or a File object
     };
 
-    if (!validateForm(formValues)) return; // Validate form before proceeding
+    if (!validateForm(formValues)) return;
 
-    setIsSubmitting(true); // Set submitting state to true
+    setPaymentTransactionImage(null);
+    resetFileInput();
+
+    setIsSubmitting(true);
+
+    let uploadedFileUrl: string | null = null;
+    if (paymentTransactionImage) {
+      try {
+        formData.append("file", paymentTransactionImage);
+
+        const response = await fetch("/api/s3-bucket", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await response.json();
+        if (response.ok && data.fileUrl) {
+          uploadedFileUrl = data.fileUrl;
+        } else {
+          setIsSubmitting(false);
+          setErrors(["Failed to upload the payment transaction file."]);
+          return;
+        }
+      } catch (error) {
+        setIsSubmitting(false);
+        console.error("Error uploading file:", error);
+        setErrors(["Error uploading the payment transaction file."]);
+        return;
+      }
+    }
 
     const shippingAddress: ShippingAddress = {
       fullName: formValues.fullName,
@@ -101,26 +164,24 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
     const order: OrderData = {
       items,
       shippingAddress,
-      paymentTransactionFile: formValues.paymentTransactionFile,
+      paymentTransactionFile: uploadedFileUrl || "",
     };
 
     try {
       await submitOrder(order);
       setSuccessMessage("Your order has been placed successfully!");
-      setTimeout(() => router.push("/products"), 1000); // Redirect after success
+      setTimeout(() => router.push("/products"), 1000);
     } catch {
+      setIsSubmitting(false);
       alert("Error while ordering, please try again.");
-    } finally {
-      setIsSubmitting(false); // Reset submitting state
     }
   };
 
-  const handleFocus = () => setErrors([]); // Clear errors when any field is focused
+  const handleFocus = () => setErrors([]);
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
       <div className="fixed right-5 bottom-5 z-50 flex flex-col gap-2">
-        {/* Display Toast for each error */}
         {errors.map((error, index) => (
           <Toast key={index}>
             <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-500 dark:bg-orange-700 dark:text-orange-200">
@@ -130,8 +191,6 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
             <Toast.Toggle />
           </Toast>
         ))}
-
-        {/* Display Success Toast */}
         {successMessage && (
           <Toast>
             <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-700 dark:text-green-200">
@@ -146,7 +205,6 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
         {title}
       </h3>
 
-      {/* Full Name */}
       <input
         type="text"
         name="fullName"
@@ -155,7 +213,6 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
         onFocus={handleFocus}
       />
 
-      {/* Address */}
       <textarea
         name="address"
         placeholder={addressPlaceholder}
@@ -164,7 +221,6 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
         onFocus={handleFocus}
       />
 
-      {/* Contact Number Field with Philippine Flag */}
       <div>
         <label
           htmlFor="contactNumber"
@@ -190,7 +246,6 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
           <input
             type="tel"
             id="contactNumber"
-            accept="image/*"
             name="contactNumber"
             className="w-full px-4 py-2 border-gray-300 border-l-0 rounded-r-md text-sm sm:text-base focus:ring-2 focus:ring-primary-color focus:border-transparent"
             placeholder={phonePlaceholder}
@@ -199,7 +254,6 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
         </div>
       </div>
 
-      {/* Submit Button */}
       <button
         type="submit"
         className={`w-full bg-primary-color text-white font-semibold rounded-lg py-2 hover:bg-opacity-90 transition ${

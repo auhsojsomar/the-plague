@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { PaymentDetails } from "@/src/types/checkout/checkout";
 import CustomImage from "../../Shared/CustomImage";
 import { FileInput, Label } from "flowbite-react";
@@ -19,6 +19,7 @@ const CheckoutPaymentDetails: React.FC<CheckoutPaymentDetailsProps> = ({
   const [paymentMethods, setPaymentMethods] = useState<PaymentOption[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { setPaymentTransactionImage } = useCheckoutContext();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     // Fetch payment methods on component mount
@@ -39,7 +40,13 @@ const CheckoutPaymentDetails: React.FC<CheckoutPaymentDetailsProps> = ({
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      setPaymentTransactionImage(file.name);
+      setPaymentTransactionImage(file);
+    }
+  };
+
+  const resetFileInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // Reset the file input
     }
   };
 
@@ -94,6 +101,7 @@ const CheckoutPaymentDetails: React.FC<CheckoutPaymentDetailsProps> = ({
         <FileInput
           id="small-file-upload"
           sizing="sm"
+          accept="image/*"
           onChange={handleFileChange}
         />
         <Label
