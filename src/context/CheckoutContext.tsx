@@ -5,8 +5,10 @@ import { CartData } from "@/shared/interfaces/CartData";
 
 // Create the context for handling the "Buy Now" state
 interface CheckoutContextType {
-  buy: CartData | null;
-  setBuy: (product: CartData | null) => void;
+  checkout: CartData[] | null;
+  setCheckout: (product: CartData[] | null) => void;
+  paymentTransactionImage: string;
+  setPaymentTransactionImage: (image: string) => void;
 }
 
 // Define the props for the CheckoutContextProvider to accept children
@@ -33,10 +35,19 @@ export const useCheckoutContext = () => {
 export const CheckoutContextProvider: React.FC<
   CheckoutContextProviderProps
 > = ({ children }) => {
-  const [buy, setBuy] = useState<CartData | null>(null);
+  const [checkout, setCheckout] = useState<CartData[] | null>(null);
+  const [paymentTransactionImage, setPaymentTransactionImage] =
+    useState<string>("");
 
   return (
-    <CheckoutContext.Provider value={{ buy, setBuy }}>
+    <CheckoutContext.Provider
+      value={{
+        checkout,
+        setCheckout,
+        paymentTransactionImage,
+        setPaymentTransactionImage,
+      }}
+    >
       {children}
     </CheckoutContext.Provider>
   );
