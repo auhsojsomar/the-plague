@@ -56,12 +56,7 @@ const Checkout = () => {
 
           {/* Order Summary and Payment Section */}
           <div className="w-full lg:w-1/3 flex flex-col space-y-6">
-            <CheckoutOrderSummary
-              details={orderSummary}
-              subTotal={200}
-              shippingFee={75}
-              total={275}
-            />
+            <CheckoutOrderSummary details={orderSummary} />
             <CheckoutPaymentDetails details={paymentDetails} />
             <CheckoutContactForm
               buttonText={submitButtonText}
