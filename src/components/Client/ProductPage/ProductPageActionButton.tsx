@@ -24,7 +24,7 @@ const ProductPageActionButton: React.FC<ProductPageActionButtonProps> = ({
 }) => {
   const { addToCartStorage } = useCartStorage();
   const { product } = useProductCartContext();
-  const { setBuy } = useCheckoutContext();
+  const { setCheckout } = useCheckoutContext();
 
   const router = useRouter();
   const [isAddingToCart, setIsAddingToCart] = useState(false);
@@ -51,14 +51,15 @@ const ProductPageActionButton: React.FC<ProductPageActionButtonProps> = ({
   // Handle buying now
   const handleBuyNow = () => {
     if (!isBuying && variant && product && quantity > 0) {
-      const newProduct: CartData = {
+      const newProduct: CartData[] = [];
+      newProduct.push({
         product,
         variant,
         quantity,
-      };
+      });
 
       setIsBuying(true);
-      setBuy(newProduct); // Clear cart and add the new product for "Buy Now"
+      setCheckout(newProduct); // Clear cart and add the new product for "Buy Now"
 
       setTimeout(() => {
         router.push("/checkout"); // Navigate to checkout after adding to cart
