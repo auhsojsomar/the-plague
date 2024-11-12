@@ -1,3 +1,6 @@
+import { PaymentDetails } from "@/shared/types/PaymentDetails";
+import { OrderSummary } from "@/shared/types/OrderSummary";
+
 export type CheckoutPageContent = {
   title: string;
   titleImageUrl: string;
@@ -8,22 +11,6 @@ export type CheckoutPageContent = {
   paymentDetails: PaymentDetails;
   contactDetails: ContactDetails;
   submitButtonText: string;
-};
-
-export type OrderSummary = {
-  title: string;
-  subTotalLabel: string;
-  shippingFeeLabel: string;
-  totalLabel: string;
-};
-
-export type PaymentDetails = {
-  title: string;
-  paymentImageUrl: string;
-  paymentImageAlt: string;
-  paymentLabel: string;
-  paymentText: string;
-  inputFileLabel: string;
 };
 
 export type ContactDetails = {
