@@ -1,23 +1,28 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { OrderSummary } from "@/src/types/checkout/checkout";
 import { formatPrice } from "@/src/utils/priceUtils";
 import { getShippingFee } from "@/lib/api/checkoutApi";
 import { useCheckoutContext } from "@/src/context/CheckoutContext";
 import OrderSummarySkeleton from "@/skeleton/OrderSummarySkeleton";
+import { OrderSummary as OrderSummaryData } from "@/shared/types/OrderSummary";
+import { CartData } from "@/shared/interfaces/CartData";
+import { usePathname } from "next/navigation";
 
-interface CheckoutOrderSummaryProps {
-  details: OrderSummary;
+interface OrderSummaryProps {
+  details: OrderSummaryData;
+  selectedItems: CartData[];
 }
 
 interface ShippingFeeData {
   cost: number;
 }
 
-const CheckoutOrderSummary = ({
+const OrderSummary = ({
   details: { title, subTotalLabel, shippingFeeLabel, totalLabel },
-}: CheckoutOrderSummaryProps) => {
+  selectedItems,
+}: OrderSummaryProps) => {
+  const path = usePathname();
   const { checkout } = useCheckoutContext();
   const [shippingFee, setShippingFee] = useState<ShippingFeeData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -39,9 +44,10 @@ const CheckoutOrderSummary = ({
   }, []); // Run once on component mount
 
   const subTotal = () => {
-    if (!checkout || checkout.length === 0) return 0; // Return 0 if checkout is empty or null
+    if ((!checkout || checkout.length === 0) && path.includes("checkout"))
+      return 0; // Return 0 if checkout is empty or null
 
-    return checkout.reduce((total, item) => {
+    return selectedItems.reduce((total, item) => {
       const price = item.variant.salePrice || item.variant.price; // Fallback to price if salePrice is undefined
       if (price && item.quantity > 0) {
         return total + price * item.quantity; // Add to total if price and quantity are valid
@@ -81,4 +87,4 @@ const CheckoutOrderSummary = ({
   );
 };
 
-export default CheckoutOrderSummary;
+export default OrderSummary;
