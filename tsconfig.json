@@ -26,7 +26,8 @@
       "@/types/*": ["./src/types/*", "./src/shared/types/*"],
       "@/utils/*": ["./src/utils/*"],
       "@/interfaces/*": ["./src/shared/interfaces/*"],
-      "@/api/*": ["./src/api/*"]
+      "@/api/*": ["./src/api/*"],
+      "@/constants/*": ["./src/constants/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
