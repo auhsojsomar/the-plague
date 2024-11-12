@@ -144,7 +144,7 @@ const Cart = () => {
           {/* Cart Items */}
           <div className="flex-1 max-h-screen overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-rounded-full scrollbar-thumb-primary-color scrollbar-track-gray-200">
             <div className="space-y-4">
-              {cart.map((item, index) => (
+              {cart.map((item) => (
                 <CartItem
                   key={getUniqueId(item)}
                   {...item}
