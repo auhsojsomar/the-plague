@@ -47,7 +47,9 @@ const OrderSummary = ({
     if ((!checkout || checkout.length === 0) && path.includes("checkout"))
       return 0; // Return 0 if checkout is empty or null
 
-    return selectedItems.reduce((total, item) => {
+    const cart = checkout ? checkout : selectedItems;
+
+    return cart.reduce((total, item) => {
       const price = item.variant.salePrice || item.variant.price; // Fallback to price if salePrice is undefined
       if (price && item.quantity > 0) {
         return total + price * item.quantity; // Add to total if price and quantity are valid

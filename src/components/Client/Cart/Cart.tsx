@@ -6,8 +6,10 @@ import CustomImage from "@/shared/CustomImage";
 import { CartData } from "@/shared/interfaces/CartData";
 import CartItem from "./CartItem";
 import OrderSummary from "@/shared/OrderSummary";
-import { Toast } from "flowbite-react";
+import { Spinner, Toast } from "flowbite-react";
 import { HiExclamation } from "react-icons/hi";
+import { useCheckoutContext } from "@/src/context/CheckoutContext";
+import { useRouter } from "next/navigation";
 
 interface SelectedCartData extends CartData {
   uniqueId: string;
@@ -23,10 +25,14 @@ const Cart = () => {
     orderSummary,
   } = CART;
 
+  const router = useRouter();
+  const { setCheckout } = useCheckoutContext();
+
   const [selectedItems, setSelectedItems] = useState<SelectedCartData[]>([]);
   const [cart, setCart] = useState<CartData[]>([]);
   const [error, setError] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const cartList = localStorage.getItem("cart");
@@ -79,6 +85,13 @@ const Cart = () => {
       }, 3000);
       return;
     }
+
+    setIsSubmitting(true);
+
+    setCheckout(selectedItems);
+    setTimeout(() => {
+      router.push("/checkout");
+    }, 1000);
   };
 
   const handleToastClose = () => {
@@ -150,9 +163,16 @@ const Cart = () => {
             />
             <button
               onClick={handleSubmit}
-              className="w-full bg-primary-color text-white font-semibold rounded-lg py-2 hover:bg-opacity-90"
+              className={`w-full bg-primary-color text-white font-semibold rounded-lg py-2 hover:bg-opacity-90 transition ${
+                isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={isSubmitting}
             >
-              {submitButtonText}
+              {isSubmitting ? (
+                <Spinner size="sm" color="white" />
+              ) : (
+                submitButtonText
+              )}
             </button>
           </div>
         </section>

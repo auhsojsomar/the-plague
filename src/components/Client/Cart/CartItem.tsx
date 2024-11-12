@@ -1,5 +1,5 @@
 import { CartData } from "@/shared/interfaces/CartData";
-import React, { useState } from "react";
+import { useState } from "react";
 import CustomImage from "@/shared/CustomImage";
 import { toKebabCase } from "@/src/utils/stringUtils";
 import CartQuantity from "./CartQuantity";
