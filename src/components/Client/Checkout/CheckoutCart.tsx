@@ -17,7 +17,7 @@ const CheckoutCart = () => {
       {checkout.map((c) => {
         return (
           <CheckoutCartItem
-            key="checkout-now"
+            key={`${c.product.id}-${c.variant.id}`}
             product={c.product}
             variant={c.variant}
             quantity={c.quantity}

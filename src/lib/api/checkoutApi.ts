@@ -9,7 +9,7 @@ interface ShippingFeeData {
 
 export const getShippingFee = async (): Promise<ShippingFeeData> => {
   try {
-    const response = await fetch(`${BASE_URL}/ShippingFee/name/Default`);
+    const response = await fetch(`${BASE_URL}/ShippingFee/key/1`);
 
     if (!response.ok) {
       if (response.status === 404) {
