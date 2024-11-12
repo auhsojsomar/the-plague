@@ -1,5 +1,5 @@
 import CustomImage from "@/shared/CustomImage";
-import CheckoutOrderSummary from "./CheckoutOrderSummary";
+import OrderSummary from "@/shared/OrderSummary";
 import CheckoutContactForm from "./CheckoutContactForm";
 import { CHECKOUT } from "@/src/constants/checkout";
 import CheckoutPaymentDetails from "./CheckoutPaymentDetails";
@@ -17,6 +17,7 @@ const Checkout = () => {
     contactDetails,
     submitButtonText,
   } = CHECKOUT;
+
   return (
     <div className=" min-h-screen bg-gray-100 flex justify-center p-2 sm:p-6">
       <div className="w-full max-w-screen-xl bg-white border border-gray-300 rounded-lg shadow-lg p-2 sm:p-6 lg:p-8 lg:pt-0">
@@ -56,7 +57,7 @@ const Checkout = () => {
 
           {/* Order Summary and Payment Section */}
           <div className="w-full lg:w-1/3 flex flex-col space-y-6">
-            <CheckoutOrderSummary details={orderSummary} />
+            <OrderSummary details={orderSummary} selectedItems={[]} />
             <CheckoutPaymentDetails details={paymentDetails} />
             <CheckoutContactForm
               buttonText={submitButtonText}
