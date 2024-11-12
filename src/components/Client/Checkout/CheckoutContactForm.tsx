@@ -11,7 +11,7 @@ import { z } from "zod";
 import { Spinner, Toast } from "flowbite-react";
 import { HiExclamation } from "react-icons/hi";
 
-// Define a Zod schema for form validation
+// Zod validation schema
 const formSchema = z.object({
   fullName: z.string().min(1, { message: "Full name is required" }),
   address: z.string().min(1, { message: "Address is required" }),
@@ -24,23 +24,18 @@ const formSchema = z.object({
     .refine(
       (file) => {
         if (file === null) return false; // The file should not be null
-        return file.size > 0; // The file size should be greater than 0
+        return file.size > 0; // Check the file size if the file is not null
       },
       {
         message: "Payment transaction file is required",
       }
     )
     .refine(
-      (file) => {
-        if (file === null) return true; // Skip the file type check if file is null
-        const allowedTypes = [
-          "image/jpeg",
-          "image/png",
-          "image/gif",
-          "image/webp",
-        ];
-        return allowedTypes.includes(file.type);
-      },
+      (file) =>
+        file === null ||
+        ["image/jpeg", "image/png", "image/gif", "image/webp"].includes(
+          file.type
+        ),
       {
         message: "File must be a valid image (JPG, PNG, GIF, or WEBP)",
       }
@@ -71,11 +66,11 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
     setPaymentTransactionImage,
     resetFileInput,
   } = useCheckoutContext();
+  const router = useRouter();
   const [items, setItems] = useState<Items[]>([]);
   const [errors, setErrors] = useState<string[]>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter();
 
   // Map checkout items to the required structure
   useEffect(() => {
@@ -119,40 +114,20 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
       fullName: formData.get("fullName") as string,
       address: formData.get("address") as string,
       contactNumber: formData.get("contactNumber") as string,
-      paymentTransactionFile: paymentTransactionImage, // Can be null or a File object
+      paymentTransactionFile: paymentTransactionImage,
     };
 
     if (!validateForm(formValues)) return;
 
     setPaymentTransactionImage(null);
     resetFileInput();
-
     setIsSubmitting(true);
 
+    // Upload the payment transaction file if provided
     let uploadedFileUrl: string | null = null;
     if (paymentTransactionImage) {
-      try {
-        formData.append("file", paymentTransactionImage);
-
-        const response = await fetch("/api/s3-bucket", {
-          method: "POST",
-          body: formData,
-        });
-
-        const data = await response.json();
-        if (response.ok && data.fileUrl) {
-          uploadedFileUrl = data.fileUrl;
-        } else {
-          setIsSubmitting(false);
-          setErrors(["Failed to upload the payment transaction file."]);
-          return;
-        }
-      } catch (error) {
-        setIsSubmitting(false);
-        console.error("Error uploading file:", error);
-        setErrors(["Error uploading the payment transaction file."]);
-        return;
-      }
+      uploadedFileUrl = await uploadPaymentFile(paymentTransactionImage);
+      if (!uploadedFileUrl) return;
     }
 
     const shippingAddress: ShippingAddress = {
@@ -173,11 +148,33 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
       setTimeout(() => router.push("/products"), 1000);
     } catch {
       setIsSubmitting(false);
-      alert("Error while ordering, please try again.");
+      setErrors(["Error while placing the order, please try again."]);
     }
   };
 
-  const handleFocus = () => setErrors([]);
+  // Upload file helper function
+  const uploadPaymentFile = async (file: File): Promise<string | null> => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("/api/s3-bucket", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+      if (response.ok && data.fileUrl) return data.fileUrl;
+
+      setIsSubmitting(false);
+      setErrors(["Failed to upload the payment transaction file."]);
+      return null;
+    } catch (error) {
+      setIsSubmitting(false);
+      setErrors(["Error uploading the payment transaction file."]);
+      console.error("Error uploading file:", error);
+      return null;
+    }
+  };
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
@@ -210,7 +207,7 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
         name="fullName"
         placeholder={fullNamePlaceholder}
         className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary-color focus:border-transparent"
-        onFocus={handleFocus}
+        onFocus={() => setErrors([])}
       />
 
       <textarea
@@ -218,7 +215,7 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
         placeholder={addressPlaceholder}
         className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary-color focus:border-transparent"
         rows={3}
-        onFocus={handleFocus}
+        onFocus={() => setErrors([])}
       />
 
       <div>
@@ -249,7 +246,7 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
             name="contactNumber"
             className="w-full px-4 py-2 border-gray-300 border-l-0 rounded-r-md text-sm sm:text-base focus:ring-2 focus:ring-primary-color focus:border-transparent"
             placeholder={phonePlaceholder}
-            onFocus={handleFocus}
+            onFocus={() => setErrors([])}
           />
         </div>
       </div>

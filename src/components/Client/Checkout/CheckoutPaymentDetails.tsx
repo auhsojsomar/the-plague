@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { PaymentDetails } from "@/src/types/checkout/checkout";
 import CustomImage from "../../Shared/CustomImage";
 import { FileInput, Label } from "flowbite-react";
 import { getPaymentMethod } from "@/src/lib/api/checkoutApi";
 import { PaymentOption } from "@/src/shared/interfaces/PaymentMethod";
 import PaymentMethodSkeleton from "../../Skeleton/PaymentMethodSkeleton";
 import { useCheckoutContext } from "@/src/context/CheckoutContext"; // adjust path as needed
+import { PaymentDetails } from "@/shared/types/PaymentDetails";
 
 interface CheckoutPaymentDetailsProps {
   details: PaymentDetails;
