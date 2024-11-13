@@ -15,7 +15,7 @@ const ProductPageImage = () => {
   return (
     <div className="flex flex-col items-center gap-2 flex-shrink-0 sm:flex-row sm:items-start">
       {/* Main Image */}
-      <div className="sm:w-[500px] aspect-square">
+      <div className="sm:w-[500px] aspect-square relative">
         <CustomImage
           className="w-full h-full"
           src={selectedImage}
@@ -37,7 +37,7 @@ const ProductPageImage = () => {
                 : "border-gray-300"
             }`}
           >
-            <div className="w-20 h-20">
+            <div className="w-20 h-20 relative">
               <CustomImage
                 className="w-full h-full"
                 imageClass="object-cover rounded"

@@ -59,7 +59,7 @@ const CheckoutPaymentDetails: React.FC<CheckoutPaymentDetailsProps> = ({
           >
             <div className="flex justify-between items-center rounded-lg border border-gray-200 bg-white shadow-md p-4">
               <div className="flex items-center gap-2">
-                <div className="w-10 h-10">
+                <div className="w-10 h-10 relative">
                   <CustomImage
                     imageClass="rounded-sm"
                     className="w-full h-full"

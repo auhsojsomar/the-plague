@@ -119,7 +119,7 @@ const Cart = () => {
 
         {/* Title Section */}
         <section className="flex items-center gap-2 border-b border-gray-300 py-6">
-          <div className="flex-shrink-0 w-[60px] h-[60px]">
+          <div className="flex-shrink-0 w-[60px] h-[60px] relative">
             <CustomImage
               src={titleImageUrl}
               alt={titleImageAlt}

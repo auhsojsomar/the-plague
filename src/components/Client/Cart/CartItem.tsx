@@ -43,7 +43,7 @@ const CartItem: React.FC<CartItemProps> = ({
       </div>
 
       {/* Image section */}
-      <div className="flex-shrink-0 w-20 h-20">
+      <div className="flex-shrink-0 w-20 h-20 relative">
         <CustomImage
           className="w-full h-full"
           src={product.image.main}

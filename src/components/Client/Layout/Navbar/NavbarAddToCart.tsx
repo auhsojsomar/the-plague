@@ -18,7 +18,7 @@ const NavbarAddToCart = () => {
     if (FontAwesomeIcon) {
       setIconLoaded(true);
     }
-  }, [FontAwesomeIcon]);
+  }, []);
 
   return (
     <button className="absolute top-[25px] right-12 flex items-center justify-center w-12 sm:relative sm:top-0 sm:right-0">
