@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "@/src/globals.css";
 import Layout from "@/src/components/Client/Layout/Layout";
-import { CheckoutContextProvider } from "../context/CheckoutContext";
 
 export const metadata: Metadata = {
   title: "The Plague",
@@ -10,21 +9,17 @@ export const metadata: Metadata = {
 };
 
 const inter = Inter({
-  subsets: ["latin"], // Specify subsets
-  weight: ["400", "700"], // Specify weights you want to use
+  subsets: ["latin"],
+  weight: ["400", "700"],
 });
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" data-theme="light">
       <body className={inter.className}>
-        <CheckoutContextProvider>
-          <Layout>{children}</Layout>
-        </CheckoutContextProvider>
+        <Layout>{children}</Layout>
       </body>
     </html>
   );
