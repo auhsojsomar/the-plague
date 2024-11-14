@@ -1,5 +1,6 @@
-import { Modal, Button } from "flowbite-react";
+import { Modal, Button, TextInput, Label } from "flowbite-react";
 import { Order } from "@/shared/interfaces/Order";
+import { formatPrice } from "@/src/utils/priceUtils";
 
 interface OrderModalProps {
   order: Order;
@@ -8,88 +9,199 @@ interface OrderModalProps {
 }
 
 const OrderModal: React.FC<OrderModalProps> = ({ order, isOpen, onClose }) => {
+  const formatDate = (date: string) => {
+    const d = new Date(date);
+    return d
+      .toLocaleString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      })
+      .replace(", ", " ")
+      .replace(", ", " ");
+  };
+
   return (
-    <Modal show={isOpen} onClose={onClose}>
+    <Modal show={isOpen} onClose={onClose} size="5xl">
       <Modal.Header>
         <h3 className="text-lg font-semibold text-primary-color">
           Order Details
         </h3>
       </Modal.Header>
       <Modal.Body>
-        <div className="space-y-4">
-          {/* User Information */}
-          <div className="bg-secondary-color p-4 rounded">
-            <h4 className="font-semibold text-md">User Information</h4>
-            <p>
-              <strong>ID:</strong> {order.user.id}
-            </p>
-            <p>
-              <strong>Email:</strong> {order.user.email ?? "N/A"}
-            </p>
-            <p>
-              <strong>Full Name:</strong> {order.user.fullName ?? "N/A"}
-            </p>
-            {order.user.shippingAddress && (
+        <div className="space-y-6">
+          {/* Order Information */}
+          <div className="bg-gray-50 p-4 rounded">
+            <h4 className="font-semibold text-md mb-2">Order Information</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <div>
-                <h5 className="mt-2 font-semibold">Shipping Addresses</h5>
-                {order.user.shippingAddress.map((address, index) => (
-                  <div key={index} className="mt-1">
-                    <p>
-                      <strong>Address:</strong> {address.address}
-                    </p>
-                    <p>
-                      <strong>Contact:</strong> {address.contactNumber}
-                    </p>
-                  </div>
-                ))}
+                <Label htmlFor="orderId">Order ID</Label>
+                <TextInput id="orderId" value={order.id} readOnly disabled />
               </div>
-            )}
+              <div>
+                <Label htmlFor="orderStatus">Order Status</Label>
+                <TextInput
+                  id="orderStatus"
+                  value={order.orderStatus.name}
+                  readOnly
+                  disabled
+                />
+              </div>
+              <div>
+                <Label htmlFor="paymentStatus">Payment Status</Label>
+                <TextInput
+                  id="paymentStatus"
+                  value={order.paymentStatus.name}
+                  readOnly
+                  disabled
+                />
+              </div>
+              <div>
+                <Label htmlFor="paymentMethod">Payment Method</Label>
+                <TextInput
+                  id="paymentMethod"
+                  value={order.paymentMethod.name}
+                  readOnly
+                  disabled
+                />
+              </div>
+              <div>
+                <Label htmlFor="shippingFee">Shipping Fee</Label>
+                <TextInput
+                  id="shippingFee"
+                  value={formatPrice(order.shippingFee.cost)}
+                  readOnly
+                  disabled
+                />
+              </div>
+              <div>
+                <Label htmlFor="totalPrice">Total Price</Label>
+                <TextInput
+                  id="totalPrice"
+                  value={formatPrice(order.totalPrice)}
+                  readOnly
+                  disabled
+                />
+              </div>
+              <div>
+                <Label htmlFor="dateCreated">Date Ordered</Label>
+                <TextInput
+                  id="dateCreated"
+                  value={formatDate(order.dateCreated)}
+                  readOnly
+                  disabled
+                />
+              </div>
+              <div>
+                <Label htmlFor="dateModified">Date Last Update</Label>
+                <TextInput
+                  id="dateModified"
+                  value={formatDate(order.dateModified)}
+                  readOnly
+                  disabled
+                />
+              </div>
+            </div>
           </div>
 
-          {/* Order Information */}
-          <div className="bg-secondary-color p-4 rounded">
-            <h4 className="font-semibold text-md">Order Information</h4>
-            <p>
-              <strong>Order ID:</strong> {order.id}
-            </p>
-            <p>
-              <strong>Order Status:</strong> {order.orderStatus.name}
-            </p>
-            <p>
-              <strong>Payment Method:</strong> {order.paymentMethod.name}
-            </p>
-            <p>
-              <strong>Payment Status:</strong> {order.paymentStatus.name}
-            </p>
-            <p>
-              <strong>Shipping Fee:</strong> {order.shippingFee.name}
-            </p>
-            <p>
-              <strong>Total Price:</strong> ${order.totalPrice.toFixed(2)}
-            </p>
-            <p>
-              <strong>Created:</strong>{" "}
-              {new Date(order.dateCreated).toLocaleDateString()}
-            </p>
-            <p>
-              <strong>Modified:</strong>{" "}
-              {new Date(order.dateModified).toLocaleDateString()}
-            </p>
+          {/* User Information */}
+          <div className="bg-gray-50 p-4 rounded">
+            <h4 className="font-semibold text-md mb-2">User Information</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div>
+                <Label htmlFor="userId">User ID</Label>
+                <TextInput
+                  id="userId"
+                  value={order.user.id}
+                  readOnly
+                  disabled
+                />
+              </div>
+              <div>
+                <Label htmlFor="userEmail">Email</Label>
+                <TextInput
+                  id="userEmail"
+                  value={order.user.email ?? "N/A"}
+                  readOnly
+                  disabled
+                />
+              </div>
+              <div>
+                <Label htmlFor="userFullName">Full Name</Label>
+                <TextInput
+                  id="userFullName"
+                  value={order.user.fullName ?? "N/A"}
+                  readOnly
+                  disabled
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Shipping Address */}
+          <div className="bg-gray-50 p-4 rounded">
+            <h4 className="font-semibold text-md mb-2">Shipping Address</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div>
+                <Label htmlFor="shippingFullName">Full Name</Label>
+                <TextInput
+                  id="shippingFullName"
+                  value={order.shippingAddress.fullName}
+                  readOnly
+                  disabled
+                />
+              </div>
+              <div>
+                <Label htmlFor="shippingAddress">Address</Label>
+                <TextInput
+                  id="shippingAddress"
+                  value={order.shippingAddress.address}
+                  readOnly
+                  disabled
+                />
+              </div>
+              <div>
+                <Label htmlFor="shippingContact">Contact Number</Label>
+                <TextInput
+                  id="shippingContact"
+                  value={order.shippingAddress.contactNumber}
+                  readOnly
+                  disabled
+                />
+              </div>
+            </div>
           </div>
 
           {/* Order Items */}
-          <div className="bg-secondary-color p-4 rounded">
-            <h4 className="font-semibold text-md">Items</h4>
-            <ul className="space-y-2">
+          <div className="bg-gray-50 p-4 rounded">
+            <h4 className="font-semibold text-md mb-2">Items</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {order.items.map((item, index) => (
-                <li key={index} className="flex justify-between">
-                  <span>
-                    {item.product} - {item.variant}
-                  </span>
-                  <span>Quantity: {item.quantity}</span>
-                </li>
+                <div key={index} className="flex flex-col space-y-1">
+                  <div>
+                    <Label htmlFor={`product${index}`}>Product</Label>
+                    <TextInput
+                      id={`product${index}`}
+                      value={`${item.product} - ${item.variant}`}
+                      readOnly
+                      disabled
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor={`quantity${index}`}>Quantity</Label>
+                    <TextInput
+                      id={`quantity${index}`}
+                      value={`${item.quantity}`}
+                      readOnly
+                      disabled
+                    />
+                  </div>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
       </Modal.Body>
