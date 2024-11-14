@@ -42,7 +42,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       <main className="ml-64">
         {/* Pass the title to the Header component */}
         <Header title={title} />
-        {children}
+        <div className="min-h-[calc(100vh-6rem)]">{children}</div>
       </main>
     </div>
   );
