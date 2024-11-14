@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
       const isAdminValid = await verifyAdminToken(token, adminId);
 
       if (!isAdminValid) {
-        console.log("Invalid admin token. Redirecting to /admin.");
+        console.error("Invalid admin token. Redirecting to /admin.");
         return NextResponse.redirect(new URL("/admin", request.url));
       }
     } catch (error) {

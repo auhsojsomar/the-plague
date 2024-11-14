@@ -70,8 +70,6 @@ const OrderPage = () => {
     },
   ];
 
-  console.log(`Column Defs: ${JSON.stringify(columnDefs)}`);
-
   return (
     <div className="w-full h-full">
       {loading ? (
