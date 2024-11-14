@@ -1,49 +1,106 @@
 "use client";
 
 import { AgGridReact } from "ag-grid-react";
-import { useState, useRef } from "react";
-import { ColDef } from "ag-grid-community";
+import { useEffect, useState } from "react";
+import { formatPrice } from "@/src/utils/priceUtils";
+import { Order } from "@/shared/interfaces/Order";
+import { getOrders } from "@/api/orderApi";
+import TableSkeleton from "@/skeleton/TableSkeleton";
+import OrderModal from "./OrderModal";
+import ActionCellRenderer from "./ActionCellRenderer";
+import { orderColumnDefs } from "./orderColumnDefs";
+import StatusCellRenderer from "./StatusCellRenderer";
+
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 
 const OrderPage = () => {
-  const [rowData] = useState([
-    { make: "Tesla", model: "Model Y", price: 64950, electric: true },
-    { make: "Ford", model: "F-Series", price: 33850, electric: false },
-    { make: "Toyota", model: "Corolla", price: 29600, electric: false },
-  ]);
+  const [rowData, setRowData] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
-  const [colDefs] = useState<ColDef[]>([
-    { field: "make", filter: "agTextColumnFilter" },
-    { field: "model", filter: "agTextColumnFilter" },
-    { field: "price", filter: "agNumberColumnFilter" },
-    { field: "electric", filter: "agSetColumnFilter" },
-  ]);
-
-  // Reference to the grid API
-  const gridRef = useRef(null);
-
-  // Function to handle quick filter
-  const onQuickFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    gridRef.current.api.setQuickFilter(event.target.value);
+  const handleViewOrder = (order: Order) => {
+    setSelectedOrder(order);
+    setIsModalOpen(true);
   };
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedOrder(null);
+  };
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const orders: Order[] = await getOrders();
+        const mappedData = orders.flatMap((order) =>
+          order.items.map((item) => ({
+            customerName: order.user.fullName ?? order.user.id,
+            productName: item.product,
+            variant: item.variant,
+            price: formatPrice(order.totalPrice),
+            quantity: item.quantity,
+            paymentStatus: order.paymentStatus.name,
+            orderStatus: order.orderStatus.name,
+            action: { order, onView: handleViewOrder },
+          }))
+        );
+        setRowData(mappedData);
+      } catch (err) {
+        setError("Failed to fetch orders. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
   return (
-    <div style={{ width: "100%", height: "100%" }}>
-      {/* Data Grid */}
-      <div className="ag-theme-quartz" style={{ height: 500 }}>
-        <AgGridReact
-          ref={gridRef} // Assign ref to grid for quick filtering
-          rowData={rowData}
-          columnDefs={colDefs}
-          defaultColDef={{
-            flex: 1,
-            minWidth: 100,
-            filter: true, // Enable filtering for each column
-            sortable: true, // Enable sorting for each column
-          }}
+    <div className="w-full h-full">
+      {loading ? (
+        <TableSkeleton />
+      ) : error ? (
+        <div className="text-red-500">{error}</div>
+      ) : (
+        <div className="ag-theme-quartz h-full">
+          <AgGridReact
+            rowData={rowData}
+            columnDefs={orderColumnDefs}
+            defaultColDef={{
+              flex: 1,
+              minWidth: 100,
+              resizable: true,
+              sortable: true,
+              filter: true,
+              cellStyle: () => ({
+                display: "flex",
+                alignItems: "center",
+              }),
+            }}
+            components={{
+              actionCellRenderer: ActionCellRenderer,
+              statusCellRenderer: StatusCellRenderer,
+            }}
+            context={{
+              onView: handleViewOrder, // Pass onView function via context
+            }}
+            rowHeight={60}
+            pagination
+            paginationPageSize={20}
+            domLayout="autoHeight"
+          />
+        </div>
+      )}
+      {selectedOrder && (
+        <OrderModal
+          order={selectedOrder}
+          isOpen={isModalOpen}
+          onClose={closeModal}
         />
-      </div>
+      )}
     </div>
   );
 };
