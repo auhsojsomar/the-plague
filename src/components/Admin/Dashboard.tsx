@@ -64,16 +64,13 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="h-screen p-6 bg-gray-100">
-      <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">
-        Admin Dashboard
-      </h1>
-      <div className="bg-white p-6 rounded-lg shadow-md">
+    <div className="h-screen p-6 bg-gray-100 w-full">
+      <div className="bg-white p-6 rounded-lg shadow-md w-full">
         <h2 className="text-xl font-semibold text-gray-700 mb-4">
           Sales Overview
         </h2>
         <div className="w-full h-96">
-          <Line data={data} />
+          <Line className="w-full" data={data} />
         </div>
       </div>
     </div>
