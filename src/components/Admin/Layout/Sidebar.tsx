@@ -51,18 +51,17 @@ const LayoutSidebar = () => {
         <Sidebar.Items className="h-full">
           <Sidebar.ItemGroup>
             {adminSidebar.map((data) => (
-              <Link className="text-white" href={data.link} key={data.link}>
-                <Sidebar.Item
-                  className={`${
-                    isActive(data.link)
-                      ? "bg-primary-color"
-                      : "hover:bg-gray-700"
-                  }`}
-                  icon={data.icon}
-                >
-                  <span className="text-white">{data.label}</span>
-                </Sidebar.Item>
-              </Link>
+              <Sidebar.Item
+                as={Link} // Use Link as a wrapper for navigation
+                href={data.link}
+                key={data.link}
+                className={`${
+                  isActive(data.link) ? "bg-primary-color" : "hover:bg-gray-700"
+                }`}
+                icon={data.icon}
+              >
+                <span className="text-white">{data.label}</span>
+              </Sidebar.Item>
             ))}
           </Sidebar.ItemGroup>
         </Sidebar.Items>
