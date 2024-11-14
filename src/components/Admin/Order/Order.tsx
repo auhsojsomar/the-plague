@@ -44,7 +44,7 @@ const OrderPage = () => {
             quantity: item.quantity,
             paymentStatus: order.paymentStatus.name,
             orderStatus: order.orderStatus.name,
-            action: { order, onView: handleViewOrder },
+            order,
           }))
         );
         setRowData(mappedData);
@@ -58,6 +58,20 @@ const OrderPage = () => {
     fetchOrders();
   }, []);
 
+  const columnDefs = [
+    ...orderColumnDefs,
+    {
+      field: "action",
+      headerName: "Actions",
+      cellRenderer: "actionCellRenderer", // Specify the custom cell renderer
+      cellRendererParams: {
+        onView: handleViewOrder, // Pass the function here
+      },
+    },
+  ];
+
+  console.log(`Column Defs: ${JSON.stringify(columnDefs)}`);
+
   return (
     <div className="w-full h-full">
       {loading ? (
@@ -68,7 +82,7 @@ const OrderPage = () => {
         <div className="ag-theme-quartz h-full">
           <AgGridReact
             rowData={rowData}
-            columnDefs={orderColumnDefs}
+            columnDefs={columnDefs}
             defaultColDef={{
               flex: 1,
               minWidth: 100,
@@ -83,9 +97,6 @@ const OrderPage = () => {
             components={{
               actionCellRenderer: ActionCellRenderer,
               statusCellRenderer: StatusCellRenderer,
-            }}
-            context={{
-              onView: handleViewOrder, // Pass onView function via context
             }}
             rowHeight={60}
             pagination

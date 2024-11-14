@@ -1,23 +1,23 @@
+import { Order } from "@/interfaces/Order";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 
 interface ActionCellRendererProps {
-  params: any; // AG Grid params type
+  onView: (order: Order) => void;
+  data: {
+    order: Order;
+  };
 }
 
-const ActionCellRenderer: React.FC<ActionCellRendererProps> = ({ params }) => {
-  const { order, handleViewOrder } = params.context || {}; // Get context with the function
-
-  // Ensure order and handleViewOrder are defined
-  if (!order || !handleViewOrder) {
-    return null; // Or render a fallback UI if needed
-  }
-
+const ActionCellRenderer: React.FC<ActionCellRendererProps> = ({
+  data: { order },
+  onView,
+}) => {
   return (
     <div className="flex space-x-2 justify-center">
       <button
         className="p-2 text-blue-500"
         title="View"
-        onClick={() => handleViewOrder(order)} // Trigger handleViewOrder with order
+        onClick={() => onView(order)}
       >
         <FaEye />
       </button>

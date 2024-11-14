@@ -33,17 +33,12 @@ export const orderColumnDefs: ColDef[] = [
     field: "paymentStatus",
     headerName: "Payment Status",
     filter: "agTextColumnFilter",
-    cellRenderer: "statusCellRenderer",
+    cellRenderer: "statusCellRenderer", // Reference to the custom status renderer
   },
   {
     field: "orderStatus",
     headerName: "Order Status",
     filter: "agTextColumnFilter",
-    cellRenderer: "statusCellRenderer",
-  },
-  {
-    field: "action",
-    headerName: "Actions",
-    cellRenderer: "actionCellRenderer",
+    cellRenderer: "statusCellRenderer", // Reference to the custom status renderer
   },
 ];
