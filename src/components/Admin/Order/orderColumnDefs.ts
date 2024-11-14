@@ -19,7 +19,7 @@ export const orderColumnDefs: ColDef[] = [
   },
   {
     field: "price",
-    headerName: "Price",
+    headerName: "Total Price",
     filter: "agSetColumnFilter",
     cellClass: "flex justify-end",
   },
