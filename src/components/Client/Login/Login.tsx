@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import CustomImage from "@/src/components/Shared/CustomImage";
-import { LoginFormData, loginUser } from "@/src/lib/api"; // Import the loginUser function
+import { LoginFormData, loginUser } from "@/src/lib/api/userApi"; // Import the loginUser function
 import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
