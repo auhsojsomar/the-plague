@@ -3,37 +3,30 @@ import type { NextRequest } from "next/server";
 import { verifyAdminToken } from "@/api/tokenApi";
 
 export async function middleware(request: NextRequest) {
-  const token = request.cookies.get("authToken");
+  const token = request.cookies.get("authToken")?.value;
+  const adminId = request.cookies.get("adminId")?.value;
 
-  // If the user is already on the /admin page (login page), do not redirect
   if (!token && request.nextUrl.pathname !== "/admin") {
     return NextResponse.redirect(new URL("/admin", request.url));
   }
 
-  // If token exists, verify it
   if (token && request.nextUrl.pathname !== "/admin") {
     try {
-      const isAdminValid = await verifyAdminToken();
+      const isAdminValid = await verifyAdminToken(token, adminId);
 
       if (!isAdminValid) {
         console.log("Invalid admin token. Redirecting to /admin.");
         return NextResponse.redirect(new URL("/admin", request.url));
       }
-    } catch (error: unknown) {
-      // Narrowing the error type
-      if (error instanceof Error) {
-        console.error("Error verifying token:", error.message);
-      } else {
-        console.error("An unknown error occurred during token verification.");
-      }
+    } catch (error) {
+      console.error("Error verifying token:", error);
       return NextResponse.redirect(new URL("/admin", request.url));
     }
   }
 
-  // If token is valid or on the /admin page, proceed to the requested page
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/admin"], // Apply middleware to /admin and all subroutes
+  matcher: ["/admin/:path*", "/admin"],
 };
