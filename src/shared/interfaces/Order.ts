@@ -27,6 +27,7 @@ interface ShippingFee {
   key: number;
   name: string;
   isActive: number;
+  cost: number;
 }
 
 interface Address {
