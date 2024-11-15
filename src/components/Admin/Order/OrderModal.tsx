@@ -1,6 +1,7 @@
-import { Modal, Button, TextInput, Label } from "flowbite-react";
+import { Modal, Button, TextInput, Label, Select } from "flowbite-react";
 import { Order } from "@/shared/interfaces/Order";
 import { formatPrice } from "@/src/utils/priceUtils";
+import { useState } from "react";
 
 interface OrderModalProps {
   order: Order;
@@ -9,6 +10,8 @@ interface OrderModalProps {
 }
 
 const OrderModal: React.FC<OrderModalProps> = ({ order, isOpen, onClose }) => {
+  const [isEditing, setIsEditing] = useState(false); // State to track if in edit mode
+
   const formatDate = (date: string) => {
     const d = new Date(date);
     return d
@@ -22,6 +25,14 @@ const OrderModal: React.FC<OrderModalProps> = ({ order, isOpen, onClose }) => {
       })
       .replace(", ", " ")
       .replace(", ", " ");
+  };
+
+  const handleEdit = () => {
+    setIsEditing(true); // Enable editing mode
+  };
+
+  const handleSave = () => {
+    setIsEditing(false); // Disable editing mode
   };
 
   return (
@@ -39,33 +50,43 @@ const OrderModal: React.FC<OrderModalProps> = ({ order, isOpen, onClose }) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <div>
                 <Label htmlFor="orderId">Order ID</Label>
-                <TextInput id="orderId" value={order.id} readOnly disabled />
+                <TextInput id="orderId" value={order.id} disabled />{" "}
+                {/* Always disabled */}
               </div>
               <div>
                 <Label htmlFor="orderStatus">Order Status</Label>
-                <TextInput
+                <Select
+                  className="focus:ring-0 focus:outline-none"
                   id="orderStatus"
                   value={order.orderStatus.name}
-                  readOnly
-                  disabled
-                />
+                  disabled={!isEditing} // Disabled when not editing
+                >
+                  {/* Replace this with dynamic options if needed */}
+                  <option value="Pending">Pending</option>
+                  <option value="Shipped">Shipped</option>
+                  <option value="Delivered">Delivered</option>
+                  <option value="Cancelled">Cancelled</option>
+                </Select>
               </div>
               <div>
                 <Label htmlFor="paymentStatus">Payment Status</Label>
-                <TextInput
+                <Select
+                  className="focus:ring-0 focus:outline-none"
                   id="paymentStatus"
                   value={order.paymentStatus.name}
-                  readOnly
-                  disabled
-                />
+                  disabled={!isEditing} // Disabled when not editing
+                >
+                  {/* Replace this with dynamic options if needed */}
+                  <option value="Pending">Pending</option>
+                  <option value="Shipped">Paid</option>
+                </Select>
               </div>
               <div>
                 <Label htmlFor="paymentMethod">Payment Method</Label>
                 <TextInput
                   id="paymentMethod"
                   value={order.paymentMethod.name}
-                  readOnly
-                  disabled
+                  disabled={!isEditing} // Disabled when not editing
                 />
               </div>
               <div>
@@ -73,17 +94,17 @@ const OrderModal: React.FC<OrderModalProps> = ({ order, isOpen, onClose }) => {
                 <TextInput
                   id="shippingFee"
                   value={formatPrice(order.shippingFee.cost)}
-                  readOnly
-                  disabled
+                  disabled={!isEditing} // Disabled when not editing
                 />
               </div>
               <div>
-                <Label htmlFor="totalPrice">Total Price</Label>
+                <Label htmlFor="totalPrice">
+                  Total Price <span>(Including Shipping Fee.)</span>
+                </Label>
                 <TextInput
                   id="totalPrice"
                   value={formatPrice(order.totalPrice)}
-                  readOnly
-                  disabled
+                  disabled={!isEditing} // Disabled when not editing
                 />
               </div>
               <div>
@@ -91,8 +112,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ order, isOpen, onClose }) => {
                 <TextInput
                   id="dateCreated"
                   value={formatDate(order.dateCreated)}
-                  readOnly
-                  disabled
+                  disabled // Disabled when not editing
                 />
               </div>
               <div>
@@ -100,8 +120,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ order, isOpen, onClose }) => {
                 <TextInput
                   id="dateModified"
                   value={formatDate(order.dateModified)}
-                  readOnly
-                  disabled
+                  disabled // Disabled when not editing
                 />
               </div>
             </div>
@@ -113,20 +132,15 @@ const OrderModal: React.FC<OrderModalProps> = ({ order, isOpen, onClose }) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <div>
                 <Label htmlFor="userId">User ID</Label>
-                <TextInput
-                  id="userId"
-                  value={order.user.id}
-                  readOnly
-                  disabled
-                />
+                <TextInput id="userId" value={order.user.id} disabled />
+                {/* Always disabled */}
               </div>
               <div>
                 <Label htmlFor="userEmail">Email</Label>
                 <TextInput
                   id="userEmail"
                   value={order.user.email ?? "N/A"}
-                  readOnly
-                  disabled
+                  disabled={!isEditing} // Disabled when not editing
                 />
               </div>
               <div>
@@ -134,8 +148,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ order, isOpen, onClose }) => {
                 <TextInput
                   id="userFullName"
                   value={order.user.fullName ?? "N/A"}
-                  readOnly
-                  disabled
+                  disabled={!isEditing} // Disabled when not editing
                 />
               </div>
             </div>
@@ -150,8 +163,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ order, isOpen, onClose }) => {
                 <TextInput
                   id="shippingFullName"
                   value={order.shippingAddress.fullName}
-                  readOnly
-                  disabled
+                  disabled={!isEditing} // Disabled when not editing
                 />
               </div>
               <div>
@@ -159,8 +171,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ order, isOpen, onClose }) => {
                 <TextInput
                   id="shippingAddress"
                   value={order.shippingAddress.address}
-                  readOnly
-                  disabled
+                  disabled={!isEditing} // Disabled when not editing
                 />
               </div>
               <div>
@@ -168,8 +179,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ order, isOpen, onClose }) => {
                 <TextInput
                   id="shippingContact"
                   value={order.shippingAddress.contactNumber}
-                  readOnly
-                  disabled
+                  disabled={!isEditing} // Disabled when not editing
                 />
               </div>
             </div>
@@ -186,8 +196,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ order, isOpen, onClose }) => {
                     <TextInput
                       id={`product${index}`}
                       value={`${item.product} - ${item.variant}`}
-                      readOnly
-                      disabled
+                      disabled // Disabled when not editing
                     />
                   </div>
                   <div>
@@ -195,8 +204,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ order, isOpen, onClose }) => {
                     <TextInput
                       id={`quantity${index}`}
                       value={`${item.quantity}`}
-                      readOnly
-                      disabled
+                      disabled // Disabled when not editing
                     />
                   </div>
                 </div>
@@ -206,9 +214,20 @@ const OrderModal: React.FC<OrderModalProps> = ({ order, isOpen, onClose }) => {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button color="primary" onClick={onClose}>
-          Close
-        </Button>
+        <div className="flex gap-2 justify-end w-full">
+          {isEditing ? (
+            <Button className="w-20" color="warning" onClick={handleSave}>
+              Save
+            </Button>
+          ) : (
+            <Button className="w-20" color="dark" onClick={handleEdit}>
+              Edit
+            </Button>
+          )}
+          <Button className="w-20" color="dark" onClick={onClose}>
+            Close
+          </Button>
+        </div>
       </Modal.Footer>
     </Modal>
   );

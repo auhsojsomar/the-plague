@@ -21,9 +21,6 @@ const ActionCellRenderer: React.FC<ActionCellRendererProps> = ({
       >
         <FaEye />
       </button>
-      <button className="p-2 text-yellow-500" title="Edit">
-        <FaEdit />
-      </button>
       <button className="p-2 text-red-500" title="Delete">
         <FaTrash />
       </button>
