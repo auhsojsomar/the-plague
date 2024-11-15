@@ -19,17 +19,18 @@ const HomeCarousel = () => {
       <Flowbite theme={{ theme: customTheme }}>
         <Carousel slide={false}>
           {homeCarouselImage.map((image, index) => (
-            <CustomImage
-              key={index}
-              className="w-full h-full"
-              src={image.src}
-              alt={image.alt}
-              fill
-              loading={index === 0 ? "eager" : "lazy"}
-              priority={index === 0}
-              useBucket={index === 0}
-              imageClass="object-contain lg:object-cover"
-            />
+            <div key={index} className="relative w-full h-full">
+              <CustomImage
+                className="w-full h-full"
+                src={image.src}
+                alt={image.alt}
+                fill
+                loading={index === 0 ? "eager" : "lazy"}
+                priority={index === 0}
+                useBucket={index === 0}
+                imageClass="object-contain lg:object-cover"
+              />
+            </div>
           ))}
         </Carousel>
       </Flowbite>

@@ -26,12 +26,14 @@ const BestProductCard = ({
       )}
 
       {/* Product image */}
-      <CustomImage
-        className="object-cover w-full h-full"
-        src={image.main}
-        alt={kebabCaseName}
-        fill
-      />
+      <div className="relative w-full h-full">
+        <CustomImage
+          className="object-cover w-full h-full"
+          src={image.main}
+          alt={kebabCaseName}
+          fill
+        />
+      </div>
 
       {/* Product details */}
       <div className="absolute inset-0 flex flex-col items-center justify-center m-6 bg-gray-50 opacity-0 transition-opacity duration-300 hover:opacity-100 cursor-pointer">

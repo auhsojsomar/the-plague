@@ -90,7 +90,7 @@ const Footer: React.FC = () => {
             All Rights Reserved
           </span>
           <div className="flex h-14 gap-4 my-4 order-1 sm:order-2 overflow-hidden">
-            <div className="aspect-[319/189]">
+            <div className="aspect-[319/189] relative">
               <CustomImage
                 className="w-auto h-full" // Use h-full and w-auto to maintain aspect ratio
                 src="image/payment-cod.webp"
@@ -100,7 +100,7 @@ const Footer: React.FC = () => {
                 useBucket
               />
             </div>
-            <div className="aspect-[319/189]">
+            <div className="aspect-[319/189] relative">
               <CustomImage
                 className="h-full w-full" // Use h-full and w-auto to maintain aspect ratio
                 src="image/payment-gcash.webp"

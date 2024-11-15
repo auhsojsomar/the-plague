@@ -1,13 +1,15 @@
-"use client";
+interface ProductPageQuantityButtonProps {
+  quantity: number;
+  onQuantityChange: (newQuantity: number) => void;
+}
 
-import { useState } from "react";
-
-const ProductPageQuantityButton = () => {
-  const [quantity, setQuantity] = useState(1);
-
-  const increment = () => setQuantity((prev) => prev + 1);
+const ProductPageQuantityButton: React.FC<ProductPageQuantityButtonProps> = ({
+  quantity,
+  onQuantityChange,
+}) => {
+  const increment = () => onQuantityChange(quantity + 1);
   const decrement = () => {
-    if (quantity > 1) setQuantity((prev) => prev - 1);
+    if (quantity > 1) onQuantityChange(quantity - 1);
   };
 
   return (

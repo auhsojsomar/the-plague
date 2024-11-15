@@ -1,8 +1,8 @@
 "use client";
 
 import ColorPills from "@/src/components/Shared/ColorPills";
+import { useProductCartContext } from "@/src/context/ProductCartContext";
 import { Color, Size, Variant } from "@/src/shared/interfaces/Variant";
-import { useProductPageContext } from "@/src/context/ProductPageContext";
 
 interface ProductPageColorPillsProps {
   selectedColor: Color | null;
@@ -15,7 +15,7 @@ const ProductPageColorPills: React.FC<ProductPageColorPillsProps> = ({
   onColorSelect,
   selectedSize,
 }) => {
-  const { product } = useProductPageContext();
+  const { product } = useProductCartContext();
   const allColors = product.variants.map((variant: Variant) => variant.color);
 
   function getAvailableColorsForSize(size: Size): Color[] {

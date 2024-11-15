@@ -1,53 +1,70 @@
 import CustomImage from "@/shared/CustomImage";
-import CheckoutCartItem from "./CheckoutCartItem";
-import CheckoutOrderSummary from "./CheckoutOrderSummary";
-import CheckoutPaymentForm from "./CheckoutPaymentForm";
-import { allProduct } from "@/src/constants";
+import OrderSummary from "@/shared/OrderSummary";
+import CheckoutContactForm from "./CheckoutContactForm";
+import { CHECKOUT } from "@/src/constants/checkout";
+import CheckoutPaymentDetails from "./CheckoutPaymentDetails";
+import CheckoutCart from "@/src/components/Client/Checkout/CheckoutCart";
 
 const Checkout = () => {
+  const {
+    title,
+    subTitle,
+    cartTitle,
+    titleImageAlt,
+    titleImageUrl,
+    orderSummary,
+    paymentDetails,
+    contactDetails,
+    submitButtonText,
+  } = CHECKOUT;
+
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
-      <div className="w-full max-w-screen-xl bg-white border border-gray-300 rounded-lg shadow-lg p-6 lg:p-8 lg:pt-0">
+    <div className=" min-h-screen bg-gray-100 flex justify-center p-2 sm:p-6">
+      <div className="w-full max-w-screen-xl bg-white border border-gray-300 rounded-lg shadow-lg p-2 sm:p-6 lg:p-8 lg:pt-0">
         {/* Title section */}
-        <div className="flex items-center gap-2 border-b border-gray-300 py-6">
-          <div className="w-[60px] h-[60px]">
+        <section className="flex items-center gap-2 border-b border-gray-300 py-6">
+          <div className="flex-shrink-0 w-[60px] h-[60px] relative">
             <CustomImage
+              src={titleImageUrl}
+              alt={titleImageAlt}
               className="w-full h-full"
-              src="logo.webp"
-              alt="the-plague-logo"
               fill
               useBucket
             />
           </div>
-          <h2 className="text-2xl font-bold text-primary-color">The Plague</h2>
-          <div className="h-11 w-px bg-primary-color mx-2"></div>
-          <h2 className="text-xl text-primary-color">Checkout</h2>
-        </div>
+          <div className="flex flex-col items-center sm:flex-row">
+            <h2 className="text-lg sm:text-2xl font-bold text-primary-color text-nowrap">
+              {title}
+            </h2>
+            <div className="h-11 w-px bg-primary-color mx-2 hidden sm:block"></div>
+            <h2 className="text-md sm:text-xl text-primary-color">
+              {subTitle}
+            </h2>
+          </div>
+        </section>
 
-        <div className="flex flex-col lg:flex-row gap-6">
+        {/* Main section */}
+        <section className="flex flex-col lg:flex-row gap-6 pt-2">
           {/* Cart Items Section */}
-          <div className="flex-1 max-h-[calc(100vh-200px)] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-rounded-full scrollbar-thumb-primary-color scrollbar-track-gray-200">
-            <h3 className="text-lg font-semibold text-secondary-color">
-              Your Cart
+          <div className="flex-1 max-h-screen overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-rounded-full scrollbar-thumb-primary-color scrollbar-track-gray-200">
+            <h3 className="text-base sm:text-lg font-semibold text-secondary-color">
+              {cartTitle}
             </h3>
             <div className="space-y-4">
-              {allProduct.map((product) => (
-                <CheckoutCartItem
-                  key={product.id}
-                  product={product}
-                  quantity={1}
-                  totalPrice={120}
-                />
-              ))}
+              <CheckoutCart />
             </div>
           </div>
 
           {/* Order Summary and Payment Section */}
           <div className="w-full lg:w-1/3 flex flex-col space-y-6">
-            <CheckoutOrderSummary subTotal={200} shippingFee={75} total={275} />
-            <CheckoutPaymentForm />
+            <OrderSummary details={orderSummary} selectedItems={[]} />
+            <CheckoutPaymentDetails details={paymentDetails} />
+            <CheckoutContactForm
+              buttonText={submitButtonText}
+              details={contactDetails}
+            />
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

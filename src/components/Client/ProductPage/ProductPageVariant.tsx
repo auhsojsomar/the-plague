@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Variant, Color, Size } from "@/src/shared/interfaces/Variant";
 import ProductPageColorPills from "./ProductPageColorPills";
 import ProductPageSizePills from "./ProductPageSizePills";
-import { useProductPageContext } from "@/src/context/ProductPageContext";
+import { useProductCartContext } from "@/src/context/ProductCartContext";
 
 interface ProductPageVariantProps {
   onVariantChange: (variant: Variant | null) => void; // Ensure the correct type for the handler
@@ -15,7 +15,7 @@ const ProductPageVariant: React.FC<ProductPageVariantProps> = ({
   onVariantChange,
   variant,
 }) => {
-  const { product } = useProductPageContext();
+  const { product } = useProductCartContext();
   const [selectedColor, setSelectedColor] = useState<Color | null>(null);
   const [selectedSize, setSelectedSize] = useState<Size | null>(null);
   const [hasSelectedVariant, setHasSelectedVariant] = useState(false); // New state to track user interaction

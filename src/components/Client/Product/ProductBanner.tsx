@@ -35,7 +35,7 @@ const ProductBanner = () => {
       >
         {bannerImages.map((banner) => (
           <SwiperSlide key={banner.id}>
-            <div className="h-[200px]">
+            <div className="h-[200px] relative">
               <CustomImage
                 className="w-full h-full"
                 imageClass="object-cover"
