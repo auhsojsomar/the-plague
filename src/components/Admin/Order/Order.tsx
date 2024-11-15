@@ -31,32 +31,47 @@ const OrderPage = () => {
     setSelectedOrder(null);
   };
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const orders: Order[] = await getOrders();
-        const mappedData = orders.flatMap((order) =>
-          order.items.map((item) => ({
-            customerName: order.user.fullName ?? order.user.id,
-            productName: item.product,
-            variant: item.variant,
-            price: formatPrice(order.totalPrice),
-            quantity: item.quantity,
-            paymentStatus: order.paymentStatus.name,
-            orderStatus: order.orderStatus.name,
-            order,
-          }))
-        );
-        setRowData(mappedData);
-      } catch (err) {
-        setError("Failed to fetch orders. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  // Function to fetch orders
+  const fetchOrders = async () => {
+    try {
+      const orders: Order[] = await getOrders();
+      // Group products by orderId
+      const groupedData = orders.map((order) => {
+        const products = order.items.map((item) => ({
+          productName: item.product,
+          variant: item.variant,
+          quantity: item.quantity,
+        }));
 
+        return {
+          orderId: order.id, // Unique identifier for the order
+          customerName: order.user.fullName ?? order.user.id,
+          paymentStatus: order.paymentStatus.name,
+          orderStatus: order.orderStatus.name,
+          products, // Array of products for this order
+          order, // The whole order object if needed for modal display
+          price: formatPrice(order.totalPrice),
+        };
+      });
+      setRowData(groupedData);
+    } catch (err) {
+      setError("Failed to fetch orders. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Initial data fetch
+  useEffect(() => {
     fetchOrders();
   }, []);
+
+  // Refresh data when modal is closed (selectedOrder is null)
+  useEffect(() => {
+    if (!selectedOrder) {
+      fetchOrders();
+    }
+  }, [selectedOrder]);
 
   const columnDefs = [
     ...orderColumnDefs,
