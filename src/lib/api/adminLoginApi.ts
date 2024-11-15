@@ -27,16 +27,14 @@ export const loginAdmin = async (data: LoginForm) => {
     throw new Error(errorData.message || "Invalid username or password");
   }
 
-  // Assuming the response contains a token you want to store
   const responseData: LoginResponse = await response.json();
-  const { token, expiresAt, adminId } = responseData; // Adjust this line according to your actual response structure
+  const { token, expiresAt, adminId } = responseData;
 
-  // Convert expiresAt string to a Date object
   const expiresAtDate = new Date(expiresAt);
 
-  // Store the token in cookies
+  // Store the token and adminId in cookies
   Cookies.set("authToken", token, { expires: expiresAtDate });
   Cookies.set("adminId", adminId, { expires: expiresAtDate });
 
-  return "Login successfully";
+  return { message: "Login successfully", adminId };
 };

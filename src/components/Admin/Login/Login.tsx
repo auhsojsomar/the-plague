@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import CustomImage from "@/src/components/Shared/CustomImage";
-import { loginAdmin } from "@/src/lib/api/adminApi";
+import { loginAdmin } from "@/src/lib/api/adminLoginApi";
 
 interface LoginFormData {
   username: string;
@@ -32,10 +32,8 @@ export default function AdminLoginPage() {
 
     try {
       const result = await loginAdmin(formData);
-      setSuccessMessage(result);
-      setTimeout(() => {
-        router.push("/admin/dashboard"); // Redirect to the admin dashboard
-      }, 1500);
+      setSuccessMessage(result.message);
+      router.push("/admin/dashboard"); // Redirect to the admin dashboard
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message || "An error occurred during login");

@@ -18,11 +18,14 @@ const NavbarContent = () => {
         <ul
           className={`flex flex-col sm:flex-row sm:items-center mt-5 sm:mt-0`}
         >
-          {Object.entries(ROUTES).map(([key, { label, link }], index) => (
-            <NavbarLink key={key} exact={index === 0} href={link}>
-              {label}
-            </NavbarLink>
-          ))}
+          {Object.entries(ROUTES).map(([key, { label, link }], index) => {
+            if (link === "/cart") return;
+            return (
+              <NavbarLink key={key} exact={index === 0} href={link}>
+                {label}
+              </NavbarLink>
+            );
+          })}
         </ul>
       </div>
       <AddToCart />
