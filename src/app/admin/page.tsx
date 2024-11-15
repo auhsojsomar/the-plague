@@ -1,7 +1,7 @@
-import React from "react";
+import Login from "@/src/components/Admin/Login/Login";
 
-const page = () => {
-  return <div>admin body</div>;
+const AdminLoginPage = () => {
+  return <Login />;
 };
 
-export default page;
+export default AdminLoginPage;

@@ -24,7 +24,7 @@ const NavbarBurgerButton = () => {
     if (FontAwesomeIcon) {
       setIconLoaded(true);
     }
-  }, [FontAwesomeIcon]);
+  }, []);
 
   return (
     <button

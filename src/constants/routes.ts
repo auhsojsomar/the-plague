@@ -21,4 +21,8 @@ export const ROUTES: Routes = {
     label: "Login",
     link: "/login",
   },
+  CART: {
+    label: "Add to cart",
+    link: "/cart",
+  },
 };

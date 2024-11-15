@@ -6,4 +6,5 @@ export type Routes = {
   PRODUCTS: Route;
   LOGIN: Route;
   SIGN_UP: Route;
+  CART: Route;
 };

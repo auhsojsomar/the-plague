@@ -227,7 +227,7 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
         </label>
         <div className="flex items-stretch mt-1">
           <div className="flex items-center bg-gray-200 px-2 rounded-l-md">
-            <div className="w-6 h-full mr-2">
+            <div className="w-6 h-full mr-2 relative">
               <CustomImage
                 src={phoneImageUrl}
                 alt={phoneImageAlt}

@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { registerUser, FormData } from "@/lib/api";
+import { registerUser, FormData } from "@/lib/api/userApi";
 import InputField from "@/shared/InputField";
 import CustomImage from "@/src/components/Shared/CustomImage";
 

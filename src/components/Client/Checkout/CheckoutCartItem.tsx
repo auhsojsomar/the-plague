@@ -20,7 +20,7 @@ const CneckoutCartItem = ({
   return (
     <div className="flex gap-2 justify-between border-b border-gray-200 py-3">
       {/* Image section */}
-      <div className="flex-shrink-0 w-20 h-20">
+      <div className="flex-shrink-0 w-20 h-20 relative">
         <CustomImage
           className="w-full h-full"
           src={product.image.main}

@@ -31,7 +31,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <Link href={productLink} className="absolute inset-0 z-10" />
 
       {/* Product Image */}
-      <div className="w-[230px] h-[230px]">
+      <div className="w-[230px] h-[230px] relative">
         <CustomImage
           className="w-full h-full"
           src={product.image.main || "image/product-placeholder.webp"} // Use main image or fallback to placeholder

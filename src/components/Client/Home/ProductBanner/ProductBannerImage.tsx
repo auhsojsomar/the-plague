@@ -9,13 +9,15 @@ type ImageType = {
 
 const ProductBannerImage = ({ src, alt }: ImageType) => {
   return (
-    <CustomImage
-      className="w-full h-full"
-      imageClass="object-cover hover:scale-110 transition-scale duration-500"
-      src={src}
-      alt={alt}
-      fill
-    />
+    <div className="relative w-full h-full">
+      <CustomImage
+        className="w-full h-full"
+        imageClass="object-cover hover:scale-110 transition-scale duration-500"
+        src={src}
+        alt={alt}
+        fill
+      />
+    </div>
   );
 };
 

@@ -23,7 +23,7 @@ const Checkout = () => {
       <div className="w-full max-w-screen-xl bg-white border border-gray-300 rounded-lg shadow-lg p-2 sm:p-6 lg:p-8 lg:pt-0">
         {/* Title section */}
         <section className="flex items-center gap-2 border-b border-gray-300 py-6">
-          <div className="flex-shrink-0 w-[60px] h-[60px]">
+          <div className="flex-shrink-0 w-[60px] h-[60px] relative">
             <CustomImage
               src={titleImageUrl}
               alt={titleImageAlt}

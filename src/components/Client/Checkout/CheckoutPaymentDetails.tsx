@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import CustomImage from "../../Shared/CustomImage";
 import { FileInput, Label } from "flowbite-react";
 import { getPaymentMethod } from "@/src/lib/api/checkoutApi";
@@ -19,7 +19,6 @@ const CheckoutPaymentDetails: React.FC<CheckoutPaymentDetailsProps> = ({
   const [paymentMethods, setPaymentMethods] = useState<PaymentOption[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { setPaymentTransactionImage } = useCheckoutContext();
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     // Fetch payment methods on component mount
@@ -44,12 +43,6 @@ const CheckoutPaymentDetails: React.FC<CheckoutPaymentDetailsProps> = ({
     }
   };
 
-  const resetFileInput = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ""; // Reset the file input
-    }
-  };
-
   return (
     <div>
       <h3 className="text-base sm:text-lg font-semibold text-secondary-color mb-3">
@@ -66,7 +59,7 @@ const CheckoutPaymentDetails: React.FC<CheckoutPaymentDetailsProps> = ({
           >
             <div className="flex justify-between items-center rounded-lg border border-gray-200 bg-white shadow-md p-4">
               <div className="flex items-center gap-2">
-                <div className="w-10 h-10">
+                <div className="w-10 h-10 relative">
                   <CustomImage
                     imageClass="rounded-sm"
                     className="w-full h-full"

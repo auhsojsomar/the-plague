@@ -26,7 +26,7 @@
       "@/types/*": ["./src/types/*", "./src/shared/types/*"],
       "@/utils/*": ["./src/utils/*"],
       "@/interfaces/*": ["./src/shared/interfaces/*"],
-      "@/api/*": ["./src/api/*"],
+      "@/api/*": ["./src/api/*", "./src/lib/api/*"],
       "@/constants/*": ["./src/constants/*"]
     }
   },
