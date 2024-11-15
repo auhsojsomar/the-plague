@@ -1,5 +1,8 @@
-import { formatPrice } from "@/src/utils/priceUtils";
-import { ColDef } from "ag-grid-community";
+import {
+  ColDef,
+  ValueGetterParams,
+  ICellRendererParams,
+} from "ag-grid-community";
 
 export const orderColumnDefs: ColDef[] = [
   {
@@ -12,10 +15,9 @@ export const orderColumnDefs: ColDef[] = [
     headerName: "Product Name",
     filter: "agTextColumnFilter",
     cellClass: "font-semibold",
-    valueGetter: (params: any) => {
-      // Aggregating product names from all items in the order
+    valueGetter: (params: ValueGetterParams) => {
       return params.data.products
-        .map((product: any) => product.productName)
+        .map((product: { productName: string }) => product.productName)
         .join(", ");
     },
   },
@@ -23,10 +25,9 @@ export const orderColumnDefs: ColDef[] = [
     field: "variant",
     headerName: "Variant",
     filter: "agTextColumnFilter",
-    valueGetter: (params: any) => {
-      // Aggregating variants from all items in the order
+    valueGetter: (params: ValueGetterParams) => {
       return params.data.products
-        .map((product: any) => product.variant)
+        .map((product: { variant: string }) => product.variant)
         .join(", ");
     },
   },
@@ -41,10 +42,10 @@ export const orderColumnDefs: ColDef[] = [
     headerName: "Quantity",
     filter: "agSetColumnFilter",
     cellClass: "flex justify-end",
-    valueGetter: (params: any) => {
+    valueGetter: (params: ValueGetterParams) => {
       // Aggregating quantity for all products in the order
       return params.data.products.reduce(
-        (sum: number, product: any) => sum + product.quantity,
+        (sum: number, product: { quantity: number }) => sum + product.quantity,
         0
       );
     },
@@ -54,9 +55,9 @@ export const orderColumnDefs: ColDef[] = [
     headerName: "Payment Status",
     filter: "agTextColumnFilter",
     cellRenderer: "statusCellRenderer",
-    cellRendererParams: (params: any) => ({
-      statusKey: params.data.order.paymentStatus.key, // Corrected the property for payment status
-      value: params.data.order.paymentStatus.name, // Corrected the property for payment status
+    cellRendererParams: (params: ICellRendererParams) => ({
+      statusKey: params.data.order.paymentStatus.key,
+      value: params.data.order.paymentStatus.name,
     }),
   },
   {
@@ -64,9 +65,9 @@ export const orderColumnDefs: ColDef[] = [
     headerName: "Order Status",
     filter: "agTextColumnFilter",
     cellRenderer: "statusCellRenderer",
-    cellRendererParams: (params: any) => ({
-      statusKey: params.data.order.orderStatus.key, // Corrected the property for order status
-      value: params.data.order.orderStatus.name, // Corrected the property for order status
+    cellRendererParams: (params: ICellRendererParams) => ({
+      statusKey: params.data.order.orderStatus.key,
+      value: params.data.order.orderStatus.name,
     }),
   },
 ];

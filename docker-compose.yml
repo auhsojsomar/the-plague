@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  the_plague_client:
+    container_name: the_plague_client_container
+    image: the_plague_client:1.0.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped

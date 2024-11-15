@@ -14,8 +14,24 @@ import StatusCellRenderer from "./StatusCellRenderer";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 
+interface Product {
+  productName: string;
+  variant: string;
+  quantity: number;
+}
+
+interface RowData {
+  orderId: string;
+  customerName: string;
+  paymentStatus: string;
+  orderStatus: string;
+  products: Product[];
+  order: Order; // The full order object for modal
+  price: string;
+}
+
 const OrderPage = () => {
-  const [rowData, setRowData] = useState<any[]>([]);
+  const [rowData, setRowData] = useState<RowData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -55,6 +71,7 @@ const OrderPage = () => {
       });
       setRowData(groupedData);
     } catch (err) {
+      console.error("Error fetching orders:", err);
       setError("Failed to fetch orders. Please try again later.");
     } finally {
       setLoading(false);

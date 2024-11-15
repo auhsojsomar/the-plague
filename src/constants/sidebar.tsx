@@ -12,7 +12,7 @@ import {
 import { ComponentType } from "react";
 
 type RouteWithIcon = Route & {
-  icon?: ComponentType<any>;
+  icon?: ComponentType<React.ComponentProps<"svg">>;
 };
 
 export const sidebarData: Sidebar = {

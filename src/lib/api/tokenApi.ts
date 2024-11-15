@@ -1,8 +1,3 @@
-interface AdminData {
-  adminId: string;
-  username: string;
-}
-
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const verifyAdminToken = async (

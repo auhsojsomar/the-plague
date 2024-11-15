@@ -15,6 +15,17 @@ import {
   Legend,
 } from "chart.js";
 
+interface SalesChartData {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: number[];
+    borderColor: string;
+    backgroundColor: string;
+    tension: number;
+  }[];
+}
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -26,7 +37,7 @@ ChartJS.register(
 );
 
 export default function Dashboard() {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<SalesChartData | null>(null);
 
   useEffect(() => {
     // Example: Fetching data from an API or using static data

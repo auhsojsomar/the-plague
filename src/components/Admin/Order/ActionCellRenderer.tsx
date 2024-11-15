@@ -1,5 +1,5 @@
 import { Order } from "@/interfaces/Order";
-import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import { FaEye, FaTrash } from "react-icons/fa";
 
 interface ActionCellRendererProps {
   onView: (order: Order) => void;
