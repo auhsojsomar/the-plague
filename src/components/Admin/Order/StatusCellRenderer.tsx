@@ -1,23 +1,33 @@
 import React from "react";
 
 interface StatusCellRendererProps {
+  statusKey: number;
   value: string;
 }
 
-const StatusCellRenderer: React.FC<StatusCellRendererProps> = ({ value }) => {
+const StatusCellRenderer: React.FC<StatusCellRendererProps> = ({
+  statusKey,
+  value,
+}) => {
   let colorClass = "bg-gray-300"; // Default color for unknown status
-
-  switch (value) {
-    case "Pending":
+  switch (statusKey) {
+    case 1: // Pending
       colorClass = "bg-yellow-400";
       break;
-    case "Completed":
+    case 2: // Processing
+      colorClass = "bg-blue-400";
+      break;
+    case 3: // Shipped
+      colorClass = "bg-indigo-400";
+      break;
+    case 4: // Delivered
       colorClass = "bg-green-400";
       break;
-    case "Cancelled":
+    case 5: // Cancelled
       colorClass = "bg-red-400";
       break;
     default:
+      colorClass = "bg-gray-300"; // Default color for unknown status
       break;
   }
 
