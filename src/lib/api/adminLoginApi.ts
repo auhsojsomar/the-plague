@@ -14,6 +14,7 @@ interface LoginResponse {
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const loginAdmin = async (data: LoginForm) => {
+  console.log(`Requesting API URL: ${BASE_URL}/Admin/login`);
   const response = await fetch(`${BASE_URL}/Admin/login`, {
     method: "POST",
     headers: {
