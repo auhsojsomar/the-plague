@@ -19,8 +19,10 @@ const CheckoutPaymentDetails: React.FC<CheckoutPaymentDetailsProps> = ({
   const [paymentMethods, setPaymentMethods] = useState<PaymentOption[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { setPaymentTransactionImage } = useCheckoutContext();
+  const [isBrowser, setIsBrowser] = useState(false);
 
   useEffect(() => {
+    setIsBrowser(typeof window !== "undefined");
     // Fetch payment methods on component mount
     const fetchPaymentMethods = async () => {
       try {
@@ -35,6 +37,10 @@ const CheckoutPaymentDetails: React.FC<CheckoutPaymentDetailsProps> = ({
 
     fetchPaymentMethods();
   }, []);
+
+  if (!isBrowser) {
+    return null; // Return null or placeholder if it's server-side rendering
+  }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

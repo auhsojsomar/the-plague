@@ -2,14 +2,14 @@ import Product from "@/src/components/Client/Product/Product";
 import { Variant } from "@/src/shared/interfaces/Variant";
 import { Product as ProductType } from "@/src/shared/types/Product";
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+console.log("API URL being used:", BASE_URL);
+
 const fetchProducts = async (): Promise<ProductType[]> => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/products`,
-      {
-        next: { revalidate: 30 }, // Re-fetch after 30 seconds
-      }
-    );
+    const response = await fetch(`${BASE_URL}/products`, {
+      next: { revalidate: 30 }, // Re-fetch after 30 seconds
+    });
 
     if (!response.ok) {
       console.error("Failed to fetch products:", response.statusText);

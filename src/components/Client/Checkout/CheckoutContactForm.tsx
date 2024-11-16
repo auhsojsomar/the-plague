@@ -23,6 +23,10 @@ const formSchema = z.object({
     .nullable()
     .refine(
       (file) => {
+        // Ensure this logic only runs on the client-side
+        if (typeof window === "undefined") {
+          return true; // Skip validation on SSR
+        }
         if (file === null) return false; // The file should not be null
         return file.size > 0; // Check the file size if the file is not null
       },
@@ -31,11 +35,18 @@ const formSchema = z.object({
       }
     )
     .refine(
-      (file) =>
-        file === null ||
-        ["image/jpeg", "image/png", "image/gif", "image/webp"].includes(
-          file.type
-        ),
+      (file) => {
+        // Ensure this logic only runs on the client-side
+        if (typeof window === "undefined") {
+          return true; // Skip validation on SSR
+        }
+        return (
+          file === null ||
+          ["image/jpeg", "image/png", "image/gif", "image/webp"].includes(
+            file.type
+          )
+        );
+      },
       {
         message: "File must be a valid image (JPG, PNG, GIF, or WEBP)",
       }
@@ -84,7 +95,7 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
     }
   }, [checkout]);
 
-  // Validate form data
+  // Validate form data using Zod schema
   const validateForm = (formValues: {
     fullName: string;
     address: string;
@@ -253,12 +264,12 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
 
       <button
         type="submit"
-        className={`w-full bg-primary-color text-white font-semibold rounded-lg py-2 hover:bg-opacity-90 transition ${
-          isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+        className={`w-full bg-primary-color text-white font-semibold rounded-lg px-6 py-3 mt-4 flex justify-center items-center ${
+          isSubmitting ? "cursor-wait" : ""
         }`}
         disabled={isSubmitting}
       >
-        {isSubmitting ? <Spinner size="sm" color="white" /> : buttonText}
+        {isSubmitting ? <Spinner aria-label="Spinner button" /> : buttonText}
       </button>
     </form>
   );

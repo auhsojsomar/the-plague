@@ -1,14 +1,27 @@
 version: "3.8"
 
 services:
+  the_plague_api:
+    image: the_plague_api:1.0.0
+    container_name: the_plague_api_container
+    ports:
+      - "8080:8080"
+    networks:
+      - the_plague_network
+
   the_plague_client:
     container_name: the_plague_client_container
     image: the_plague_client:1.0.0
     build:
-      context: .
+      context: . # The build context (your current directory)
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    environment:
-      - NODE_ENV=production
-    restart: unless-stopped
+    depends_on:
+      - the_plague_api
+    networks:
+      - the_plague_network
+
+networks:
+  the_plague_network:
+    external: true

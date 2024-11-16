@@ -2,8 +2,16 @@ import CustomImage from "@/shared/CustomImage";
 import OrderSummary from "@/shared/OrderSummary";
 import CheckoutContactForm from "./CheckoutContactForm";
 import { CHECKOUT } from "@/src/constants/checkout";
-import CheckoutPaymentDetails from "./CheckoutPaymentDetails";
-import CheckoutCart from "@/src/components/Client/Checkout/CheckoutCart";
+import dynamic from "next/dynamic";
+
+const CheckoutCart = dynamic(
+  () => import("@/src/components/Client/Checkout/CheckoutCart"),
+  { ssr: false }
+);
+const CheckoutPaymentDetails = dynamic(
+  () => import("./CheckoutPaymentDetails"),
+  { ssr: false }
+);
 
 const Checkout = () => {
   const {
