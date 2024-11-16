@@ -12,6 +12,7 @@ interface LoginResponse {
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+console.log("API Base URL:", BASE_URL);
 
 export const loginAdmin = async (data: LoginForm) => {
   console.log(`Requesting API URL: ${BASE_URL}/Admin/login`);
