@@ -1,8 +1,8 @@
 import Product from "@/src/components/Client/Product/Product";
+import { BASE_URL } from "@/api/BASE_URL";
 import { Variant } from "@/src/shared/interfaces/Variant";
 import { Product as ProductType } from "@/src/shared/types/Product";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 console.log("API URL being used:", BASE_URL);
 
 const fetchProducts = async (): Promise<ProductType[]> => {

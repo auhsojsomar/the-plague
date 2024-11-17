@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import { BASE_URL } from "./BASE_URL";
 
 interface LoginForm {
   username: string;
@@ -10,9 +11,6 @@ interface LoginResponse {
   expiresAt: Date;
   adminId: string;
 }
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-console.log("API Base URL:", BASE_URL);
 
 export const loginAdmin = async (data: LoginForm) => {
   console.log(`Requesting API URL: ${BASE_URL}/Admin/login`);

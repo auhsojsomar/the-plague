@@ -1,18 +1,17 @@
 import { Product } from "@/src/shared/types/Product";
 import ProductPageComponent from "@/src/components/Client/ProductPage/ProductPage";
 import { ProductCartContextProvider } from "@/src/context/ProductCartContext";
+import { BASE_URL } from "@/api/BASE_URL";
 
 // Fetch product details by product name (kebab-case)
 const fetchProductByName = async (name: string): Promise<Product | null> => {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
-  if (!apiUrl) {
+  if (!BASE_URL) {
     console.error("API URL is not defined");
     return null;
   }
 
   try {
-    const response = await fetch(`${apiUrl}/products/name/${name}`);
+    const response = await fetch(`${BASE_URL}/products/name/${name}`);
 
     if (!response.ok) {
       console.error("Failed to fetch product:", response.statusText);

@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import { BASE_URL } from "./BASE_URL";
 
 export interface FormData {
   firstName: string;
@@ -19,9 +20,6 @@ interface LoginResponse {
   expiresAt: Date;
   userId: string;
 }
-
-// Base URL from environment variables
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const registerUser = async (data: FormData) => {
   const response = await fetch(`${BASE_URL}/User/register`, {

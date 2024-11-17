@@ -1,9 +1,9 @@
+import { BASE_URL } from "./BASE_URL";
+
 export interface StatusProps {
   key: number;
   name: string;
 }
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const getOrderStatus = async (): Promise<StatusProps[]> => {
   try {

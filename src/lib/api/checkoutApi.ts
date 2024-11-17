@@ -1,7 +1,6 @@
 import { OrderData } from "@/src/shared/interfaces/OderData";
 import { PaymentOption } from "@/interfaces/PaymentMethod";
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+import { BASE_URL } from "./BASE_URL";
 
 interface ShippingFeeData {
   cost: number;
