@@ -42,6 +42,7 @@ const ProductBanner = () => {
                 src={banner.image}
                 alt={banner.alt}
                 fill
+                useBucket={false}
               />
             </div>
           </SwiperSlide>

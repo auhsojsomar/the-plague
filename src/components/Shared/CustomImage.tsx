@@ -32,7 +32,7 @@ const CustomImage: React.FC<CustomImageProps> = ({
   decoding = "async",
   priority,
   quality,
-  useBucket = false,
+  useBucket = true,
   imageClass,
   ...props
 }) => {

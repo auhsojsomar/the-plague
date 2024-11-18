@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import CustomImage from "@/src/components/Shared/CustomImage";
 import { loginAdmin } from "@/src/lib/api/adminLoginApi";

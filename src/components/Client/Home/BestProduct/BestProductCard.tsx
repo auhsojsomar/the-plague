@@ -28,7 +28,8 @@ const BestProductCard = ({
       {/* Product image */}
       <div className="relative w-full h-full">
         <CustomImage
-          className="object-cover w-full h-full"
+          imageClass="object-cover w-full h-full"
+          className="w-full h-full"
           src={image.main}
           alt={kebabCaseName}
           fill

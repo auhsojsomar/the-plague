@@ -48,9 +48,9 @@ const products: Product[] = [
     name: "Leather Bag",
     description: "A stylish leather bag perfect for daily use.",
     price: 99.12,
-    image: createImage("https://placehold.co/500x500?text=Leather+Bag", [
-      "https://placehold.co/500x500?text=Leather+Bag+1",
-      "https://placehold.co/500x500?text=Leather+Bag+2",
+    image: createImage("image/design-1.jpg", [
+      "image/design-1.jpg",
+      "image/design-1.jpg",
     ]),
     isSale: true,
     salePrice: 89.0,
@@ -77,9 +77,9 @@ const products: Product[] = [
     name: "Premium Tote Bag",
     description: "A spacious tote bag for everyday essentials.",
     price: 129.99,
-    image: createImage("https://placehold.co/500x500?text=Premium+Tote", [
-      "https://placehold.co/500x500?text=Premium+Tote+1",
-      "https://placehold.co/500x500?text=Premium+Tote+2",
+    image: createImage("image/design-2.jpg", [
+      "image/design-2.jpg",
+      "image/design-2.jpg",
     ]),
     isSale: false,
     variants: createVariants([
@@ -104,9 +104,9 @@ const products: Product[] = [
     name: "Classic Oxford Shoes",
     description: "Elegant shoes suitable for formal occasions.",
     price: 179.0,
-    image: createImage("https://placehold.co/600x600?text=Oxford+Shoes", [
-      "https://placehold.co/500x500?text=Oxford+Shoes+1",
-      "https://placehold.co/500x500?text=Oxford+Shoes+2",
+    image: createImage("image/design-3.jpg", [
+      "image/design-3.jpg",
+      "image/design-3.jpg",
     ]),
     isSale: false,
     variants: createVariants([
@@ -131,9 +131,9 @@ const products: Product[] = [
     name: "Luxury Watch",
     description: "A luxurious watch to elevate your style.",
     price: 299.99,
-    image: createImage("https://placehold.co/500x500?text=Luxury+Watch", [
-      "https://placehold.co/500x500?text=Luxury+Watch+1",
-      "https://placehold.co/500x500?text=Luxury+Watch+2",
+    image: createImage("image/design-4.jpg", [
+      "image/design-4.jpg",
+      "image/design-4.jpg",
     ]),
     isSale: true,
     salePrice: 259.99,
@@ -159,9 +159,9 @@ const products: Product[] = [
     name: "Casual Sneakers",
     description: "Comfortable sneakers for everyday wear.",
     price: 59.99,
-    image: createImage("https://placehold.co/500x500?text=Casual+Sneakers", [
-      "https://placehold.co/500x500?text=Casual+Sneakers+1",
-      "https://placehold.co/500x500?text=Casual+Sneakers+2",
+    image: createImage("image/design-5.jpg", [
+      "image/design-5.jpg",
+      "image/design-5.jpg",
     ]),
     isSale: true,
     salePrice: 49.99,
@@ -187,9 +187,9 @@ const products: Product[] = [
     name: "Formal Blazer",
     description: "A sleek blazer for professional occasions.",
     price: 149.0,
-    image: createImage("https://placehold.co/500x500?text=Formal+Blazer", [
-      "https://placehold.co/500x500?text=Formal+Blazer+1",
-      "https://placehold.co/500x500?text=Formal+Blazer+2",
+    image: createImage("image/design-6.jpg", [
+      "image/design-6.jpg",
+      "image/design-6.jpg",
     ]),
     isSale: false,
     variants: createVariants([
@@ -214,8 +214,9 @@ const products: Product[] = [
     name: "Graphic T-Shirt",
     description: "A fun, casual t-shirt with unique graphics.",
     price: 25.0,
-    image: createImage("https://placehold.co/500x500?text=Graphic+T-Shirt", [
-      "https://placehold.co/500x500?text=Graphic+T-Shirt+1",
+    image: createImage("image/design-7.jpg", [
+      "image/design-7.jpg",
+      "image/design-7.jpg",
     ]),
     isSale: true,
     salePrice: 20.0,
@@ -241,8 +242,9 @@ const products: Product[] = [
     name: "Classic Sunglasses",
     description: "Stylish sunglasses with UV protection.",
     price: 45.0,
-    image: createImage("https://placehold.co/500x500?text=Sunglasses", [
-      "https://placehold.co/500x500?text=Sunglasses+1",
+    image: createImage("image/design-8.jpg", [
+      "image/design-8.jpg",
+      "image/design-8.jpg",
     ]),
     isSale: false,
     variants: createVariants([
@@ -267,8 +269,9 @@ const products: Product[] = [
     name: "Backpack",
     description: "Durable backpack with multiple compartments.",
     price: 79.99,
-    image: createImage("https://placehold.co/500x500?text=Backpack", [
-      "https://placehold.co/500x500?text=Backpack+1",
+    image: createImage("image/design-9.jpg", [
+      "image/design-9.jpg",
+      "image/design-9.jpg",
     ]),
     isSale: true,
     salePrice: 69.99,
@@ -294,8 +297,9 @@ const products: Product[] = [
     name: "Wool Scarf",
     description: "A warm wool scarf for chilly days.",
     price: 35.0,
-    image: createImage("https://placehold.co/500x500?text=Wool+Scarf", [
-      "https://placehold.co/500x500?text=Wool+Scarf+1",
+    image: createImage("image/design-10.jpg", [
+      "image/design-10.jpg",
+      "image/design-10.jpg",
     ]),
     isSale: false,
     variants: createVariants([

@@ -3,19 +3,7 @@ import CustomImage from "@/src/components/Shared/CustomImage";
 import { toKebabCase } from "@/src/utils/stringUtils";
 import { formatPrice } from "@/src/utils/priceUtils";
 import { Tooltip } from "flowbite-react";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import dynamic from "next/dynamic";
-import IconSkeleton from "../../Skeleton/IconSkeleton";
-
-const FontAwesomeIcon = dynamic(
-  () =>
-    import("@fortawesome/react-fontawesome").then((mod) => mod.FontAwesomeIcon),
-  {
-    ssr: false,
-    loading: () => <IconSkeleton />,
-  }
-);
 
 interface ProductCardProps {
   product: Product;
@@ -71,7 +59,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         )}
 
         {/* Color Pills */}
-        <div className="mt-4">
+        <div className="mt-4 pb-2">
           {product.variants.map((variant) => (
             <div key={variant.id} className="relative inline-block mr-2 z-20">
               <Tooltip className="text-nowrap" content={variant.color.name}>
@@ -82,29 +70,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               </Tooltip>
             </div>
           ))}
-        </div>
-      </div>
-
-      {/* Action Buttons */}
-      <div className="px-2 py-4 relative z-20">
-        <div className="flex  space-x-2">
-          <button className="flex-1 font-medium rounded-md bg-primary-color text-white hover:opacity-80 transition">
-            Buy Now
-          </button>
-
-          <Tooltip
-            content="Add to cart"
-            className="z-30 whitespace-nowrap max-w-xs"
-          >
-            <button className="flex items-center justify-center bg-secondary-color rounded-md hover:opacity-80 transition w-10 h-10">
-              <div className="w-6 h-6">
-                <FontAwesomeIcon
-                  icon={faShoppingCart}
-                  className="text-white text-xl w-full h-full"
-                />
-              </div>
-            </button>
-          </Tooltip>
         </div>
       </div>
     </div>
