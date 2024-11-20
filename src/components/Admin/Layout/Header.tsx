@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CustomImage from "@/shared/CustomImage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Cookies from "js-cookie";
 import {
   faUserAlt,
   faCog,
@@ -16,6 +17,11 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = () => {
+    Cookies.remove("authToken");
+    Cookies.remove("adminId");
   };
 
   return (
@@ -61,7 +67,10 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                   <FontAwesomeIcon className="mr-2" icon={faCog} />
                   Settings
                 </button>
-                <button className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full">
+                <button
+                  className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full"
+                  onClick={handleLogout}
+                >
                   <FontAwesomeIcon className="mr-2" icon={faSignOutAlt} />
                   Log out
                 </button>
