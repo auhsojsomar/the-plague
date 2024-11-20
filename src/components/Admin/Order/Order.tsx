@@ -63,6 +63,7 @@ const OrderPage = () => {
           orderId: order.id, // Unique identifier for the order
           customerName: order.user.fullName ?? order.user.id,
           paymentStatus: order.paymentStatus.name,
+          paymentTransactionFile: order.paymentTransactionFile,
           orderStatus: order.orderStatus.name,
           products, // Array of products for this order
           order, // The whole order object if needed for modal display

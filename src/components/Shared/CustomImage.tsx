@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import NextImage from "next/image";
 import { ImgHTMLAttributes, useEffect, useState } from "react";
 import ImageSkeleton from "@/src/components/Skeleton/ImageSkeleton";
 
@@ -38,6 +38,10 @@ const CustomImage: React.FC<CustomImageProps> = ({
 }) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [imageDimensions, setImageDimensions] = useState<{
+    width: number;
+    height: number;
+  } | null>(null);
 
   useEffect(() => {
     const fetchImageUrl = async () => {
@@ -57,19 +61,29 @@ const CustomImage: React.FC<CustomImageProps> = ({
           console.error("Error fetching S3 image:", error);
         }
       } else if (!useBucket) {
-        // Use local path if not using S3 bucket
-        setImageUrl(src);
+        setImageUrl(src); // Use local path if not using S3 bucket
       }
     };
 
     fetchImageUrl();
   }, [src, useBucket]);
 
+  useEffect(() => {
+    if (imageUrl) {
+      const img = new Image();
+      img.onload = () => {
+        setImageDimensions({ width: img.width, height: img.height });
+        setIsLoading(false);
+      };
+      img.src = imageUrl;
+    }
+  }, [imageUrl]);
+
   const handleImageLoad = () => {
     setIsLoading(false);
   };
 
-  if (!imageUrl) {
+  if (!imageUrl || !imageDimensions) {
     return <ImageSkeleton />;
   }
 
@@ -84,13 +98,13 @@ const CustomImage: React.FC<CustomImageProps> = ({
     return (
       <div className={`relative ${className}`}>
         {isLoading && <ImageSkeleton />}
-        <Image
+        <NextImage
           className={`${imageClass} ${isLoading ? "opacity-0" : "opacity-100"}`}
           src={imageUrl}
           alt={alt}
           fill={fill}
-          width={width}
-          height={height}
+          width={fill ? undefined : imageDimensions.width}
+          height={fill ? undefined : imageDimensions.height}
           loading={loadingProp}
           decoding={decoding}
           onLoad={handleImageLoad}
@@ -112,8 +126,8 @@ const CustomImage: React.FC<CustomImageProps> = ({
         }`}
         src={imageUrl}
         alt={alt}
-        width={width}
-        height={height}
+        width={imageDimensions.width}
+        height={imageDimensions.height}
         loading={loadingProp}
         decoding={decoding}
         onLoad={handleImageLoad}

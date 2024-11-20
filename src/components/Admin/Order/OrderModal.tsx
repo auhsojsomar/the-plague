@@ -1,7 +1,7 @@
 import { Modal, Button, TextInput, Label, Select } from "flowbite-react";
 import { Order } from "@/shared/interfaces/Order";
 import { formatPrice } from "@/src/utils/priceUtils";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   getOrderStatus,
   getPaymentMethod,
@@ -10,6 +10,7 @@ import {
 } from "@/api/getStatusApi";
 
 import { updateOrder } from "@/api/orderApi";
+import CustomImage from "@/shared/CustomImage";
 
 interface OrderModalProps {
   order: Order;
@@ -269,6 +270,28 @@ const OrderModal: React.FC<OrderModalProps> = ({
                   />
                 </div>
               </div>
+            </div>
+
+            {/* Payment Transaction File */}
+            <div className="bg-gray-50 p-4 rounded">
+              <h4 className="font-semibold text-md mb-2">
+                Payment Transaction
+              </h4>
+              {order.paymentTransactionFile ? (
+                <div className="flex flex-col items-center">
+                  <div className="min-h-40">
+                    <CustomImage
+                      src={order.paymentTransactionFile}
+                      alt="Payment Transaction"
+                      className="rounded-lg border w-full h-full"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="text-gray-500 italic">
+                  No payment transaction file available.
+                </div>
+              )}
             </div>
 
             {/* User Information */}
