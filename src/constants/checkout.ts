@@ -2,7 +2,7 @@ import { CheckoutPageContent } from "../types/checkout/checkout";
 
 export const CHECKOUT: CheckoutPageContent = {
   title: "The Plague",
-  titleImageUrl: "logo.webp",
+  titleImageUrl: "image/logo.webp",
   titleImageAlt: "the-plague-logo",
   subTitle: "Checkout",
   cartTitle: "Your Cart",
@@ -27,7 +27,7 @@ export const CHECKOUT: CheckoutPageContent = {
     addressPlaceholder: "Full Address",
     phoneLabel: "Contact Number",
     phoneCountryCode: "+63",
-    phoneImageUrl: "philipiines-flag.svg",
+    phoneImageUrl: "image/philipiines-flag.svg",
     phoneImageAlt: "philipiines-flag",
     phonePlaceholder: "9123456789",
   },

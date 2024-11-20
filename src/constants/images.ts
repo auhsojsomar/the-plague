@@ -2,7 +2,7 @@ import { ImageProps } from "../types/common/imageProps";
 
 export const homeCarouselImage: ImageProps[] = [
   {
-    src: "main-banner.webp",
+    src: "image/main-banner.webp",
     alt: "banner-1",
   },
   {

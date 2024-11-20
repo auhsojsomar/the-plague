@@ -2,7 +2,7 @@ import { Cart } from "@/types/cart/cart";
 
 export const CART: Cart = {
   title: "The Plague",
-  titleImageUrl: "logo.webp",
+  titleImageUrl: "image/logo.webp",
   titleImageAlt: "the-plague-logo",
   subTitle: "Cart",
   orderSummary: {

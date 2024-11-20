@@ -58,11 +58,6 @@ export async function GET(req: Request) {
     );
   }
 
-  // Prepend "image/" to the key if not already included
-  if (!key.startsWith("image/")) {
-    key = `image/${key}`;
-  }
-
   const command = new GetObjectCommand({ Bucket: bucketName, Key: key });
 
   try {

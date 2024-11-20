@@ -112,7 +112,7 @@ export default function SignUpForm() {
         <CustomImage
           className="w-full h-full"
           imageClass="object-cover"
-          src="main-banner.webp"
+          src="image/main-banner.webp"
           alt="main-banner"
           fill
           quality={50}
