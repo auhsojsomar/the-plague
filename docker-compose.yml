@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  the_plague_client:
+    container_name: the_plague_client_container
+    image: the_plague_client:1.0.0
+    build:
+      context: . # The build context (your current directory)
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    env_file:
+      - ${ENV_FILE}
+    networks:
+      - the_plague_network
+
+networks:
+  the_plague_network:
+    driver: bridge

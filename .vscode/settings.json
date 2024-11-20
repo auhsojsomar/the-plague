@@ -1,3 +1,10 @@
 {
-  "conventionalCommits.scopes": ["ui", "package", "homepage"]
+  "conventionalCommits.scopes": [
+    "ui",
+    "package",
+    "homepage",
+    "refactor",
+    "product",
+    "api"
+  ]
 }
