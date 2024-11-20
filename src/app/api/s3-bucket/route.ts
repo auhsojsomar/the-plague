@@ -40,7 +40,7 @@ const uploadFileToS3 = async (
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
-  let key = searchParams.get("key");
+  const key = searchParams.get("key");
 
   if (!key || typeof key !== "string") {
     return NextResponse.json(

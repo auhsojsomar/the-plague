@@ -1,7 +1,7 @@
 import { Modal, Button, TextInput, Label, Select } from "flowbite-react";
 import { Order } from "@/shared/interfaces/Order";
 import { formatPrice } from "@/src/utils/priceUtils";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import {
   getOrderStatus,
   getPaymentMethod,
@@ -279,7 +279,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
               </h4>
               {order.paymentTransactionFile ? (
                 <div className="flex flex-col items-center">
-                  <div className="min-h-40">
+                  <div className="w-full min-h-40">
                     <CustomImage
                       src={order.paymentTransactionFile}
                       alt="Payment Transaction"

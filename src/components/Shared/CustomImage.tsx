@@ -23,8 +23,6 @@ interface CustomImageProps extends ImgHTMLAttributes<HTMLImageElement> {
 const CustomImage: React.FC<CustomImageProps> = ({
   src,
   alt,
-  width,
-  height,
   useNextImage = true,
   fill = false,
   className = "",
