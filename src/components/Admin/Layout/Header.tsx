@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import CustomImage from "@/shared/CustomImage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 import {
   faUserAlt,
   faCog,
@@ -13,6 +14,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ title }) => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -22,6 +24,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
   const handleLogout = () => {
     Cookies.remove("authToken");
     Cookies.remove("adminId");
+    router.push("/admin");
   };
 
   return (
