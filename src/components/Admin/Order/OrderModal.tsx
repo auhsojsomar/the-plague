@@ -279,7 +279,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
               </h4>
               {order.paymentTransactionFile ? (
                 <div className="flex flex-col items-center">
-                  <div className="w-full min-h-40">
+                  <div className="min-h-40">
                     <CustomImage
                       src={order.paymentTransactionFile}
                       alt="Payment Transaction"
