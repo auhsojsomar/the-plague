@@ -1,5 +1,5 @@
 import { Image } from "@/src/types/product/image";
-import { Variant } from "../interfaces/Variant";
+import { Variant } from "@/interfaces/Variant";
 
 // Product all required fields
 type ProductBase = {
