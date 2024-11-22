@@ -47,10 +47,6 @@ const Table = () => {
     setSelectedProduct(null);
   };
 
-  const handleView = (product: ProductDto) => {
-    console.log(product, null, 4);
-  };
-
   const defaultColDef = useMemo(
     () => ({
       resizable: true,
