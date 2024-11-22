@@ -1,0 +1,2 @@
+# Prevent merging of BASE_URL.ts and always keep the current branch's version
+src/lib/api/BASE_URL.ts merge=ours
