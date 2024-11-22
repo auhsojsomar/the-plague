@@ -1,36 +1,137 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+### The Plague - Version 1.0.0
 
-## Getting Started
+---
 
-First, run the development server:
+**The Plague** is a small e-commerce website designed to provide a seamless shopping experience for users and powerful administrative tools for managing orders and products.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Table of Contents
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [Features](#features)
+- [Technologies](#technologies)
+- [Setup and Installation](#setup-and-installation)
+- [Usage](#usage)
+- [Screenshots](#screenshots)
+- [License](#license)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+### Features
 
-To learn more about Next.js, take a look at the following resources:
+#### **Client-Side Features:**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Product Display:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+  - Browse and view products with variants (color and size).
+  - Detailed product pages showcasing variants.
 
-## Deploy on Vercel
+- **Shopping Cart:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+  - Add items to the cart.
+  - Checkout process with address and payment transaction support.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **User Authentication:**
+  - User registration and login functionality.
+
+#### **Admin-Side Features:**
+
+- **Order Management:**
+
+  - View and manage customer orders.
+  - Update order statuses and payment information.
+
+- **Dashboard:**
+
+  - Static overview for monitoring key metrics.
+
+- **Admin Authentication:**
+  - Secure login for administrative access.
+
+---
+
+### Technologies
+
+- **Frontend:**
+
+  - Next.js 14
+  - Tailwind CSS
+  - Flowbite React
+  - AG Grid React
+
+- **Backend:**
+
+  - .NET 8
+  - MongoDB
+  - JWT Authentication
+
+- **Additional Libraries:**
+  - Zod (form validation)
+  - AWS SDK (S3 integration)
+
+---
+
+### Setup and Installation
+
+1. **Clone the Repository:**
+
+   ```bash
+   git clone https://github.com/your-repository/the-plague.git
+   cd the-plague
+   ```
+
+2. **Install Dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Environment Configuration:**
+
+   - Create `.env.local` and `.env.production` files.
+   - Define environment variables such as:
+     ```plaintext
+     NEXT_PUBLIC_API_URL=https://your-api-url
+     NEXT_PUBLIC_AWS_ACCESS_KEY_ID=your-aws-key
+     NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY=your-aws-secret
+     ```
+
+4. **Run the Development Server:**
+
+   ```bash
+   npm run dev
+   ```
+
+5. **Build for Production:**
+   ```bash
+   npm run build
+   ```
+
+---
+
+### Usage
+
+- **Client Interface:**  
+  Access the frontend by navigating to `http://localhost:3000`.
+
+- **Admin Panel:**  
+  Visit `http://localhost:3000/admin` (protected route).
+
+- **API Endpoints:**  
+  Hosted API endpoints interact with MongoDB for dynamic data management.
+
+---
+
+### Screenshots
+
+_Include screenshots of your application (home page, product page, admin panel, etc.)._
+
+---
+
+### License
+
+This project is licensed under the MIT License.
+
+---
+
+**Happy Shopping with The Plague!** 🛒
