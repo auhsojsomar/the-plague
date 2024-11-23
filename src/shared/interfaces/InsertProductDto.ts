@@ -8,11 +8,11 @@ export interface InsertProductDto {
   variants: VariantDto[];
 }
 
-interface SizeDto {
+export interface SizeDto {
   name: string;
 }
 
-interface ColorDto {
+export interface ColorDto {
   name: string;
   hexCode: string;
 }
