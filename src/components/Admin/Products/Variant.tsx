@@ -53,9 +53,9 @@ const Variant: React.FC<VariantProps> = ({
   return (
     <div className="flex flex-col gap-4 border-b py-4">
       {/* First Row (3 columns: Color, Size, Color Picker) */}
-      <div className="grid grid-cols-[1fr_1fr_70px] gap-4 place-items-center">
+      <div className="grid grid-cols-[1fr_1fr_70px] md:grid-cols-[1fr_70px] lg:grid-cols-[1fr_1fr_70px] gap-4 place-items-center">
         {/* Color Name */}
-        <div>
+        <div className="w-full md:order-1">
           <Label
             htmlFor={`colorName-${index}`}
             className="block mb-1 text-sm font-medium text-gray-700"
@@ -77,7 +77,7 @@ const Variant: React.FC<VariantProps> = ({
         </div>
 
         {/* Size Name */}
-        <div>
+        <div className="w-full md:col-span-2 lg:col-span-1 md:order-3 lg:order-2">
           <Label
             htmlFor={`size-${index}`}
             className="block mb-1 text-sm font-medium text-gray-700 break-words"
@@ -94,7 +94,7 @@ const Variant: React.FC<VariantProps> = ({
         </div>
 
         {/* Color Picker */}
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center md:order-2">
           <Label
             htmlFor={`colorName-${index}`}
             className="block mb-1 text-sm font-medium text-gray-700"
@@ -173,7 +173,7 @@ const Variant: React.FC<VariantProps> = ({
       </div>
 
       {/* Third Row (Discount) */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 md:grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Discount Type Dropdown */}
         <div>
           <Label

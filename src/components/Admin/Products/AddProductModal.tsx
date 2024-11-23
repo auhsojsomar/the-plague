@@ -113,7 +113,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
           Add New Product
         </span>
       </Modal.Header>
-      <Modal.Body className="grid grid-cols-[400px_1fr] gap-4">
+      <Modal.Body className="grid grid-cols-1 md:grid-cols-[400px_1fr] gap-4">
         <div>
           {/* Main Image */}
           <div className="relative flex items-center justify-center bg-gray-50 border-2 border-gray-300 aspect-square rounded-lg overflow-hidden mb-4">
@@ -148,7 +148,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
             {thumbnails.map((thumb, index) => (
               <div
                 key={index}
-                className="relative flex items-center justify-center bg-gray-50 border-2 border-gray-300 aspect-square w-24 rounded-lg overflow-hidden"
+                className="relative flex items-center justify-center bg-gray-50 border-2 border-gray-300 aspect-square w-[94px] rounded-lg overflow-hidden"
               >
                 {thumb ? (
                   <CustomImage
@@ -177,7 +177,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
             ))}
             {/* Add more thumbnails */}
             <button
-              className="w-24 h-24 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center text-gray-400"
+              className="w-[94px] aspect-square border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center text-gray-400"
               onClick={() => setThumbnails([...thumbnails, ""])}
             >
               +
