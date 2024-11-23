@@ -1,9 +1,10 @@
 import { useState, useCallback } from "react";
-import { Modal, Button, Textarea } from "flowbite-react";
+import { Modal, Button, Textarea, Label } from "flowbite-react";
 import CustomImage from "../../Shared/CustomImage";
-import { VariantDto } from "@/interfaces/InsertProductDto";
+import { ColorDto, VariantDto } from "@/interfaces/InsertProductDto";
 import Variant from "./Variant"; // Import the Variant component
 import CustomInput from "../../Shared/CustomInput";
+import { Discount } from "@/src/shared/interfaces/Variant";
 
 interface AddProductModalProps {
   isOpen: boolean;
@@ -14,19 +15,18 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [mainImage, setMainImage] = useState("");
-  const [thumbnails, setThumbnails] = useState<string[]>([""]);
-  const [variants, setVariants] = useState<VariantDto[]>([]);
-
   const defaultVariant: VariantDto = {
     size: { name: "" },
     color: { name: "", hexCode: "" },
     price: 0,
     quantity: 0,
-    discount: { type: "FixedAmount", value: 0 },
   };
+
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [mainImage, setMainImage] = useState("");
+  const [thumbnails, setThumbnails] = useState<string[]>([""]);
+  const [variants, setVariants] = useState<VariantDto[]>([defaultVariant]);
 
   // Handle adding a new variant
   const handleAddVariant = () => {
@@ -35,9 +35,10 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
 
   // Handle color change within a variant
   const handleColorChange = useCallback(
-    (index: number, color: string) => {
+    (index: number, color: ColorDto) => {
       const newVariants = [...variants];
-      newVariants[index].color.hexCode = color;
+      newVariants[index].color.name = color.name;
+      newVariants[index].color.hexCode = color.hexCode;
       setVariants(newVariants);
     },
     [variants]
@@ -68,6 +69,16 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
     (index: number, quantity: number) => {
       const newVariants = [...variants];
       newVariants[index].quantity = quantity;
+      setVariants(newVariants);
+    },
+    [variants]
+  );
+
+  // Handle discount change within a variant
+  const handleDiscountChange = useCallback(
+    (index: number, discount: Discount | undefined) => {
+      const newVariants = [...variants];
+      newVariants[index].discount = discount;
       setVariants(newVariants);
     },
     [variants]
@@ -177,21 +188,38 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
         {/* Right Side */}
         <div className="flex flex-col gap-4">
           {/* Product Name */}
-          <CustomInput
-            type="text"
-            placeholder="Product Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-
+          <div>
+            <Label
+              htmlFor={`productName`}
+              className="block mb-1 text-sm font-medium text-gray-700"
+            >
+              Product Name
+            </Label>
+            <CustomInput
+              id="productName"
+              type="text"
+              placeholder="T-Shirt Basic"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
           {/* Product Description */}
-          <Textarea
-            placeholder="Description"
-            rows={5}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="focus:ring-primary-color focus:border-primary-color focus:outline-none"
-          />
+          <div>
+            <Label
+              htmlFor={`productDescription`}
+              className="block mb-1 text-sm font-medium text-gray-700"
+            >
+              Product Description
+            </Label>
+            <Textarea
+              id="productDescription"
+              placeholder="A simple and comfortable basic t-shirt for everyday wear."
+              rows={5}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="focus:ring-primary-color focus:border-primary-color focus:outline-none bg-white"
+            />
+          </div>
 
           {/* Variants */}
           {variants.map((variant, index) => (
@@ -203,6 +231,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
               onSizeChange={handleSizeChange}
               onPriceChange={handlePriceChange}
               onQuantityChange={handleQuantityChange}
+              onDiscountChange={handleDiscountChange}
             />
           ))}
           <button
