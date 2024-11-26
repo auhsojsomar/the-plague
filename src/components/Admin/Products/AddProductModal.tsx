@@ -1,10 +1,16 @@
 import { useState, useCallback } from "react";
 import { Modal, Button, Textarea, Label } from "flowbite-react";
 import CustomImage from "../../Shared/CustomImage";
-import { ColorDto, VariantDto } from "@/interfaces/InsertProductDto";
+import {
+  ColorDto,
+  InsertProductDto,
+  VariantDto,
+} from "@/interfaces/InsertProductDto";
 import Variant from "./Variant"; // Import the Variant component
 import CustomInput from "../../Shared/CustomInput";
 import { Discount } from "@/src/shared/interfaces/Variant";
+import { z, ZodError } from "zod";
+import { insertProduct } from "@/src/lib/api/adminProduct";
 
 interface AddProductModalProps {
   isOpen: boolean;
@@ -15,6 +21,36 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const variantSchema = z.object({
+    size: z.object({ name: z.string().min(1, "Size name is required") }),
+    color: z.object({
+      name: z.string().min(1, "Color name is required"),
+      hexCode: z.string().min(4, "Hex code is invalid"),
+    }),
+    price: z.number().positive("Price must be atleast 1"),
+    quantity: z.number().nonnegative("Quantity cannot be negative"),
+    discount: z
+      .object({
+        type: z.enum(["Percentage", "FixedAmount"]),
+        value: z.number().positive("Discount value must be positive"),
+      })
+      .optional(),
+  });
+
+  const productSchema = z.object({
+    name: z.string().min(1, "Product name is required"),
+    description: z
+      .string()
+      .min(10, "Description must be at least 10 characters"),
+    image: z.object({
+      main: z.string().min(1, "Main image is required"),
+      thumbnails: z
+        .array(z.string().url("Invalid thumbnail URL"))
+        .min(1, "Please upload at least 1 thumbnail image"),
+    }),
+    variants: z.array(variantSchema).min(1, "At least one variant is required"),
+  });
+
   const defaultVariant: VariantDto = {
     size: { name: "" },
     color: { name: "", hexCode: "" },
@@ -27,6 +63,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
   const [mainImage, setMainImage] = useState("");
   const [thumbnails, setThumbnails] = useState<string[]>([""]);
   const [variants, setVariants] = useState<VariantDto[]>([defaultVariant]);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   // Handle adding a new variant
   const handleAddVariant = () => {
@@ -93,8 +130,8 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
     }
   };
 
-  const handleSubmit = () => {
-    const productData = {
+  const handleSubmit = async () => {
+    const productData: InsertProductDto = {
       name,
       description,
       image: {
@@ -103,7 +140,65 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
       },
       variants,
     };
-    console.log(productData);
+
+    try {
+      console.log("Raw data: ", productData);
+
+      // Perform validation
+      productSchema.parse(productData);
+      // productSchema.parse(negativeData);
+      console.log("Product data is valid: ", productData);
+      try {
+        const result = await insertProduct(productData);
+        console.log("Product inserted successfully:", result);
+      } catch (error) {
+        // Handle the error here
+        if (error instanceof Error) {
+          console.error("Error inserting product:", error.message);
+          if (error.message.includes("Conflict")) {
+            alert(error.message);
+          }
+          // Optionally, you can display the error message to the user using SweetAlert or any other method
+        } else {
+          console.error("Unexpected error:", error);
+        }
+      }
+    } catch (error) {
+      if (error instanceof ZodError) {
+        const errorMessages: { [key: string]: string } = {};
+
+        console.log("error:", error.errors);
+
+        // Collect error messages for product-level fields
+        error.errors.forEach((err) => {
+          console.log("Error path: ", err.path);
+          if (err.path.length === 1) {
+            // Collect product-level error messages
+            errorMessages[err.path[0]] = err.message;
+          } else if (err.path[0] === "image") {
+            // Collect image-related error messages
+            errorMessages[err.path.join(".")] = err.message;
+          } else if (err.path[0] === "variants") {
+            if (err.path.length === 4) {
+              const index = err.path[1];
+              const field = err.path[2];
+              const subField = err.path[3];
+              // Collect variant-specific error messages
+              errorMessages[`variants[${index}].${field}.${subField}`] =
+                err.message;
+            } else {
+              const index = err.path[1];
+              const field = err.path[2];
+              // Collect variant-specific error messages
+              errorMessages[`variants[${index}].${field}`] = err.message;
+            }
+          }
+        });
+
+        console.log("Formatted Error:", errorMessages);
+        setErrors(errorMessages);
+      }
+    }
   };
 
   return (
@@ -116,7 +211,11 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
       <Modal.Body className="grid grid-cols-1 md:grid-cols-[400px_1fr] gap-4">
         <div>
           {/* Main Image */}
-          <div className="relative flex items-center justify-center bg-gray-50 border-2 border-gray-300 aspect-square rounded-lg overflow-hidden mb-4">
+          <div
+            className={`relative flex items-center justify-center bg-gray-50 border-2 aspect-square rounded-lg overflow-hidden mb-4 ${
+              errors["image.main"] ? "border-red-500" : "border-gray-300"
+            }`}
+          >
             {mainImage ? (
               <CustomImage
                 src={mainImage}
@@ -126,6 +225,10 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
                 useBucket={false}
                 fill
               />
+            ) : errors["image.main"] ? (
+              <p className="text-red-500 my-1 text-sm h-5 transition-opacity opacity-100">
+                {errors["image.main"]}
+              </p>
             ) : (
               <span className="text-gray-300 text-5xl font-thin">+</span>
             )}
@@ -148,7 +251,11 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
             {thumbnails.map((thumb, index) => (
               <div
                 key={index}
-                className="relative flex items-center justify-center bg-gray-50 border-2 border-gray-300 aspect-square w-[94px] rounded-lg overflow-hidden"
+                className={`relative flex items-center justify-center bg-gray-50 border-2 aspect-square w-[94px] rounded-lg overflow-hidden ${
+                  errors["image.thumbnails"]
+                    ? "border-red-500"
+                    : "border-gray-300"
+                }`}
               >
                 {thumb ? (
                   <CustomImage
@@ -159,6 +266,10 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
                     useBucket={false}
                     fill
                   />
+                ) : errors["image.thumbnails"] ? (
+                  <p className="text-red-500 my-1 text-xs">
+                    {errors["image.thumbnails"]}
+                  </p>
                 ) : (
                   <span className="text-gray-300 text-2xl font-thin">+</span>
                 )}
@@ -186,11 +297,11 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
         </div>
 
         {/* Right Side */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1">
           {/* Product Name */}
           <div>
             <Label
-              htmlFor={`productName`}
+              htmlFor="productName"
               className="block mb-1 text-sm font-medium text-gray-700"
             >
               Product Name
@@ -198,42 +309,57 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
             <CustomInput
               id="productName"
               type="text"
-              placeholder="T-Shirt Basic"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              placeholder="Enter product name"
+              error={errors.name}
             />
           </div>
+
           {/* Product Description */}
           <div>
             <Label
-              htmlFor={`productDescription`}
+              htmlFor="description"
               className="block mb-1 text-sm font-medium text-gray-700"
             >
               Product Description
             </Label>
             <Textarea
-              id="productDescription"
-              placeholder="A simple and comfortable basic t-shirt for everyday wear."
-              rows={5}
+              id="description"
+              rows={4}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="focus:ring-primary-color focus:border-primary-color focus:outline-none bg-white"
+              placeholder="Enter product description"
+              className={`border p-2.5 text-sm rounded-lg bg-white w-full focus:ring-primary-color focus:border-primary-color ${
+                errors.description ? "border-red-500" : "border-gray-300"
+              }`}
             />
+            <p
+              className={`text-red-500 my-1 text-sm h-5 transition-opacity ${
+                errors.description ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              {errors.description}
+            </p>
           </div>
 
           {/* Variants */}
-          {variants.map((variant, index) => (
-            <Variant
-              key={index}
-              variant={variant}
-              index={index}
-              onColorChange={handleColorChange}
-              onSizeChange={handleSizeChange}
-              onPriceChange={handlePriceChange}
-              onQuantityChange={handleQuantityChange}
-              onDiscountChange={handleDiscountChange}
-            />
-          ))}
+          {variants.map((variant, index) => {
+            return (
+              <Variant
+                key={index}
+                variant={variant}
+                index={index}
+                onColorChange={handleColorChange}
+                onSizeChange={handleSizeChange}
+                onPriceChange={handlePriceChange}
+                onQuantityChange={handleQuantityChange}
+                onDiscountChange={handleDiscountChange}
+                errors={errors}
+              />
+            );
+          })}
+
           <button
             className="border bg-primary-color p-2.5 text-sm text-white rounded-lg hover:opacity-80"
             onClick={handleAddVariant}

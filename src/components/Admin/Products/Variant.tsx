@@ -3,6 +3,18 @@ import CustomInput from "@/shared/CustomInput";
 import { Label } from "flowbite-react";
 import { Discount } from "@/interfaces/Variant";
 
+type VariantErrorPath =
+  | `variants[${number}].color.name`
+  | `variants[${number}].color.hexCode`
+  | `variants[${number}].size.name`
+  | `variants[${number}].price`
+  | `variants[${number}].quantity`
+  | `variants[${number}].discount`;
+
+// Or, for stricter typing:
+type ErrorsTypeStrict = Record<VariantErrorPath | string, string | undefined>;
+
+// Update the VariantProps interface
 interface VariantProps {
   variant: VariantDto;
   index: number;
@@ -11,6 +23,7 @@ interface VariantProps {
   onPriceChange: (index: number, price: number) => void;
   onQuantityChange: (index: number, quantity: number) => void;
   onDiscountChange: (index: number, discount: Discount | undefined) => void;
+  errors: ErrorsTypeStrict; // Use the refined type here
 }
 
 const Variant: React.FC<VariantProps> = ({
@@ -21,7 +34,19 @@ const Variant: React.FC<VariantProps> = ({
   onPriceChange,
   onQuantityChange,
   onDiscountChange,
+  errors,
 }) => {
+  console.log("Error from children:", errors);
+  const getError = (field: string) => {
+    return errors[`variants[${index}].${field}` as VariantErrorPath];
+  };
+
+  console.log(
+    `variant: ${JSON.stringify(
+      variant
+    )}, index: ${index}, errors: ${JSON.stringify(errors)}`
+  );
+
   const handleDiscountValueChange = (value: number) => {
     if (variant.discount && variant.discount.type !== "NoDiscount") {
       // Ensure that the type is always present before updating the discount value
@@ -53,7 +78,7 @@ const Variant: React.FC<VariantProps> = ({
   return (
     <div className="flex flex-col gap-4 border-b py-4">
       {/* First Row (3 columns: Color, Size, Color Picker) */}
-      <div className="grid grid-cols-[1fr_1fr_70px] md:grid-cols-[1fr_70px] lg:grid-cols-[1fr_1fr_70px] gap-4 place-items-center">
+      <div className="grid grid-cols-[1fr_1fr_70px] md:grid-cols-[1fr_70px] lg:grid-cols-[1fr_1fr_70px] gap-1">
         {/* Color Name */}
         <div className="w-full md:order-1">
           <Label
@@ -66,13 +91,14 @@ const Variant: React.FC<VariantProps> = ({
             id={`colorName-${index}`}
             type="text"
             value={variant.color.name}
+            placeholder="Red"
             onChange={(e) =>
               onColorChange(index, {
                 ...variant.color,
                 name: e.target.value,
               })
             }
-            placeholder="Red"
+            error={getError("color.name")}
           />
         </div>
 
@@ -90,6 +116,7 @@ const Variant: React.FC<VariantProps> = ({
             value={variant.size.name}
             onChange={(e) => onSizeChange(index, e.target.value)}
             placeholder="Large"
+            error={getError("size.name")}
           />
         </div>
 
@@ -101,7 +128,11 @@ const Variant: React.FC<VariantProps> = ({
           >
             Hex Code
           </Label>
-          <div className="relative flex justify-center items-center h-10 w-10 border border-gray-300 rounded-full overflow-hidden">
+          <div
+            className={`relative flex justify-center items-center h-10 w-10 border rounded-full overflow-hidden ${
+              getError("color.hexCode") ? "border-red-500" : "border-gray-300"
+            }`}
+          >
             {/* Display selected color */}
             <div
               className="absolute inset-0 rounded-full"
@@ -120,6 +151,13 @@ const Variant: React.FC<VariantProps> = ({
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
             />
           </div>
+          <p
+            className={`text-red-500 my-1 text-sm h-5 transition-opacity ${
+              getError("color.hexCode") ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            {getError("color.hexCode")}
+          </p>
         </div>
       </div>
 
@@ -144,7 +182,7 @@ const Variant: React.FC<VariantProps> = ({
               }
             }}
             placeholder="Price"
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-color focus:ring-primary-color"
+            error={getError("price")}
           />
         </div>
 
@@ -167,7 +205,7 @@ const Variant: React.FC<VariantProps> = ({
               }
             }}
             placeholder="Quantity"
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-color focus:ring-primary-color"
+            error={getError("quantity")}
           />
         </div>
       </div>
@@ -220,30 +258,26 @@ const Variant: React.FC<VariantProps> = ({
               const value = parseFloat(e.target.value.trim()) || 0;
               handleDiscountValueChange(value);
             }}
-            disabled={isDiscountDisabled()} // Disable when discount type is "NoDiscount"
-            placeholder="Discount"
-            className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-color focus:ring-primary-color ${
-              isDiscountDisabled() ? "bg-gray-100 cursor-not-allowed" : ""
-            }`}
+            placeholder="Value"
+            disabled={isDiscountDisabled()}
+            error={getError("discount.value")}
           />
         </div>
 
-        {/* Discounted Price */}
+        {/* Final Price (After Discount) */}
         <div>
           <Label
-            htmlFor={`discountedPrice-${index}`}
+            htmlFor={`finalPrice-${index}`}
             className="block mb-1 text-sm font-medium text-gray-700"
           >
-            Discounted Price (&#8369;)
+            Final Price (&#8369;)
           </Label>
-          <input
-            id={`discountedPrice-${index}`}
-            type="text"
-            value={calculateDiscountedPrice()}
-            disabled
-            placeholder="Discounted Price"
-            className="block w-full rounded-md bg-gray-100 cursor-not-allowed border-gray-300 shadow-sm focus:border-primary-color focus:ring-primary-color"
-          />
+          <div
+            id={`finalPrice-${index}`}
+            className="block w-full rounded-md border-gray-300 shadow-sm bg-gray-100 text-gray-500 p-2"
+          >
+            &#8369; {calculateDiscountedPrice().toFixed(2)}
+          </div>
         </div>
       </div>
     </div>
