@@ -118,7 +118,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button className="ml-auto w-20" color="dark" onClick={onClose}>
+        <Button className="ml-auto w-20" color="warning" onClick={onClose}>
           Close
         </Button>
       </Modal.Footer>

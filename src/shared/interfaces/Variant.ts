@@ -21,6 +21,6 @@ export interface Variant {
 
 export interface Discount {
   id?: string; // Optional: if you're not providing this from the API
-  type: "Percentage" | "FixedAmount"; // Use string literals to match API types
+  type: "Percentage" | "FixedAmount" | "NoDiscount"; // Use string literals to match API types
   value: number; // Assuming value corresponds to the discount value
 }

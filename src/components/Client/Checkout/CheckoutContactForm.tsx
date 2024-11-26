@@ -167,7 +167,8 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
   const uploadPaymentFile = async (file: File): Promise<string | null> => {
     try {
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("files", file);
+      formData.append("fileFolder", "transaction");
 
       const response = await fetch("/api/s3-bucket", {
         method: "POST",

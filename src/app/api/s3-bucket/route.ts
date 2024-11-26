@@ -18,12 +18,14 @@ const s3Client = new S3Client({
   },
 });
 
-const generateUniqueFileName = () => {
+// Helper to generate a unique file name with an extension
+const generateUniqueFileName = (extension: string) => {
   const timestamp = Date.now();
   const uniqueId = uuidv4();
-  return `${timestamp}-${uniqueId}.webp`;
+  return `${timestamp}-${uniqueId}.${extension}`;
 };
 
+// Upload a file to S3
 const uploadFileToS3 = async (
   fileContent: Buffer,
   fileName: string,
@@ -33,11 +35,12 @@ const uploadFileToS3 = async (
     Bucket: bucketName,
     Key: fileName,
     Body: fileContent,
-    ContentType: "image/webp",
+    ContentType: "application/octet-stream", // Generic content type
   });
   await s3Client.send(command);
 };
 
+// GET method to generate a signed URL for accessing an object in S3
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const key = searchParams.get("key");
@@ -71,6 +74,7 @@ export async function GET(req: Request) {
   }
 }
 
+// POST method to handle file uploads
 export async function POST(req: Request) {
   const contentType = req.headers.get("content-type");
 
@@ -82,30 +86,69 @@ export async function POST(req: Request) {
   }
 
   const formData = await req.formData();
-  const file = formData.get("file");
+  const files = formData.getAll("files"); // This can be single or multiple files
+  const fileFolder = formData.get("fileFolder");
 
-  if (!file || !(file instanceof Blob)) {
+  if (!files || files.length === 0) {
     return NextResponse.json(
-      { error: "No valid file uploaded" },
+      { error: "No valid files uploaded" },
       { status: 400 }
     );
   }
 
-  const fileBuffer = await file.arrayBuffer();
-  const webpBuffer = await sharp(Buffer.from(fileBuffer)).webp().toBuffer();
+  // Function to process each file
+  const processFile = async (file: Blob, index: number) => {
+    // Ensure file is a File and has a name
+    if (!(file instanceof File)) {
+      throw new Error(`File at index ${index} is not a valid File.`);
+    }
 
-  const fileName = `transaction/${generateUniqueFileName()}`;
-  const bucketName = process.env.AWS_BUCKET_NAME!;
+    const fileBuffer = await file.arrayBuffer();
+    let processedBuffer: Buffer;
+    let fileName: string;
+    let contentType = file.type;
+
+    // If the file is an image, convert it to WebP format using sharp
+    if (contentType.startsWith("image/")) {
+      processedBuffer = await sharp(Buffer.from(fileBuffer)).webp().toBuffer();
+      fileName = `${fileFolder}/${generateUniqueFileName("webp")}`;
+      contentType = "image/webp"; // Update content type to WebP
+    } else {
+      processedBuffer = Buffer.from(fileBuffer);
+      fileName = `${fileFolder}/${generateUniqueFileName(
+        file.name.split(".").pop() || "bin"
+      )}`;
+    }
+
+    const bucketName = process.env.AWS_BUCKET_NAME!;
+
+    // Upload the file to S3
+    try {
+      await uploadFileToS3(processedBuffer, fileName, bucketName);
+      return fileName; // Return the S3 key of the uploaded file
+    } catch (uploadError) {
+      console.error("File upload error:", uploadError);
+      throw new Error(`Failed to upload file at index ${index}`);
+    }
+  };
 
   try {
-    await uploadFileToS3(webpBuffer, fileName, bucketName);
-
-    const fileUrl = fileName;
-    return NextResponse.json({ fileUrl });
-  } catch (uploadError) {
-    console.error("File upload error:", uploadError);
+    // If only one file is uploaded, process it as a single file
+    if (files.length === 1) {
+      const file = files[0] as Blob;
+      const uploadedFileName = await processFile(file, 0);
+      return NextResponse.json({ fileUrl: uploadedFileName });
+    } else {
+      // If multiple files are uploaded, process them all
+      const uploadedFileNames = await Promise.all(
+        files.map((file, index) => processFile(file as Blob, index))
+      );
+      return NextResponse.json({ fileUrls: uploadedFileNames });
+    }
+  } catch (error) {
+    console.error("Error uploading files:", error);
     return NextResponse.json(
-      { error: "Failed to upload file" },
+      { error: "Failed to upload some or all files" },
       { status: 500 }
     );
   }
