@@ -1,16 +1,17 @@
 import { useState, useCallback } from "react";
 import { Modal, Button, Textarea, Label } from "flowbite-react";
-import CustomImage from "../../Shared/CustomImage";
+import CustomImage from "@/shared/CustomImage";
 import {
   ColorDto,
   InsertProductDto,
   VariantDto,
 } from "@/interfaces/InsertProductDto";
 import Variant from "./Variant"; // Import the Variant component
-import CustomInput from "../../Shared/CustomInput";
+import CustomInput from "@/shared/CustomInput";
 import { Discount } from "@/src/shared/interfaces/Variant";
 import { z, ZodError } from "zod";
 import { insertProduct } from "@/src/lib/api/adminProduct";
+import { useToast } from "@/src/context/ToastContext";
 
 interface AddProductModalProps {
   isOpen: boolean;
@@ -58,6 +59,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
     quantity: 0,
   };
 
+  const { setToast } = useToast();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [mainImage, setMainImage] = useState("");
@@ -146,21 +148,22 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
 
       // Perform validation
       productSchema.parse(productData);
+      setErrors({});
       // productSchema.parse(negativeData);
       console.log("Product data is valid: ", productData);
       try {
         const result = await insertProduct(productData);
         console.log("Product inserted successfully:", result);
+
+        setToast(result, "success");
+
+        resetForm();
+        onClose();
       } catch (error) {
-        // Handle the error here
         if (error instanceof Error) {
           console.error("Error inserting product:", error.message);
-          if (error.message.includes("Conflict")) {
-            alert(error.message);
-          }
-          // Optionally, you can display the error message to the user using SweetAlert or any other method
-        } else {
-          console.error("Unexpected error:", error);
+
+          setToast(error.message, "error");
         }
       }
     } catch (error) {
@@ -201,8 +204,17 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
     }
   };
 
+  const resetForm = () => {
+    setName("");
+    setDescription("");
+    setMainImage("");
+    setThumbnails([""]);
+    setVariants([defaultVariant]);
+    setErrors({});
+  };
+
   return (
-    <Modal show={isOpen} onClose={onClose} size="5xl">
+    <Modal className="z-40" show={isOpen} onClose={onClose} size="5xl">
       <Modal.Header>
         <span className="text-lg font-semibold text-primary-color">
           Add New Product

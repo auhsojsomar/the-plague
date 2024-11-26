@@ -26,8 +26,7 @@ export const insertProduct = async (
       }
     }
 
-    // Assuming the server returns a string (maybe the product ID or a success message)
-    return await response.json();
+    return "Product inserted successfully!";
   } catch (error) {
     throw new Error(
       error instanceof Error ? error.message : "An unexpected error occurred."
