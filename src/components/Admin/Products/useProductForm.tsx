@@ -80,21 +80,6 @@ const useProductForm = (onClose: () => void) => {
     setErrors(errorMessages);
   };
 
-  const updateNestedField = useCallback(
-    (variant: VariantDto, field: string, value: VariantValue) => {
-      const [parentField, subField] = field.split(".") as [
-        keyof VariantDto,
-        string
-      ];
-      const parent = variant[parentField];
-
-      if (isObject(parent) && subField in parent && value !== undefined) {
-        (parent as Record<string, unknown>)[subField] = value;
-      }
-    },
-    []
-  );
-
   const uploadImage = async (
     files: File[]
   ): Promise<string | string[] | null> => {
@@ -136,6 +121,21 @@ const useProductForm = (onClose: () => void) => {
         case "discount":
           if (isDiscount(value) || value === undefined) variant[field] = value;
           break;
+      }
+    },
+    [isSizeDto, isColorDto, isDiscount]
+  );
+
+  const updateNestedField = useCallback(
+    (variant: VariantDto, field: string, value: VariantValue) => {
+      const [parentField, subField] = field.split(".") as [
+        keyof VariantDto,
+        string
+      ];
+      const parent = variant[parentField];
+
+      if (isObject(parent) && subField in parent && value !== undefined) {
+        (parent as Record<string, unknown>)[subField] = value;
       }
     },
     []
