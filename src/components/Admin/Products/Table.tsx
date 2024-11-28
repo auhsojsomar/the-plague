@@ -7,35 +7,30 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { AgGridReact } from "ag-grid-react";
 import { ProductDto } from "@/interfaces/ProductDto";
-import { getProducts } from "@/src/lib/api/getProducts";
 import { productColumnDefs } from "./productColumnDefs";
 import { ColDef } from "ag-grid-community";
-import ActionCellRenderer from "./ActionCellRenderer";
-import ProductModal from "./ProductModal";
+import ActionCellRenderer from "@/shared/ActionCellRenderer";
+import ProductModal from "./ShowProductModal";
+import { useProductContext } from "@/src/context/ProductContext";
 
-const Table = () => {
+const Table = ({ initialProducts }: { initialProducts: ProductDto[] }) => {
+  const { products, setProducts } = useProductContext();
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [products, setProducts] = useState<ProductDto[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<ProductDto | null>(
     null
   );
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const fetchedProducts = await getProducts();
-        setProducts(fetchedProducts);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-        setError(true);
-      }
-    };
-
-    fetchProducts();
-  }, []);
+    if (initialProducts.length > 0) {
+      setProducts(initialProducts);
+      setLoading(false);
+    } else {
+      setError(true);
+    }
+  }, [initialProducts, setProducts]);
 
   const handleViewProduct = (product: ProductDto) => {
     setSelectedProduct(product);
