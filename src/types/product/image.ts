@@ -1,4 +1,4 @@
 export type Image = {
   main: string;
-  thumbnails: string[];
+  thumbnails: string | string[];
 };

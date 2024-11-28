@@ -2,6 +2,7 @@ import { Discount } from "./Variant";
 import { Image } from "@/src/types/product/image";
 
 export interface InsertProductDto {
+  id?: string;
   name: string;
   description: string;
   image: Image;
