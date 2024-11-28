@@ -1,15 +1,14 @@
-import { Product } from "@/types/Product";
 import { FaEye, FaTrash } from "react-icons/fa";
 
-interface ActionCellRendererProps {
-  onView: (product: Product) => void;
-  data: Product;
+interface ActionCellRendererProps<T> {
+  onView: (data: T) => void;
+  data: T;
 }
 
-const ActionCellRenderer: React.FC<ActionCellRendererProps> = ({
+const ActionCellRenderer = <T,>({
   data,
   onView,
-}) => {
+}: ActionCellRendererProps<T>) => {
   return (
     <div className="flex space-x-2 justify-center">
       <button
