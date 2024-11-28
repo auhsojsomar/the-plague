@@ -13,7 +13,6 @@ interface LoginResponse {
 }
 
 export const loginAdmin = async (data: LoginForm) => {
-  console.log(`Requesting API URL: ${BASE_URL}/Admin/login`);
   const response = await fetch(`${BASE_URL}/Admin/login`, {
     method: "POST",
     headers: {
@@ -32,7 +31,6 @@ export const loginAdmin = async (data: LoginForm) => {
 
   const expiresAtDate = new Date(expiresAt);
 
-  // Store the token and adminId in cookies
   Cookies.set("authToken", token, { expires: expiresAtDate });
   Cookies.set("adminId", adminId, { expires: expiresAtDate });
 

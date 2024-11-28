@@ -36,16 +36,9 @@ const Variant: React.FC<VariantProps> = ({
   onDiscountChange,
   errors,
 }) => {
-  console.log("Error from children:", errors);
   const getError = (field: string) => {
     return errors[`variants[${index}].${field}` as VariantErrorPath];
   };
-
-  console.log(
-    `variant: ${JSON.stringify(
-      variant
-    )}, index: ${index}, errors: ${JSON.stringify(errors)}`
-  );
 
   const handleDiscountValueChange = (value: number) => {
     if (variant.discount && variant.discount.type !== "NoDiscount") {

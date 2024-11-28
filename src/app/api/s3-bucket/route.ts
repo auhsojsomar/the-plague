@@ -86,7 +86,7 @@ export async function POST(req: Request) {
   }
 
   const formData = await req.formData();
-  const files = formData.getAll("files"); // This can be single or multiple files
+  const files = formData.getAll("files");
   const fileFolder = formData.get("fileFolder");
 
   if (!files || files.length === 0) {
