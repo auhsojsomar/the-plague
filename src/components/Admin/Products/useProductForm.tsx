@@ -32,6 +32,18 @@ const useProductForm = (onClose: () => void) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { setToast } = useToast();
 
+  const isObject = (val: unknown): val is Record<string, unknown> =>
+    typeof val === "object" && val !== null;
+
+  const isSizeDto = (val: unknown): val is SizeDto =>
+    isObject(val) && "name" in val;
+
+  const isColorDto = (val: unknown): val is ColorDto =>
+    isObject(val) && "name" in val && "hexCode" in val;
+
+  const isDiscount = (val: unknown): val is Discount =>
+    isObject(val) && "value" in val;
+
   const resetForm = () => {
     setName("");
     setDescription("");
@@ -68,37 +80,6 @@ const useProductForm = (onClose: () => void) => {
     setErrors(errorMessages);
   };
 
-  const handleValidationOrSubmissionError = (error: unknown) => {
-    if (error instanceof ZodError) {
-      validateError(error);
-    } else if (error instanceof Error) {
-      setToast(error.message, "error");
-    }
-  };
-
-  const handleSubmissionError = (error: unknown) => {
-    if (error instanceof Error) {
-      setErrors({ name: error.message });
-      setToast(error.message, "error");
-    }
-  };
-
-  const handleAddVariant = () => {
-    setVariants([...variants, { ...defaultVariant }]);
-  };
-
-  const isObject = (val: unknown): val is Record<string, unknown> =>
-    typeof val === "object" && val !== null;
-
-  const isSizeDto = (val: unknown): val is SizeDto =>
-    isObject(val) && "name" in val;
-
-  const isColorDto = (val: unknown): val is ColorDto =>
-    isObject(val) && "name" in val && "hexCode" in val;
-
-  const isDiscount = (val: unknown): val is Discount =>
-    isObject(val) && "value" in val;
-
   const updateNestedField = useCallback(
     (variant: VariantDto, field: string, value: VariantValue) => {
       const [parentField, subField] = field.split(".") as [
@@ -134,6 +115,7 @@ const useProductForm = (onClose: () => void) => {
 
       return null;
     } catch (error) {
+      if (error instanceof Error) setToast(error.message, "error");
       return null;
     }
   };
@@ -173,6 +155,51 @@ const useProductForm = (onClose: () => void) => {
     },
     [updateNestedField, updateTopLevelField]
   );
+
+  const submitProductData = async (productData: InsertProductDto) => {
+    try {
+      const insertResult = await insertProduct(productData);
+      if (!insertResult) {
+        throw new Error("Failed to insert product data");
+      }
+
+      const files = await uploadImage(imageUpload);
+      if (files && files.length) {
+        insertResult.image.main = files[0];
+        insertResult.image.thumbnails = files.slice(1);
+
+        const updateResult = await updateProduct(insertResult, insertResult.id);
+        if (!updateResult) {
+          throw new Error("Failed to update product with image URLs");
+        }
+      }
+
+      setToast("Product inserted successfully!", "success");
+      resetForm();
+      onClose();
+    } catch (error) {
+      handleSubmissionError(error);
+    }
+  };
+
+  const handleAddVariant = () => {
+    setVariants([...variants, { ...defaultVariant }]);
+  };
+
+  const handleValidationOrSubmissionError = (error: unknown) => {
+    if (error instanceof ZodError) {
+      validateError(error);
+    } else if (error instanceof Error) {
+      setToast(error.message, "error");
+    }
+  };
+
+  const handleSubmissionError = (error: unknown) => {
+    if (error instanceof Error) {
+      setErrors({ name: error.message });
+      setToast(error.message, "error");
+    }
+  };
 
   const handleColorChange = (index: number, color: ColorDto) => {
     updateVariantField(index, "color.name", color.name);
@@ -223,32 +250,6 @@ const useProductForm = (onClose: () => void) => {
         newImages[index + 1] = file;
         return newImages;
       });
-    }
-  };
-
-  const submitProductData = async (productData: InsertProductDto) => {
-    try {
-      const insertResult = await insertProduct(productData);
-      if (!insertResult) {
-        throw new Error("Failed to insert product data");
-      }
-
-      const files = await uploadImage(imageUpload);
-      if (files && files.length) {
-        insertResult.image.main = files[0];
-        insertResult.image.thumbnails = files.slice(1);
-
-        const updateResult = await updateProduct(insertResult, insertResult.id);
-        if (!updateResult) {
-          throw new Error("Failed to update product with image URLs");
-        }
-      }
-
-      setToast("Product inserted successfully!", "success");
-      resetForm();
-      onClose();
-    } catch (error) {
-      handleSubmissionError(error);
     }
   };
 
