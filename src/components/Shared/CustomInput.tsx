@@ -6,6 +6,7 @@ interface CustomInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
   error?: string; // Add an optional error prop
+  disabled?: boolean;
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -15,6 +16,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   onChange,
   placeholder,
   error,
+  disabled = false,
   ...props
 }) => {
   return (
@@ -29,9 +31,10 @@ const CustomInput: React.FC<CustomInputProps> = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        disabled={disabled}
         className={`border p-2.5 text-sm rounded-lg w-full focus:ring-primary-color focus:border-primary-color ${
           error ? "border-red-500" : "border-gray-300"
-        }`}
+        } ${disabled ? "bg-gray-100" : "bg-white"}`}
         {...props}
       />
       {/* Error message */}

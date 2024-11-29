@@ -2,6 +2,7 @@ import { ColorDto, VariantDto } from "@/interfaces/InsertProductDto";
 import CustomInput from "@/shared/CustomInput";
 import { Label } from "flowbite-react";
 import { Discount } from "@/interfaces/Variant";
+import { formatPrice } from "@/src/utils/priceUtils";
 
 type VariantErrorPath =
   | `variants[${number}].color.name`
@@ -265,12 +266,13 @@ const Variant: React.FC<VariantProps> = ({
           >
             Final Price (&#8369;)
           </Label>
-          <div
+          <CustomInput
+            value={formatPrice(calculateDiscountedPrice())}
             id={`finalPrice-${index}`}
-            className="block w-full rounded-md border-gray-300 shadow-sm bg-gray-100 text-gray-500 p-2"
-          >
-            &#8369; {calculateDiscountedPrice().toFixed(2)}
-          </div>
+            placeholder=""
+            onChange={() => {}}
+            disabled={true}
+          />
         </div>
       </div>
     </div>
