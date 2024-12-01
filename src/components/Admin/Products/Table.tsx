@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import TableSkeleton from "@/skeleton/TableSkeleton";
 
 import "ag-grid-community/styles/ag-grid.css";
@@ -12,8 +12,10 @@ import ActionCellRenderer from "@/shared/ActionCellRenderer";
 import ShowProductModal from "./ShowProductModal";
 import AddOrEditProductModal from "./AddOrEditProductModal";
 import { useProductContext } from "@/src/context/ProductContext";
+import { deleteProduct, getProducts } from "@/src/lib/api/adminProduct";
+import { useToast } from "@/src/context/ToastContext";
 
-const Table = ({ initialProducts }: { initialProducts: ProductDto[] }) => {
+const Table = () => {
   const { products: productList, setProducts: updateProductList } =
     useProductContext();
 
@@ -25,38 +27,56 @@ const Table = ({ initialProducts }: { initialProducts: ProductDto[] }) => {
     useState(false);
 
   const rowData = useMemo(() => productList, [productList]);
+  const { setToast } = useToast();
 
   useEffect(() => {
-    if (initialProducts.length > 0) {
-      const areProductsSame =
-        JSON.stringify(productList) === JSON.stringify(initialProducts);
-
-      if (!areProductsSame) {
-        updateProductList(initialProducts);
+    const fetchData = async () => {
+      try {
+        const latestProducts = await getProducts();
+        updateProductList(latestProducts);
+        setIsLoading(false);
+      } catch (error) {
+        if (error instanceof Error) console.error(error.message);
+        setHasError(true);
+        setIsLoading(false);
       }
-      setIsLoading(false);
-    } else {
-      setHasError(true);
-    }
-  }, [initialProducts, productList, updateProductList]);
+    };
+
+    fetchData();
+  }, [updateProductList]);
 
   const closeViewProductModal = () => setIsViewProductModalOpen(false);
   const closeAddOrEditProductModal = () =>
     setIsAddOrEditProductModalOpen(false);
 
-  const openViewProductModal = (product: ProductDto) => {
+  const openViewProductModal = useCallback((product: ProductDto) => {
     setCurrentProduct(product);
     setIsViewProductModalOpen(true);
-  };
+  }, []);
 
-  const openEditProductModal = (product: ProductDto) => {
+  const openEditProductModal = useCallback((product: ProductDto) => {
     setCurrentProduct(product);
     setIsAddOrEditProductModalOpen(true);
-  };
+  }, []);
 
-  const deleteProductHandler = () => {
-    alert("Delete Product");
-  };
+  const refreshProducts = useCallback(async () => {
+    const latestProducts = await getProducts();
+    updateProductList(latestProducts);
+  }, [updateProductList]);
+
+  const deleteProductHandler = useCallback(
+    async (product: ProductDto) => {
+      const confirmation = confirm("Are you sure you want to delete?");
+      if (!confirmation) return;
+
+      const result = await deleteProduct(product.id);
+      if (result) {
+        await refreshProducts();
+        setToast(result, "success");
+      }
+    },
+    [refreshProducts, setToast]
+  );
 
   const defaultColDef = useMemo(
     () => ({

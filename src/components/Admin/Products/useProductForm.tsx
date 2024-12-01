@@ -1,5 +1,9 @@
 import { useToast } from "@/src/context/ToastContext";
-import { insertProduct, updateProduct } from "@/src/lib/api/adminProduct";
+import {
+  getProducts,
+  insertProduct,
+  updateProduct,
+} from "@/src/lib/api/adminProduct";
 import { Discount } from "@/src/shared/interfaces/Variant";
 import { useCallback, useEffect, useState } from "react";
 import { ZodError } from "zod";
@@ -10,6 +14,7 @@ import {
   SizeDto,
   VariantDto,
 } from "@/src/shared/interfaces/InsertProductDto";
+import { useProductContext } from "@/src/context/ProductContext";
 
 type VariantField = keyof VariantDto | `${keyof VariantDto}.${string}`;
 type VariantValue = string | number | SizeDto | ColorDto | Discount | undefined;
@@ -37,6 +42,7 @@ const useProductForm = (
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isEditting, setIsEditting] = useState<boolean>(false);
   const { setToast } = useToast();
+  const { setProducts } = useProductContext();
 
   useEffect(() => {
     if (product) {
@@ -47,19 +53,29 @@ const useProductForm = (
       setThumbnails(product.image?.thumbnails || []);
       setIsEditting(true);
     }
-  }, [isOpen]);
+  }, [isOpen, product]);
 
-  const isObject = (val: unknown): val is Record<string, unknown> =>
-    typeof val === "object" && val !== null;
+  const isObject = useCallback(
+    (val: unknown): val is Record<string, unknown> =>
+      typeof val === "object" && val !== null,
+    []
+  );
 
-  const isSizeDto = (val: unknown): val is SizeDto =>
-    isObject(val) && "name" in val;
+  const isSizeDto = useCallback(
+    (val: unknown): val is SizeDto => isObject(val) && "name" in val,
+    [isObject]
+  );
 
-  const isColorDto = (val: unknown): val is ColorDto =>
-    isObject(val) && "name" in val && "hexCode" in val;
+  const isColorDto = useCallback(
+    (val: unknown): val is ColorDto =>
+      isObject(val) && "name" in val && "hexCode" in val,
+    [isObject]
+  );
 
-  const isDiscount = (val: unknown): val is Discount =>
-    isObject(val) && "value" in val;
+  const isDiscount = useCallback(
+    (val: unknown): val is Discount => isObject(val) && "value" in val,
+    [isObject]
+  );
 
   const resetForm = () => {
     setName("");
@@ -153,7 +169,7 @@ const useProductForm = (
         (parent as Record<string, unknown>)[subField] = value;
       }
     },
-    []
+    [isObject]
   );
 
   const updateVariantField = useCallback(
@@ -216,7 +232,13 @@ const useProductForm = (
         }
       }
 
-      setToast("Product inserted successfully!", "success");
+      refreshProducts();
+      setToast(
+        isEditting
+          ? "Product updated sucessfully"
+          : "Product inserted successfully!",
+        "success"
+      );
       resetForm();
       onClose();
     } catch (error) {
@@ -224,6 +246,11 @@ const useProductForm = (
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const refreshProducts = async () => {
+    const latestProducts = await getProducts();
+    setProducts(latestProducts);
   };
 
   const handleAddVariant = () => {

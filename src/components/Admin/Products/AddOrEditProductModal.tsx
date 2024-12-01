@@ -49,7 +49,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
     <Modal className="z-40" show={isOpen} onClose={onCloseModal} size="5xl">
       <Modal.Header>
         <span className="text-lg font-semibold text-primary-color">
-          Add New Product
+          {isEditting ? "Edit Product" : "Add New Product"}
         </span>
       </Modal.Header>
       <Modal.Body className="grid grid-cols-1 md:grid-cols-[400px_1fr] gap-4">
