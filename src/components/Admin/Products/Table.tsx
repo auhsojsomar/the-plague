@@ -8,38 +8,54 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 import { AgGridReact } from "ag-grid-react";
 import { ProductDto } from "@/interfaces/ProductDto";
 import { productColumnDefs } from "./productColumnDefs";
-import { ColDef } from "ag-grid-community";
 import ActionCellRenderer from "@/shared/ActionCellRenderer";
-import ProductModal from "./ShowProductModal";
+import ShowProductModal from "./ShowProductModal";
+import AddOrEditProductModal from "./AddOrEditProductModal";
 import { useProductContext } from "@/src/context/ProductContext";
 
 const Table = ({ initialProducts }: { initialProducts: ProductDto[] }) => {
-  const { products, setProducts } = useProductContext();
+  const { products: productList, setProducts: updateProductList } =
+    useProductContext();
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<ProductDto | null>(
-    null
-  );
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState<ProductDto | null>(null);
+  const [isViewProductModalOpen, setIsViewProductModalOpen] = useState(false);
+  const [isAddOrEditProductModalOpen, setIsAddOrEditProductModalOpen] =
+    useState(false);
+
+  const rowData = useMemo(() => productList, [productList]);
 
   useEffect(() => {
     if (initialProducts.length > 0) {
-      setProducts(initialProducts);
-      setLoading(false);
-    } else {
-      setError(true);
-    }
-  }, [initialProducts, setProducts]);
+      const areProductsSame =
+        JSON.stringify(productList) === JSON.stringify(initialProducts);
 
-  const handleViewProduct = (product: ProductDto) => {
-    setSelectedProduct(product);
-    setIsModalOpen(true);
+      if (!areProductsSame) {
+        updateProductList(initialProducts);
+      }
+      setIsLoading(false);
+    } else {
+      setHasError(true);
+    }
+  }, [initialProducts, productList, updateProductList]);
+
+  const closeViewProductModal = () => setIsViewProductModalOpen(false);
+  const closeAddOrEditProductModal = () =>
+    setIsAddOrEditProductModalOpen(false);
+
+  const openViewProductModal = (product: ProductDto) => {
+    setCurrentProduct(product);
+    setIsViewProductModalOpen(true);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedProduct(null);
+  const openEditProductModal = (product: ProductDto) => {
+    setCurrentProduct(product);
+    setIsAddOrEditProductModalOpen(true);
+  };
+
+  const deleteProductHandler = () => {
+    alert("Delete Product");
   };
 
   const defaultColDef = useMemo(
@@ -56,27 +72,32 @@ const Table = ({ initialProducts }: { initialProducts: ProductDto[] }) => {
     []
   );
 
-  const colDef: ColDef[] = [
-    ...productColumnDefs,
-    {
-      headerName: "Actions",
-      cellRenderer: ActionCellRenderer,
-      cellRendererParams: {
-        onView: handleViewProduct,
+  const colDef = useMemo(
+    () => [
+      ...productColumnDefs,
+      {
+        headerName: "Actions",
+        cellRenderer: ActionCellRenderer,
+        cellRendererParams: {
+          onView: openViewProductModal,
+          onEdit: openEditProductModal,
+          onDelete: deleteProductHandler,
+        },
       },
-    },
-  ];
+    ],
+    [openViewProductModal, openEditProductModal, deleteProductHandler]
+  );
 
   return (
     <div className="w-full h-full">
-      {loading ? (
+      {isLoading ? (
         <TableSkeleton />
-      ) : error ? (
+      ) : hasError ? (
         <div className="text-red-500">Error loading products</div>
       ) : (
         <div className="ag-theme-quartz h-full">
           <AgGridReact
-            rowData={products}
+            rowData={rowData}
             columnDefs={colDef}
             defaultColDef={defaultColDef}
             pagination
@@ -87,12 +108,19 @@ const Table = ({ initialProducts }: { initialProducts: ProductDto[] }) => {
         </div>
       )}
 
-      {selectedProduct && (
-        <ProductModal
-          product={selectedProduct}
-          isOpen={isModalOpen}
-          onClose={closeModal}
-        />
+      {currentProduct && (
+        <>
+          <ShowProductModal
+            product={currentProduct}
+            isOpen={isViewProductModalOpen}
+            onClose={closeViewProductModal}
+          />
+          <AddOrEditProductModal
+            product={currentProduct}
+            isOpen={isAddOrEditProductModalOpen}
+            onClose={closeAddOrEditProductModal}
+          />
+        </>
       )}
     </div>
   );

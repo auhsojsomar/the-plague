@@ -1,24 +1,39 @@
-import { FaEye, FaTrash } from "react-icons/fa";
+import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 
 interface ActionCellRendererProps<T> {
-  onView: (data: T) => void;
   data: T;
+  onView: (data: T) => void;
+  onEdit: (data: T) => void;
+  onDelete: (data: T) => void;
 }
 
 const ActionCellRenderer = <T,>({
   data,
   onView,
+  onEdit,
+  onDelete,
 }: ActionCellRendererProps<T>) => {
   return (
     <div className="flex space-x-2 justify-center">
       <button
-        className="p-2 text-blue-500"
+        className="p-2 text-blue-400"
         title="View"
         onClick={() => onView(data)}
       >
         <FaEye />
       </button>
-      <button className="p-2 text-red-500" title="Delete">
+      <button
+        className="p-2 text-orange-400"
+        title="Edit"
+        onClick={() => onEdit(data)}
+      >
+        <FaEdit />
+      </button>
+      <button
+        className="p-2 text-red-400"
+        title="Delete"
+        onClick={() => onDelete(data)}
+      >
         <FaTrash />
       </button>
     </div>

@@ -2,7 +2,7 @@
 
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import AddProductModal from "./AddProductModal";
+import AddProductModal from "./AddOrEditProductModal";
 import { useState } from "react";
 
 const AddProductButton = () => {

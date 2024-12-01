@@ -1,7 +1,7 @@
 import { useToast } from "@/src/context/ToastContext";
 import { insertProduct, updateProduct } from "@/src/lib/api/adminProduct";
 import { Discount } from "@/src/shared/interfaces/Variant";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ZodError } from "zod";
 import { productSchema } from "./productSchema";
 import {
@@ -14,7 +14,11 @@ import {
 type VariantField = keyof VariantDto | `${keyof VariantDto}.${string}`;
 type VariantValue = string | number | SizeDto | ColorDto | Discount | undefined;
 
-const useProductForm = (onClose: () => void) => {
+const useProductForm = (
+  onClose: () => void,
+  isOpen: boolean,
+  product: InsertProductDto | undefined
+) => {
   const defaultVariant: VariantDto = {
     size: { name: "" },
     color: { name: "", hexCode: "" },
@@ -30,7 +34,20 @@ const useProductForm = (onClose: () => void) => {
   const [mainImage, setMainImage] = useState("");
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isEditting, setIsEditting] = useState<boolean>(false);
   const { setToast } = useToast();
+
+  useEffect(() => {
+    if (product) {
+      setName(product.name || "");
+      setDescription(product.description || "");
+      setVariants(product.variants || []);
+      setMainImage(product.image?.main || "");
+      setThumbnails(product.image?.thumbnails || []);
+      setIsEditting(true);
+    }
+  }, [isOpen]);
 
   const isObject = (val: unknown): val is Record<string, unknown> =>
     typeof val === "object" && val !== null;
@@ -80,9 +97,7 @@ const useProductForm = (onClose: () => void) => {
     setErrors(errorMessages);
   };
 
-  const uploadImage = async (
-    files: File[]
-  ): Promise<string | string[] | null> => {
+  const uploadImage = async (files: File[]): Promise<string[] | null> => {
     try {
       const formData = new FormData();
       formData.append("fileFolder", "products");
@@ -156,21 +171,48 @@ const useProductForm = (onClose: () => void) => {
     [updateNestedField, updateTopLevelField]
   );
 
+  const haveImagesChanged = (
+    mainImage: string,
+    thumbnails: string[],
+    originalProduct: InsertProductDto | undefined
+  ): boolean => {
+    if (!originalProduct) return true; // If no product, assume images have changed
+
+    // Check if main image has changed
+    const mainImageChanged = mainImage !== originalProduct.image.main;
+
+    // Check if thumbnails have changed
+    const thumbnailsChanged =
+      thumbnails.filter((thumb) => thumb !== "").length !==
+        originalProduct.image.thumbnails.length ||
+      thumbnails.some(
+        (thumb, idx) => thumb !== originalProduct.image.thumbnails[idx]
+      );
+
+    return mainImageChanged || thumbnailsChanged;
+  };
+
   const submitProductData = async (productData: InsertProductDto) => {
     try {
-      const insertResult = await insertProduct(productData);
-      if (!insertResult) {
+      const result = isEditting
+        ? await updateProduct(productData, product?.id)
+        : await insertProduct(productData);
+      if (!result) {
         throw new Error("Failed to insert product data");
       }
 
-      const files = await uploadImage(imageUpload);
-      if (files && files.length) {
-        insertResult.image.main = files[0];
-        insertResult.image.thumbnails = files.slice(1);
+      const imagesChanged = haveImagesChanged(mainImage, thumbnails, product);
 
-        const updateResult = await updateProduct(insertResult, insertResult.id);
-        if (!updateResult) {
-          throw new Error("Failed to update product with image URLs");
+      if (imagesChanged) {
+        const files = await uploadImage(imageUpload);
+        if (files && files.length) {
+          productData.image.main = files[0];
+          productData.image.thumbnails = files.slice(1);
+
+          const updateResult = await updateProduct(productData, result.id);
+          if (!updateResult) {
+            throw new Error("Failed to update product with image URLs");
+          }
         }
       }
 
@@ -179,6 +221,8 @@ const useProductForm = (onClose: () => void) => {
       onClose();
     } catch (error) {
       handleSubmissionError(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -257,6 +301,7 @@ const useProductForm = (onClose: () => void) => {
     try {
       productSchema.parse(productData);
       setErrors({});
+      setIsLoading(true);
 
       await submitProductData(productData);
     } catch (error) {
@@ -285,6 +330,8 @@ const useProductForm = (onClose: () => void) => {
     variants,
     mainImage,
     thumbnails,
+    isLoading,
+    isEditting,
     resetForm,
     setName,
     setDescription,

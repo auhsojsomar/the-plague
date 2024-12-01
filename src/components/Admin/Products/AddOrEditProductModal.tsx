@@ -1,17 +1,20 @@
-import { Modal, Button, Textarea, Label } from "flowbite-react";
+import { Modal, Button, Textarea, Label, Spinner } from "flowbite-react";
 import Variant from "./Variant"; // Import the Variant component
 import CustomInput from "@/shared/CustomInput";
 import useProductForm from "./useProductForm";
 import ThumbnailUpload from "./ThumbnailUpload";
+import { InsertProductDto } from "@/src/shared/interfaces/InsertProductDto";
 
 interface AddProductModalProps {
   isOpen: boolean;
   onClose: () => void;
+  product?: InsertProductDto | undefined;
 }
 
 const AddProductModal: React.FC<AddProductModalProps> = ({
   isOpen,
   onClose,
+  product,
 }) => {
   const {
     errors,
@@ -20,6 +23,8 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
     variants,
     mainImage,
     thumbnails,
+    isLoading,
+    isEditting,
     resetForm,
     setName,
     setDescription,
@@ -33,7 +38,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
     handleThumbnailUpload,
     handleAddVariant,
     handleSubmit,
-  } = useProductForm(onClose);
+  } = useProductForm(onClose, isOpen, product);
 
   const onCloseModal = () => {
     onClose();
@@ -55,6 +60,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
           setThumbnails={setThumbnails}
           handleMainUpload={handleMainUpload}
           handleThumbnailUpload={handleThumbnailUpload}
+          isEditting={isEditting}
         />
 
         {/* Right Side */}
@@ -131,8 +137,13 @@ const AddProductModal: React.FC<AddProductModalProps> = ({
       </Modal.Body>
       <Modal.Footer>
         <div className="flex gap-2 justify-end w-full">
-          <Button color="warning" onClick={handleSubmit}>
-            Add Product
+          <Button
+            className="w-20"
+            color="warning"
+            onClick={handleSubmit}
+            disabled={isLoading}
+          >
+            {isLoading ? <Spinner size="sm" color="white" /> : "Save"}
           </Button>
           <Button className="w-20" color="dark" onClick={onCloseModal}>
             Close

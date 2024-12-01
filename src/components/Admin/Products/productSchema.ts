@@ -8,7 +8,7 @@ const productSchema = z.object({
   image: z.object({
     main: z.string().min(1, { message: "Main image is required" }),
     thumbnails: z
-      .array(z.string().url({ message: "Invalid thumbnail URL" }))
+      .array(z.string().min(1, { message: "Thumbnail image is required" }))
       .min(1, { message: "Please upload at least 1 thumbnail image" }),
   }),
   variants: z

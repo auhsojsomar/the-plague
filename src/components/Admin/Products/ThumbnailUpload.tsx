@@ -7,6 +7,7 @@ interface ThumbnailUploadProps {
   setThumbnails: (images: string[]) => void;
   handleMainUpload: (file: File | null) => void;
   handleThumbnailUpload: (index: number, file: File | null) => void;
+  isEditting: boolean;
 }
 
 const ThumbnailUpload: React.FC<ThumbnailUploadProps> = ({
@@ -16,6 +17,7 @@ const ThumbnailUpload: React.FC<ThumbnailUploadProps> = ({
   setThumbnails,
   handleMainUpload,
   handleThumbnailUpload,
+  isEditting,
 }) => {
   return (
     <div>
@@ -31,7 +33,7 @@ const ThumbnailUpload: React.FC<ThumbnailUploadProps> = ({
             alt="Main"
             className="w-full h-full"
             imageClass="object-cover"
-            useBucket={false}
+            useBucket={isEditting}
             fill
           />
         ) : errors["image.main"] ? (
@@ -60,6 +62,7 @@ const ThumbnailUpload: React.FC<ThumbnailUploadProps> = ({
             thumb={thumb}
             errors={errors}
             handleThumbnailUpload={handleThumbnailUpload}
+            isEditting={isEditting}
           />
         ))}
 
@@ -81,7 +84,8 @@ const Thumbnail: React.FC<{
   thumb: string;
   errors: Record<string, string>;
   handleThumbnailUpload: (index: number, file: File | null) => void;
-}> = ({ index, thumb, errors, handleThumbnailUpload }) => {
+  isEditting: boolean;
+}> = ({ index, thumb, errors, handleThumbnailUpload, isEditting }) => {
   return (
     <div
       className={`relative flex items-center justify-center bg-gray-50 border-2 aspect-square w-[94px] rounded-lg overflow-hidden ${
@@ -94,7 +98,7 @@ const Thumbnail: React.FC<{
           alt={`Thumbnail ${index + 1}`}
           className="w-full h-full"
           imageClass="object-cover"
-          useBucket={false}
+          useBucket={isEditting}
           fill
         />
       ) : errors["image.thumbnails"] ? (

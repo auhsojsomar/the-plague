@@ -34,11 +34,11 @@ export const insertProduct = async (
 };
 
 export const updateProduct = async (
-  product: InsertProductDto,
+  product: InsertProductDto | null,
   id?: string
-): Promise<string> => {
+): Promise<InsertProductDto | null> => {
   try {
-    const response = await fetch(`${BASE_URL}/Products/${id}`, {
+    const response = await fetch(`${BASE_URL}/Products/${id ?? product?.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +55,7 @@ export const updateProduct = async (
       }
     }
 
-    return "Product updated successfully!";
+    return product;
   } catch (error) {
     throw new Error(
       error instanceof Error ? error.message : "An unexpected error occurred."
