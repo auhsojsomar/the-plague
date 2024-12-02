@@ -16,6 +16,7 @@ export type CheckoutPageContent = {
 export type ContactDetails = {
   title: string;
   fullNamePlaceholder: string;
+  emailPlaceholder: string;
   addressPlaceholder: string;
   phoneLabel: string;
   phoneCountryCode: string;
