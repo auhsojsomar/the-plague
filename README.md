@@ -1,4 +1,4 @@
-### The Plague - Version 1.0.0
+### The Plague - Version 1.1.0
 
 ---
 
@@ -13,6 +13,7 @@
 - [Setup and Installation](#setup-and-installation)
 - [Usage](#usage)
 - [Screenshots](#screenshots)
+- [Change Log](#change-log)
 - [License](#license)
 
 ---
@@ -40,6 +41,10 @@
 
   - View and manage customer orders.
   - Update order statuses and payment information.
+
+- **Product Management:**
+
+  - View the list of products in the admin panel.
 
 - **Dashboard:**
 
@@ -119,6 +124,16 @@
 
 - **API Endpoints:**  
   Hosted API endpoints interact with MongoDB for dynamic data management.
+
+---
+
+### Change Log
+
+#### **Version 1.1.0:**
+
+- **New Feature: Product Management in Admin**
+  - Admins can now view a list of products in the admin panel.
+  - Improved interface for managing product details.
 
 ---
 
