@@ -24,6 +24,7 @@ export const CHECKOUT: CheckoutPageContent = {
   contactDetails: {
     title: "Contact Details",
     fullNamePlaceholder: "Full Name",
+    emailPlaceholder: "Email",
     addressPlaceholder: "Full Address",
     phoneLabel: "Contact Number",
     phoneCountryCode: "+63",

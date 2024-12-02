@@ -128,6 +128,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
           address: formData.get("shippingAddress"),
           contactNumber: formData.get("shippingContact"),
           fullName: formData.get("shippingFullName"),
+          email: formData.get("emailAddress"),
         },
       };
 
@@ -386,6 +387,26 @@ const OrderModal: React.FC<OrderModalProps> = ({
                           shippingAddress: {
                             ...prevOrder.shippingAddress,
                             contactNumber: e.target.value, // Update the address in the state
+                          },
+                        }));
+                      }
+                    }}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="emailAddress">Email Address</Label>
+                  <TextInput
+                    id="emailAddress"
+                    name="emailAddress"
+                    value={order.shippingAddress.email}
+                    disabled={!isEditing}
+                    onChange={(e) => {
+                      if (isEditing) {
+                        setOrder((prevOrder) => ({
+                          ...prevOrder,
+                          shippingAddress: {
+                            ...prevOrder.shippingAddress,
+                            email: e.target.value,
                           },
                         }));
                       }

@@ -36,6 +36,7 @@ interface Address {
   fullName: string;
   address: string;
   contactNumber: string;
+  email: string;
 }
 
 interface OrderItem {
