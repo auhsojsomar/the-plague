@@ -1,4 +1,4 @@
-### The Plague - Version 1.1.0
+### The Plague - Version 1.2.0
 
 ---
 
@@ -128,6 +128,13 @@
 ---
 
 ### Change Log
+
+#### **Version 1.2.0:**
+
+- **New Feature: Enhanced Product Management in Admin**
+
+  - Admins can now edit and delete products directly from the admin panel.
+  - Add email address to checkout page.
 
 #### **Version 1.1.0:**
 
