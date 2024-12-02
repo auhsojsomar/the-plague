@@ -45,6 +45,6 @@ export const sidebarData: Sidebar = {
 export const adminSidebar: RouteWithIcon[] = [
   { link: "/admin/dashboard", label: "Dashboard", icon: HiChartPie },
   { link: "/admin/orders", label: "Orders", icon: HiShoppingCart },
-  { link: "/admin/users", label: "Users", icon: HiUser },
   { link: "/admin/products", label: "Products", icon: HiShoppingBag },
+  { link: "/admin/users", label: "Users", icon: HiUser },
 ];

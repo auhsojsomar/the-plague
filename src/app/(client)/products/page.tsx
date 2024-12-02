@@ -1,27 +1,7 @@
 import Product from "@/src/components/Client/Product/Product";
-import { BASE_URL } from "@/api/BASE_URL";
+import { getProducts } from "@/api/getProducts";
 import { Variant } from "@/src/shared/interfaces/Variant";
 import { Product as ProductType } from "@/src/shared/types/Product";
-
-console.log("API URL being used:", BASE_URL);
-
-const fetchProducts = async (): Promise<ProductType[]> => {
-  try {
-    const response = await fetch(`${BASE_URL}/products`, {
-      next: { revalidate: 30 }, // Re-fetch after 30 seconds
-    });
-
-    if (!response.ok) {
-      console.error("Failed to fetch products:", response.statusText);
-      return [];
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    return [];
-  }
-};
 
 const getBestVariant = (variants: Variant[]) => {
   return variants.reduce((best, current) => {
@@ -44,7 +24,7 @@ const processProducts = (products: ProductType[]) => {
 };
 
 const ProductListPage = async () => {
-  const products = await fetchProducts();
+  const products = await getProducts();
   const processedProducts = processProducts(products);
 
   return <Product products={processedProducts} />;

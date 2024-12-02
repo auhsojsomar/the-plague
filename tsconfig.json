@@ -21,7 +21,11 @@
     "paths": {
       "@/*": ["./*"],
       "@/lib/*": ["./src/lib/*"],
-      "@/shared/*": ["./src/components/Shared/*", "./src/shared/*"],
+      "@/shared/*": [
+        "./src/components/Shared/*",
+        "./src/shared/*",
+        "./src/components/Admin/Shared/*"
+      ],
       "@/skeleton/*": ["./src/components/Skeleton/*"],
       "@/components/*": ["./src/components/*"],
       "@/types/*": ["./src/types/*", "./src/shared/types/*"],

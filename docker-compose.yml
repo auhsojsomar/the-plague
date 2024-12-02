@@ -16,4 +16,5 @@ services:
 
 networks:
   the_plague_network:
-    driver: bridge
+    name: the_plague_network
+    external: true
