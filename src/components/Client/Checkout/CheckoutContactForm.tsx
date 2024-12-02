@@ -18,6 +18,7 @@ const formSchema = z.object({
   contactNumber: z.string().regex(/^9\d{9}$/, {
     message: "Contact number must start with '9' and be 10 digits long",
   }),
+  email: z.string().email({ message: "Invalid email format" }),
   paymentTransactionFile: z
     .instanceof(File)
     .nullable()
@@ -62,6 +63,7 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
   details: {
     title,
     fullNamePlaceholder,
+    emailPlaceholder,
     addressPlaceholder,
     phoneLabel,
     phoneImageUrl,
@@ -100,6 +102,7 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
     fullName: string;
     address: string;
     contactNumber: string;
+    email: string;
     paymentTransactionFile: File | null;
   }) => {
     const validation = formSchema.safeParse(formValues);
@@ -125,6 +128,7 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
       fullName: formData.get("fullName") as string,
       address: formData.get("address") as string,
       contactNumber: formData.get("contactNumber") as string,
+      email: formData.get("email") as string,
       paymentTransactionFile: paymentTransactionImage,
     };
 
@@ -145,6 +149,7 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
       fullName: formValues.fullName,
       address: formValues.address,
       contactNumber: formValues.contactNumber,
+      email: formValues.email,
     };
 
     const order: OrderData = {
@@ -263,10 +268,24 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
         </div>
       </div>
 
+      <div>
+        <input
+          type="text"
+          name="email"
+          placeholder={emailPlaceholder}
+          className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-primary-color focus:border-transparent"
+          onFocus={() => setErrors([])}
+        />
+        <p className="text-xs text-gray-400 mt-2 ">
+          Once your payment has been successfully verified, please check your
+          email for the final order status and confirmation details.
+        </p>
+      </div>
+
       <button
         type="submit"
         className={`w-full bg-primary-color text-white font-semibold rounded-lg px-6 py-3 mt-4 flex justify-center items-center ${
-          isSubmitting ? "cursor-wait" : ""
+          isSubmitting ? "opacity-50 cursor-not-allowed" : "hover:opacity-80"
         }`}
         disabled={isSubmitting}
       >
