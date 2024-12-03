@@ -65,10 +65,10 @@ const ProductSidebar: React.FC<ProductSidebarProps> = ({
 
   return (
     <Sidebar
-      className="z-40 h-auto absolute w-64 hidden sm:block overflow-y-auto shadow-lg"
+      className="z-40 h-full absolute w-64 shadow-lg hidden sm:block"
       aria-label="Sidebar"
     >
-      <Sidebar.Items>
+      <Sidebar.Items className="pb-5">
         {/* Sidebar title */}
         <Sidebar.ItemGroup>
           <div className="flex justify-between items-center">
