@@ -20,16 +20,6 @@ export const sidebarData: Sidebar = {
   button: {
     placeholder: "Reset Filters",
   },
-  category: {
-    title: "Category",
-    categories: [
-      { id: 1, name: "T-Shirts" },
-      { id: 2, name: "Hoodies" },
-      { id: 3, name: "Jeans" },
-      { id: 4, name: "Jackets" },
-      { id: 5, name: "Accessories" },
-    ],
-  },
   variant: {
     size: {
       title: "Size",

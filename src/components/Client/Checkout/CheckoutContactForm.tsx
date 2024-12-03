@@ -10,6 +10,8 @@ import { submitOrder } from "@/src/lib/api/checkoutApi";
 import { z } from "zod";
 import { Spinner, Toast } from "flowbite-react";
 import { HiExclamation } from "react-icons/hi";
+import { CartData } from "@/src/shared/interfaces/CartData";
+import { useCartCountContext } from "@/src/context/CartCountContext";
 
 // Zod validation schema
 const formSchema = z.object({
@@ -79,6 +81,7 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
     setPaymentTransactionImage,
     resetFileInput,
   } = useCheckoutContext();
+  const { setCartCount } = useCartCountContext();
   const router = useRouter();
   const [items, setItems] = useState<Items[]>([]);
   const [errors, setErrors] = useState<string[]>([]);
@@ -112,6 +115,59 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
     }
     setErrors([]);
     return true;
+  };
+
+  const removeItemFromCart = () => {
+    const itemsInStorage: CartData[] = JSON.parse(
+      localStorage.getItem("cart") || "[]"
+    );
+
+    const itemsToRemove = items; // Assuming `items` is available in the scope
+
+    // Filter out the items that need to be removed
+    const updatedCart = itemsInStorage.filter(
+      (storageItem) =>
+        !itemsToRemove.some(
+          (itemToRemove) =>
+            storageItem.product.id === itemToRemove.productId &&
+            storageItem.variant.id === itemToRemove.variantId
+        )
+    );
+
+    // Update localStorage with the new cart
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+    // Update the cart count
+    const cartCount = updatedCart.reduce(
+      (total, item) => total + item.quantity,
+      0
+    );
+    setCartCount(cartCount);
+  };
+
+  // Upload file helper function
+  const uploadPaymentFile = async (file: File): Promise<string | null> => {
+    try {
+      const formData = new FormData();
+      formData.append("files", file);
+      formData.append("fileFolder", "transaction");
+
+      const response = await fetch("/api/s3-bucket", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+      if (response.ok && data.fileUrl) return data.fileUrl;
+
+      setIsSubmitting(false);
+      setErrors(["Failed to upload the payment transaction file."]);
+      return null;
+    } catch (error) {
+      setIsSubmitting(false);
+      setErrors(["Error uploading the payment transaction file."]);
+      console.error("Error uploading file:", error);
+      return null;
+    }
   };
 
   // Handle form submission
@@ -160,36 +216,12 @@ const CheckoutContactForm: React.FC<CheckoutContactFormProps> = ({
 
     try {
       await submitOrder(order);
+      removeItemFromCart();
       setSuccessMessage("Your order has been placed successfully!");
       setTimeout(() => router.push("/products"), 1000);
     } catch {
       setIsSubmitting(false);
       setErrors(["Error while placing the order, please try again."]);
-    }
-  };
-
-  // Upload file helper function
-  const uploadPaymentFile = async (file: File): Promise<string | null> => {
-    try {
-      const formData = new FormData();
-      formData.append("files", file);
-      formData.append("fileFolder", "transaction");
-
-      const response = await fetch("/api/s3-bucket", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await response.json();
-      if (response.ok && data.fileUrl) return data.fileUrl;
-
-      setIsSubmitting(false);
-      setErrors(["Failed to upload the payment transaction file."]);
-      return null;
-    } catch (error) {
-      setIsSubmitting(false);
-      setErrors(["Error uploading the payment transaction file."]);
-      console.error("Error uploading file:", error);
-      return null;
     }
   };
 

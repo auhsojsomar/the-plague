@@ -3,7 +3,7 @@ import {
   getProducts,
   insertProduct,
   updateProduct,
-} from "@/src/lib/api/adminProduct";
+} from "@/src/lib/api/adminProductApi";
 import { Discount } from "@/src/shared/interfaces/Variant";
 import { useCallback, useEffect, useState } from "react";
 import { ZodError } from "zod";

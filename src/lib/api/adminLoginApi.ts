@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { BASE_URL } from "./BASE_URL";
+import { BASE_URL } from "../BASE_URL";
 
 interface LoginForm {
   username: string;

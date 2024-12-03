@@ -3,17 +3,11 @@ import { Color, Size } from "@/src/shared/interfaces/Variant";
 export type Sidebar = {
   title: string; // Title of the sidebar
   button: Button; // Button properties
-  category: Category; // Category properties
   variant: VariantOptions; // Variant properties
 };
 
 type Button = {
   placeholder: string; // Placeholder text for the button
-};
-
-type Category = {
-  title: string; // Title for the category section
-  categories: CategoryLabel[];
 };
 
 export type CategoryLabel = {

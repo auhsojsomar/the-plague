@@ -1,5 +1,5 @@
 import Product from "@/src/components/Client/Product/Product";
-import { getProducts } from "@/api/getProducts";
+import { getProducts } from "@/src/lib/api/getProductsApi";
 import { Variant } from "@/src/shared/interfaces/Variant";
 import { Product as ProductType } from "@/src/shared/types/Product";
 

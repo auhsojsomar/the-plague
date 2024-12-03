@@ -12,7 +12,7 @@ import ActionCellRenderer from "@/shared/ActionCellRenderer";
 import ShowProductModal from "./ShowProductModal";
 import AddOrEditProductModal from "./AddOrEditProductModal";
 import { useProductContext } from "@/src/context/ProductContext";
-import { deleteProduct, getProducts } from "@/src/lib/api/adminProduct";
+import { deleteProduct, getProducts } from "@/src/lib/api/adminProductApi";
 import { useToast } from "@/src/context/ToastContext";
 
 const Table = () => {
