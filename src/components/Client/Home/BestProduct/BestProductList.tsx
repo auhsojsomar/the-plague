@@ -1,7 +1,11 @@
 import { bestProduct } from "@/src/constants";
 import ProductCard from "./BestProductCard";
+import { getBestProducts } from "@/src/lib/api/getProductsApi";
+import { processProducts } from "@/src/utils/productUtils";
 
-const BestProductList = () => {
+const BestProductList = async () => {
+  const products = processProducts(await getBestProducts());
+
   const getOrderClass = (index: number) => {
     switch (index) {
       case 1:
@@ -15,7 +19,7 @@ const BestProductList = () => {
 
   return (
     <div className="py-4 grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
-      {bestProduct.map((product, index) => (
+      {products.map((product, index) => (
         <div
           key={index}
           className={`w-full h-auto aspect-square relative ${getOrderClass(
