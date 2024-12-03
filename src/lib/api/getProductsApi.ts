@@ -1,5 +1,5 @@
 import { Product } from "@/types/Product";
-import { BASE_URL } from "./BASE_URL";
+import { BASE_URL } from "../BASE_URL";
 
 export const getProducts = async (): Promise<Product[]> => {
   try {

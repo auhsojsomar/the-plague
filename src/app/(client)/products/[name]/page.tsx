@@ -1,7 +1,7 @@
 import { Product } from "@/src/shared/types/Product";
 import ProductPageComponent from "@/src/components/Client/ProductPage/ProductPage";
 import { ProductCartContextProvider } from "@/src/context/ProductCartContext";
-import { BASE_URL } from "@/api/BASE_URL";
+import { BASE_URL } from "@/src/lib/BASE_URL";
 
 // Fetch product details by product name (kebab-case)
 const fetchProductByName = async (name: string): Promise<Product | null> => {

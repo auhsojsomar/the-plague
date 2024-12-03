@@ -1,5 +1,5 @@
 import { ProductDto } from "@/src/shared/interfaces/ProductDto";
-import { BASE_URL } from "./BASE_URL";
+import { BASE_URL } from "../BASE_URL";
 import { InsertProductDto } from "@/src/shared/interfaces/InsertProductDto";
 
 export const getProducts = async (): Promise<ProductDto[]> => {

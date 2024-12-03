@@ -1,4 +1,4 @@
-import { BASE_URL } from "./BASE_URL";
+import { BASE_URL } from "../BASE_URL";
 
 export const verifyAdminToken = async (
   token: string,

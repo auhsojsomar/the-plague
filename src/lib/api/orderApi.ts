@@ -1,6 +1,6 @@
 import { Order } from "@/shared/interfaces/Order";
 import Cookies from "js-cookie";
-import { BASE_URL } from "./BASE_URL";
+import { BASE_URL } from "../BASE_URL";
 
 const token = Cookies.get("authToken");
 
