@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCard from "./FeatureProductCard";
 import { Navigation } from "swiper/modules";
 import { Product } from "@/src/shared/types/Product";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import ProductCardSkeleton from "@/skeleton/ProductCardSkeleton";
 import {
@@ -18,11 +18,7 @@ const FeatureProductList = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const searchParams = useSearchParams();
 
-  useEffect(() => {
-    fetchProductsByFilter();
-  }, [searchParams]); // Re-run when the query parameter changes
-
-  const fetchProductsByFilter = async () => {
+  const fetchProductsByFilter = useCallback(async () => {
     setIsLoading(true);
     const filter = searchParams.get("filter") || "best-seller"; // Default to 'New Products'
 
@@ -42,7 +38,11 @@ const FeatureProductList = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [searchParams]);
+
+  useEffect(() => {
+    fetchProductsByFilter();
+  }, [fetchProductsByFilter]);
 
   if (isLoading) {
     // Display skeletons while loading
@@ -56,6 +56,7 @@ const FeatureProductList = () => {
       </div>
     );
   }
+  // Re-run when the query parameter changes
 
   return (
     <Swiper

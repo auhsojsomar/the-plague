@@ -1,4 +1,3 @@
-import { bestProduct } from "@/src/constants";
 import ProductCard from "./BestProductCard";
 import { getBestProducts } from "@/src/lib/api/getProductsApi";
 import { processProducts } from "@/src/utils/productUtils";
