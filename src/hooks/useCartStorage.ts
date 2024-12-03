@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { CartData } from "@/shared/interfaces/CartData";
 import { useCartCountContext } from "../context/CartCountContext";
 
@@ -8,29 +8,17 @@ export const useCartStorage = () => {
   const [cart, setCart] = useState<CartData[]>([]); // Cart state
   const { cartCount, setCartCount } = useCartCountContext();
 
-  // Load cart data from localStorage when the component mounts
-  useEffect(() => {
-    const cartStorage = localStorage.getItem("cart");
-
-    if (cartStorage) {
-      try {
-        const parsedCart = JSON.parse(cartStorage);
-        setCart(parsedCart);
-        updateCartCount(parsedCart);
-      } catch (error) {
-        console.error("Error parsing cart from localStorage", error);
-      }
-    }
-  }, []); // Runs once when the component mounts
-
   // Helper function to update cart count based on quantities
-  const updateCartCount = (updatedCart: CartData[]) => {
-    const totalQuantity = updatedCart.reduce(
-      (total, item) => total + item.quantity,
-      0
-    );
-    setCartCount(totalQuantity); // Set total quantity as cart count
-  };
+  const updateCartCount = useCallback(
+    (updatedCart: CartData[]) => {
+      const totalQuantity = updatedCart.reduce(
+        (total, item) => total + item.quantity,
+        0
+      );
+      setCartCount(totalQuantity); // Set total quantity as cart count
+    },
+    [setCartCount]
+  );
 
   // Helper function to update cart in both state and localStorage
   const updateCartStorage = (updatedCart: CartData[]) => {
@@ -56,6 +44,21 @@ export const useCartStorage = () => {
 
     updateCartStorage(updatedCart); // Save updated cart to localStorage and state
   };
+
+  // Load cart data from localStorage when the component mounts
+  useEffect(() => {
+    const cartStorage = localStorage.getItem("cart");
+
+    if (cartStorage) {
+      try {
+        const parsedCart = JSON.parse(cartStorage);
+        setCart(parsedCart);
+        updateCartCount(parsedCart);
+      } catch (error) {
+        console.error("Error parsing cart from localStorage", error);
+      }
+    }
+  }, [updateCartCount]); // Runs once when the component mounts
 
   return { cart, cartCount, addToCartStorage };
 };
