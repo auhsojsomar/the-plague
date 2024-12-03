@@ -23,17 +23,20 @@ const FeatureProductTitle = () => {
     return true;
   };
 
-  const centerIndex = Math.floor((title?.length || 0) / 2);
+  // Default active link index (e.g., first link as default)
+  const defaultActiveIndex = 0;
 
-  // Check if any route is currently active
-  const anyActive = title?.some((route) => isActive(route.link));
+  // Determine which link should be active, considering the default
+  const activeIndex = title?.findIndex((route) => isActive(route.link)) ?? -1;
 
   return (
     <ul className="flex flex-col items-center gap-x-5 sm:gap-x-8 sm:flex-row sm:items-start sm:justify-center">
       {title?.map((route, index) => {
-        // Mark the link active if it matches OR it’s the center link when nothing else is active
+        // Mark the link active if it matches OR it’s the default link when nothing else is active
         const active =
-          isActive(route.link) || (!anyActive && index === centerIndex);
+          activeIndex === -1
+            ? index === defaultActiveIndex
+            : index === activeIndex;
 
         return (
           <li
@@ -42,9 +45,7 @@ const FeatureProductTitle = () => {
               index % 2 === 0
                 ? ""
                 : `sm:before:block before:absolute before:w-px before:bg-gray-400
-                   before:h-8 before:-left-2 before:top-0 before:sm:-left-4
-                   sm:after:block after:absolute after:w-px after:bg-gray-400
-                   after:h-8 after:-right-2 after:top-0 after:sm:-right-4`
+                   before:h-8 before:-left-2 before:top-0 before:sm:-left-4`
             }`}
           >
             <Link
