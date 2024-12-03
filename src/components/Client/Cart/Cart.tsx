@@ -76,6 +76,29 @@ const Cart = () => {
     );
   };
 
+  const handleItemDelete = (item: CartData) => {
+    // Remove item from cart
+    setCart((prevCart) => {
+      const updatedCart = prevCart.filter(
+        (cartItem) =>
+          cartItem.product.id !== item.product.id ||
+          cartItem.variant.id !== item.variant.id
+      );
+
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+      return updatedCart;
+    });
+
+    // Remove item from selected items
+    setSelectedItems((prevSelected) =>
+      prevSelected.filter(
+        (i) =>
+          i.product.id !== item.product.id || i.variant.id !== item.variant.id
+      )
+    );
+  };
+
   const handleSubmit = () => {
     if (selectedItems.length === 0) {
       setError("Please select at least one item to proceed.");
@@ -146,10 +169,11 @@ const Cart = () => {
             <div className="space-y-4">
               {cart.map((item) => (
                 <CartItem
-                  key={getUniqueId(item)}
                   {...item}
+                  key={getUniqueId(item)}
                   onItemCheck={handleItemCheck}
                   onQuantityChange={handleQuantityChange}
+                  onItemDelete={handleItemDelete}
                 />
               ))}
             </div>

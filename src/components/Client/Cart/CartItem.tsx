@@ -3,10 +3,13 @@ import { useState } from "react";
 import CustomImage from "@/shared/CustomImage";
 import { toKebabCase } from "@/src/utils/stringUtils";
 import CartQuantity from "./CartQuantity";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 interface CartItemProps extends CartData {
   onItemCheck: (item: CartData, checked: boolean) => void;
   onQuantityChange: (item: CartData, quantity: number) => void;
+  onItemDelete: (item: CartData) => void;
 }
 const CartItem: React.FC<CartItemProps> = ({
   product,
@@ -14,6 +17,7 @@ const CartItem: React.FC<CartItemProps> = ({
   quantity,
   onItemCheck,
   onQuantityChange,
+  onItemDelete,
 }) => {
   const [currentQuantity, setQuantity] = useState(quantity);
   const [isChecked, setIsChecked] = useState(false);
@@ -28,6 +32,10 @@ const CartItem: React.FC<CartItemProps> = ({
   const handleQuantityChange = (newQuantity: number) => {
     setQuantity(newQuantity);
     onQuantityChange({ product, variant, quantity: newQuantity }, newQuantity); // Update quantity in parent
+  };
+
+  const handleDelete = () => {
+    onItemDelete({ product, variant, quantity: currentQuantity }); // Trigger the delete action
   };
 
   return (
@@ -65,12 +73,22 @@ const CartItem: React.FC<CartItemProps> = ({
           </p>
         </div>
 
-        {/* Price and Quantity */}
-        <CartQuantity
-          variant={variant}
-          quantity={currentQuantity}
-          onQuantityChange={handleQuantityChange}
-        />
+        <div className="flex items-center gap-2">
+          {/* Price and Quantity */}
+          <CartQuantity
+            variant={variant}
+            quantity={currentQuantity}
+            onQuantityChange={handleQuantityChange}
+          />
+
+          {/* Delete Button */}
+          <button
+            className="flex-shrink-0 cursor-pointer"
+            onClick={handleDelete}
+          >
+            <FontAwesomeIcon icon={faTrash} className="text-gray-700 w-5 h-5" />
+          </button>
+        </div>
       </div>
     </div>
   );
