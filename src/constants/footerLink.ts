@@ -15,7 +15,7 @@ import {
 export const FOOTER_LINKS = {
   CONTACT_US: [
     { label: "Caloocan City", icon: faLocationDot },
-    { label: "placeholder@gmail.com", icon: faEnvelope },
+    { label: "order@theplagueclothing.com", icon: faEnvelope },
     { label: "(+63) 912 345 6789", icon: faPhone },
   ] as LabelWithIcon[],
   INFORMATION: [
