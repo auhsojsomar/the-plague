@@ -4,7 +4,7 @@ import { Sidebar } from "flowbite-react";
 import { sidebarData } from "@/src/constants/sidebar";
 import ColorPills from "../../Shared/ColorPills";
 import SizePills from "../../Shared/SizePills";
-import ProductCategoryList from "./ProductCategoryList";
+// import ProductCategoryList from "./ProductCategoryList";
 import { Color, Size } from "@/src/shared/interfaces/Variant";
 
 const ProductSidebar = () => {
@@ -30,12 +30,6 @@ const ProductSidebar = () => {
               {sidebarData.button.placeholder}
             </button>
           </div>
-        </Sidebar.ItemGroup>
-
-        {/* Category */}
-        <Sidebar.ItemGroup>
-          <h3 className="mb-1">{sidebarData.category.title}</h3>
-          <ProductCategoryList categories={sidebarData.category.categories} />
         </Sidebar.ItemGroup>
 
         {/* Size */}
