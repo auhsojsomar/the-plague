@@ -1,4 +1,4 @@
-### The Plague - Version 1.2.0
+### The Plague - Version 1.3.0
 
 ---
 
@@ -31,6 +31,12 @@
 
   - Add items to the cart.
   - Checkout process with address and payment transaction support.
+  - **NEW:** Cart count now updates dynamically in the navbar when items are added or removed.
+  - **NEW:** Items are removed from the cart automatically upon successful checkout.
+
+- **Product Filtering:**
+
+  - **NEW:** Enhanced product filtering options on the product list page for better navigation and user experience.
 
 - **User Authentication:**
   - User registration and login functionality.
@@ -44,7 +50,7 @@
 
 - **Product Management:**
 
-  - View the list of products in the admin panel.
+  - Add, view, edit, and delete products in the admin panel.
 
 - **Dashboard:**
 
@@ -129,12 +135,20 @@
 
 ### Change Log
 
+#### **Version 1.3.0:**
+
+- **New Features:**
+  - **Cart Enhancements:**
+    - Cart count now updates in real-time in the navbar.
+    - Items are removed from the cart upon successful checkout.
+  - **Product Filtering:**
+    - Improved filtering options on the product list page for a better user experience.
+
 #### **Version 1.2.0:**
 
 - **New Feature: Enhanced Product Management in Admin**
-
   - Admins can now edit and delete products directly from the admin panel.
-  - Add email address to checkout page.
+  - Added email address field to the checkout page.
 
 #### **Version 1.1.0:**
 
