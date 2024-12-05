@@ -26,12 +26,17 @@
 
   - Browse and view products with variants (color and size).
   - Detailed product pages showcasing variants.
+  - **NEW:** Products are dynamically fetched and displayed on the homepage.
+  - **NEW:** Updated card design for "Best Products" and "Featured Products" sections on the homepage for a more modern and engaging look.
 
 - **Shopping Cart:**
 
   - Add items to the cart.
   - Checkout process with address and payment transaction support.
-  - **NEW:** Cart count now updates dynamically in the navbar when items are added or removed.
+  - **NEW:** Cart count now updates dynamically in the navbar when:
+    - Items are added or removed.
+    - Quantities are changed within the cart.
+    - Items are deleted.
   - **NEW:** Items are removed from the cart automatically upon successful checkout.
 
 - **Product Filtering:**
@@ -134,6 +139,13 @@
 ---
 
 ### Change Log
+
+#### **Version 1.3.1:**
+
+- **New Features:**
+  - **Homepage Enhancements:**
+    - Products are now fetched dynamically, ensuring up-to-date listings.
+    - Redesigned "Best Products" and "Featured Products" sections for improved user experience.
 
 #### **Version 1.3.0:**
 
