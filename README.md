@@ -1,4 +1,4 @@
-### The Plague - Version 1.3.0
+### The Plague - Version 1.3.1
 
 ---
 
