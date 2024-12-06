@@ -1,9 +1,27 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import ProductCard from "./BestProductCard";
 import { getBestProducts } from "@/src/lib/api/getProductsApi";
 import { processProducts } from "@/src/utils/productUtils";
+import { Product } from "@/src/shared/types/Product";
 
-const BestProductList = async () => {
-  const products = processProducts(await getBestProducts());
+const BestProductList = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await getBestProducts();
+        setProducts(processProducts(data));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const getOrderClass = (index: number) => {
     switch (index) {
@@ -15,6 +33,10 @@ const BestProductList = async () => {
         return `order-${index + 1}`; // Default order for all other products
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="py-4 grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">

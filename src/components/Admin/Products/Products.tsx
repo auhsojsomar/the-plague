@@ -5,7 +5,7 @@ import { ToastContextProvider } from "@/src/context/ToastContext";
 import ToastMessage from "../../Shared/ToastMessage";
 import { ProductContextProvider } from "@/src/context/ProductContext";
 
-const Products = async () => {
+const Products = () => {
   return (
     <ProductContextProvider>
       <ToastContextProvider>
