@@ -1,23 +1,51 @@
 "use client";
 
-import { featureProduct } from "@/src/constants";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCard from "./FeatureProductCard";
 import { Navigation } from "swiper/modules";
 import { Product } from "@/src/shared/types/Product";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import ProductCardSkeleton from "@/skeleton/ProductCardSkeleton";
+import {
+  getBestProducts,
+  getFeatureProducts,
+} from "@/src/lib/api/getProductsApi"; // Import both API calls
+import { processProducts } from "@/src/utils/productUtils";
 
 const FeatureProductList = () => {
-  const [isMounted, setIsMounted] = useState(false);
-  const products: Product[] = featureProduct.BEST_SELLER;
+  const [isLoading, setIsLoading] = useState(true);
+  const [products, setProducts] = useState<Product[]>([]);
+  const searchParams = useSearchParams();
+
+  const fetchProductsByFilter = useCallback(async () => {
+    setIsLoading(true);
+    const filter = searchParams.get("filter") || "best-seller"; // Default to 'New Products'
+
+    try {
+      let fetchedProducts: Product[] = [];
+
+      // Determine which API call to use based on the filter
+      if (filter === "new-products") {
+        fetchedProducts = await getFeatureProducts();
+      } else {
+        fetchedProducts = await getBestProducts(); // Handle "New Products" or any default case
+      }
+
+      setProducts(processProducts(fetchedProducts));
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
+    fetchProductsByFilter();
+  }, [fetchProductsByFilter]);
 
-  if (!isMounted) {
-    // Render skeletons with a fixed height
+  if (isLoading) {
+    // Display skeletons while loading
     return (
       <div className="mt-16 mx-4 sm:mx-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {Array(4)
@@ -28,11 +56,12 @@ const FeatureProductList = () => {
       </div>
     );
   }
+  // Re-run when the query parameter changes
 
   return (
     <Swiper
       className="mt-16 mx-4 sm:mx-6"
-      slidesPerView="auto" // Use 'auto' for dynamic slide width
+      slidesPerView="auto"
       spaceBetween={10}
       navigation
       modules={[Navigation]}

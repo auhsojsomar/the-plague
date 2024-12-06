@@ -10,6 +10,7 @@ import { Spinner, Toast } from "flowbite-react";
 import { HiExclamation } from "react-icons/hi";
 import { useCheckoutContext } from "@/src/context/CheckoutContext";
 import { useRouter } from "next/navigation";
+import { useCartCountContext } from "@/src/context/CartCountContext";
 
 interface SelectedCartData extends CartData {
   uniqueId: string;
@@ -27,6 +28,7 @@ const Cart = () => {
 
   const router = useRouter();
   const { setCheckout } = useCheckoutContext();
+  const { setCartCount } = useCartCountContext();
 
   const [selectedItems, setSelectedItems] = useState<SelectedCartData[]>([]);
   const [cart, setCart] = useState<CartData[]>([]);
@@ -61,17 +63,53 @@ const Cart = () => {
 
   const handleQuantityChange = (item: CartData, newQuantity: number) => {
     const uniqueId = getUniqueId(item);
-    setCart((prevCart) =>
-      prevCart.map((cartItem) =>
+    setCart((prevCart) => {
+      const updatedCart = prevCart.map((cartItem) =>
         cartItem.product.id === item.product.id &&
         cartItem.variant.id === item.variant.id
           ? { ...cartItem, quantity: newQuantity }
           : cartItem
-      )
-    );
+      );
+
+      // Save updated cart to localStorage
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+      // Calculate total item count and update context
+      const totalItemCount = updatedCart.reduce(
+        (total, currentItem) => total + currentItem.quantity,
+        0
+      );
+      setCartCount(totalItemCount);
+
+      return updatedCart;
+    });
     setSelectedItems((prevSelected) =>
       prevSelected.map((i) =>
         i.uniqueId === uniqueId ? { ...i, quantity: newQuantity } : i
+      )
+    );
+  };
+
+  const handleItemDelete = (item: CartData) => {
+    // Remove item from cart
+    setCart((prevCart) => {
+      const updatedCart = prevCart.filter(
+        (cartItem) =>
+          cartItem.product.id !== item.product.id ||
+          cartItem.variant.id !== item.variant.id
+      );
+
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      setCartCount(updatedCart.length);
+
+      return updatedCart;
+    });
+
+    // Remove item from selected items
+    setSelectedItems((prevSelected) =>
+      prevSelected.filter(
+        (i) =>
+          i.product.id !== item.product.id || i.variant.id !== item.variant.id
       )
     );
   };
@@ -146,10 +184,11 @@ const Cart = () => {
             <div className="space-y-4">
               {cart.map((item) => (
                 <CartItem
-                  key={getUniqueId(item)}
                   {...item}
+                  key={getUniqueId(item)}
                   onItemCheck={handleItemCheck}
                   onQuantityChange={handleQuantityChange}
+                  onItemDelete={handleItemDelete}
                 />
               ))}
             </div>

@@ -1,9 +1,8 @@
 import { formatPrice } from "@/src/utils/priceUtils";
 import { Product } from "@/src/shared/types/Product";
 import CustomImage from "@/src/components/Shared/CustomImage";
-import ViewProductButton from "@/src/components/Shared/ViewProductButton";
-import AddToCartButton from "@/src/components/Shared/AddToCartButton";
 import { toKebabCase } from "@/src/utils/stringUtils";
+import Link from "next/link";
 
 interface ProductCardProps {
   product: Product;
@@ -14,7 +13,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const productLink = `/products/${kebabCaseName}`; // Generate product link
 
   return (
-    <div className="text-center shadow-lg border">
+    <div className="relative text-center border overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+      <Link className="absolute inset-0 z-10" href={productLink} />
       <div className="aspect-square h-64 relative">
         <CustomImage
           className="w-full h-full"
@@ -23,23 +23,22 @@ const ProductCard = ({ product }: ProductCardProps) => {
           alt={kebabCaseName}
           fill
         />
-        {/* Product card on hover */}
-        <div className="absolute inset-0 flex items-center justify-center m-4 sm:m-3 bg-gray-50 opacity-0 transition-opacity duration-300 hover:opacity-100 cursor-pointer">
-          <ViewProductButton href={productLink} />
-          <AddToCartButton />
-        </div>
       </div>
-      <div className="py-3">
+      <div className="py-3 bg-white">
         {/* Product name */}
-        <h2 className="text-md">{product.name}</h2>
-        {/* Show dash price if sale */}
+        <h2 className="text-md font-semibold">{product.name}</h2>
+
+        {/* Product original price */}
+        <small className="px-1 text-primary-color">
+          {formatPrice(product.price)}
+        </small>
+
+        {/* Show dash price if on sale */}
         {product.isSale && product.salePrice && (
           <small className="relative px-1 text-gray-400 before:content-[''] before:w-full before:h-[1px] before:bg-gray-400 before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:-rotate-12">
             {formatPrice(product.salePrice)}
           </small>
         )}
-        {/* Product original price */}
-        <small className="px-1">{formatPrice(product.price)}</small>
       </div>
     </div>
   );
