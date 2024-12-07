@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "@/src/globals.css";
 
 export const metadata: Metadata = {
-  title: "The Plague Admin Dashboard",
+  title: "The Plague Admin",
   description:
     "Admin portal for managing The Plague clothing shop inventory, orders, and settings.",
 };
