@@ -1,7 +1,6 @@
 interface Base {
   name: string;
-  src: string;
-  alt: string;
+  image: string;
 }
 
 export type Banner = Base;
