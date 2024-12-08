@@ -39,29 +39,30 @@ const MenuTab = () => {
   };
 
   return (
-    <Flowbite theme={{ theme: customTheme }}>
-      <AddBannerButton label={`Add ${activeTab}`} onClick={openModal} />
-      <Tabs
-        className="mt-2"
-        aria-label="Default tabs"
-        variant="default"
-        onActiveTabChange={handleTabChange}
-      >
-        <Tabs.Item active title="Main Banner" icon={LuTag}>
-          <MainBanner />
-        </Tabs.Item>
-        <Tabs.Item title="Product Banner" icon={LuTags}>
-          <ProductBanner />
-        </Tabs.Item>
-      </Tabs>
-      {
-        <BannerModal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          title={activeTab}
-        />
-      }
-    </Flowbite>
+    <>
+      <Flowbite theme={{ theme: customTheme }}>
+        <AddBannerButton label={`Add ${activeTab}`} onClick={openModal} />
+        <Tabs
+          className="mt-2"
+          aria-label="Default tabs"
+          variant="default"
+          onActiveTabChange={handleTabChange}
+        >
+          <Tabs.Item active title="Main Banner" icon={LuTag}>
+            <MainBanner />
+          </Tabs.Item>
+          <Tabs.Item title="Product Banner" icon={LuTags}>
+            <ProductBanner />
+          </Tabs.Item>
+        </Tabs>
+      </Flowbite>
+
+      <BannerModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={activeTab}
+      />
+    </>
   );
 };
 
