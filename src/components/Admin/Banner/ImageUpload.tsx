@@ -1,36 +1,97 @@
-import CustomImage from "@/shared/CustomImage";
+"use client";
 
-const ImageUpload = ({
-  hasError,
-  imagePath,
+import CustomImage from "@/shared/CustomImage";
+import { Banner } from "@/src/shared/interfaces/Banner";
+import { toKebabCase } from "@/src/utils/stringUtils";
+import { Dispatch, SetStateAction } from "react";
+
+interface ImageUploadProps {
+  isEditting: boolean;
+  errors: { [key: string]: string };
+  image: string;
+  alt: string;
+  setErrors: Dispatch<SetStateAction<{ [key: string]: string }>>;
+  setImage: Dispatch<SetStateAction<Banner>>;
+  setImageFile: Dispatch<SetStateAction<File | null>>;
+}
+
+const ImageUpload: React.FC<ImageUploadProps> = ({
+  isEditting,
+  errors,
+  image,
+  alt,
+  setErrors,
+  setImage,
+  setImageFile,
+}) => {
+  const handleMainUpload = (file: File | null) => {
+    if (file) {
+      const imageURL = URL.createObjectURL(file);
+      setImage((prev) => ({
+        ...prev,
+        image: imageURL,
+      }));
+      setErrors((prev) => {
+        const { image, ...rest } = prev;
+        return rest;
+      });
+    }
+    setImageFile(file);
+  };
+
+  return (
+    <ImageWrapper errors={errors}>
+      <ImageInput
+        image={image}
+        alt={alt}
+        isEditting={isEditting}
+        handleMainUpload={handleMainUpload}
+      />
+      {!image && <ImageLabel errors={errors} />}
+    </ImageWrapper>
+  );
+};
+
+const ImageWrapper = ({
+  errors,
+  children,
+}: {
+  errors: { [key: string]: string };
+  children: React.ReactNode;
+}) => {
+  return (
+    <div
+      className={`relative flex items-center justify-center bg-gray-50 border-2 aspect-video rounded-lg overflow-hidden mt-3 ${
+        errors.image ? "border-red-500" : "border-gray-300"
+      }`}
+    >
+      {children}
+    </div>
+  );
+};
+
+const ImageInput = ({
+  image,
+  alt,
   isEditting,
   handleMainUpload,
 }: {
-  hasError: { [key: string]: boolean };
-  imagePath: string;
+  image: string;
+  alt: string;
   isEditting: boolean;
   handleMainUpload: (file: File | null) => void;
 }) => {
   return (
-    <div
-      className={`relative flex items-center justify-center bg-gray-50 border-2 aspect-square rounded-lg overflow-hidden mb-4 ${
-        hasError["image.main"] ? "border-red-500" : "border-gray-300"
-      }`}
-    >
-      <CustomImage
-        src={imagePath}
-        alt="Main"
-        className="w-full h-full"
-        imageClass="object-cover"
-        useBucket={isEditting}
-        fill
-      />
-      {hasError["image.main"] ? (
-        <p className="text-red-500 my-1 text-sm h-5 transition-opacity opacity-100">
-          Main image is required.
-        </p>
-      ) : (
-        <span className="text-gray-300 text-5xl font-thin">+</span>
+    <>
+      {image && (
+        <CustomImage
+          src={image}
+          alt={toKebabCase(alt)}
+          className="w-full h-full"
+          imageClass="object-cover"
+          useBucket={isEditting}
+          fill
+        />
       )}
       <input
         className="opacity-0 absolute inset-0 cursor-pointer"
@@ -40,8 +101,20 @@ const ImageUpload = ({
           handleMainUpload(e.target.files ? e.target.files[0] : null)
         }
       />
-    </div>
+    </>
   );
+};
+
+const ImageLabel = ({ errors }: { errors: { [key: string]: string } }) => {
+  if (errors.image) {
+    return (
+      <p className="text-red-500 my-1 text-sm h-5 transition-opacity opacity-100">
+        Main image is required.
+      </p>
+    );
+  } else {
+    return <span className="text-gray-300 text-5xl font-thin">+</span>;
+  }
 };
 
 export default ImageUpload;
