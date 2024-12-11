@@ -23,8 +23,9 @@ const BannerNameInput: React.FC<BannerNameInputProps> = ({
     }));
 
     setErrors((prev) => {
-      const { name, ...rest } = prev;
-      return rest;
+      const updatedErrors = { ...prev };
+      delete updatedErrors.name;
+      return updatedErrors;
     });
   };
   return (

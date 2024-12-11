@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import BannerTable from "./BannerTable";
 import { useBannerContext } from "@/src/context/BannerContext";
 
-const MainBanner = React.memo(() => {
+const MainBanner = () => {
   const { data, refetchData } = useBannerContext();
 
   useEffect(() => {
@@ -20,6 +20,6 @@ const MainBanner = React.memo(() => {
       )}
     </div>
   );
-});
+};
 
 export default MainBanner;

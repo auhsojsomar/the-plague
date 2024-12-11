@@ -1,7 +1,7 @@
 import { useToast } from "@/src/context/ToastContext";
 import { insertBanner, updateBanner } from "@/src/lib/api/adminBannerApi";
 import { Banner } from "@/interfaces/Banner";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ZodError } from "zod";
 import { bannerSchema } from "./bannerSchema";
 import { useBannerContext } from "@/src/context/BannerContext";
@@ -19,12 +19,6 @@ const useBanner = () => {
   const { setToast } = useToast();
   const { refetchData, isOpen, setIsOpen, activeTab, selectedBanner } =
     useBannerContext();
-
-  useEffect(() => {
-    if (!isOpen) resetForm();
-    handleModalTitle();
-    loadSelectedBanner();
-  }, [isOpen]);
 
   const resetForm = () => {
     setData({ name: "", image: "" });
@@ -57,7 +51,7 @@ const useBanner = () => {
     }
   };
 
-  const loadSelectedBanner = () => {
+  const loadSelectedBanner = useCallback(() => {
     if (selectedBanner) {
       setData({
         name: selectedBanner.name,
@@ -66,18 +60,17 @@ const useBanner = () => {
     } else {
       setData({ name: "", image: "" });
     }
-  };
+  }, [selectedBanner]);
 
   const handleClose = () => {
     resetForm();
     setIsOpen(false);
   };
 
-  const handleModalTitle = () => {
-    selectedBanner
-      ? setModalTitle(`Update ${activeTab}`)
-      : setModalTitle(`Add ${activeTab}`);
-  };
+  const handleModalTitle = useCallback(() => {
+    if (selectedBanner) setModalTitle(`Update ${activeTab}`);
+    else setModalTitle(`Add ${activeTab}`);
+  }, [selectedBanner, activeTab]);
 
   const handleError = (error: ZodError) => {
     const errorMap: { [key: string]: string } = {};
@@ -125,6 +118,12 @@ const useBanner = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!isOpen) resetForm();
+    handleModalTitle();
+    loadSelectedBanner();
+  }, [isOpen, handleModalTitle, loadSelectedBanner]);
 
   return {
     modalTitle,

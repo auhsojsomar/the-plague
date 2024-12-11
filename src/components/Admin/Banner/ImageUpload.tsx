@@ -3,14 +3,7 @@
 import CustomImage from "@/shared/CustomImage";
 import { Banner } from "@/src/shared/interfaces/Banner";
 import { toKebabCase } from "@/src/utils/stringUtils";
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
-import { useBannerContext } from "@/src/context/BannerContext";
+import { Dispatch, SetStateAction, useState } from "react";
 
 interface ImageUploadProps {
   errors: { [key: string]: string };
@@ -29,7 +22,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   setImage,
   setImageFile,
 }) => {
-  const { selectedBanner } = useBannerContext();
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
 
   const handleMainUpload = (file: File | null) => {
@@ -40,8 +32,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         image: imageURL,
       }));
       setErrors((prev) => {
-        const { image, ...rest } = prev;
-        return rest;
+        const updatedErrors = { ...prev };
+        delete updatedErrors.image;
+        return updatedErrors;
       });
       setImageFile(file);
       setIsEditMode(true);

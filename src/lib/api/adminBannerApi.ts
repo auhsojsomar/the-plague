@@ -1,6 +1,5 @@
 import { Banner, BannerDto } from "@/src/shared/interfaces/Banner";
 import { BASE_URL } from "../BASE_URL";
-import { METHODS } from "http";
 
 export const getBanner = async (): Promise<BannerDto[]> => {
   try {

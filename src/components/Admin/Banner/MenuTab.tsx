@@ -4,7 +4,6 @@ import { CustomFlowbiteTheme, Flowbite, Tabs } from "flowbite-react";
 import { LuTag, LuTags } from "react-icons/lu";
 import ProductBanner from "./ProductBanner";
 import AddBannerButton from "./AddBannerButton";
-import { useCallback, useState } from "react";
 import BannerModal from "./BannerModal";
 import MainBanner from "./MainBanner";
 import { useBannerContext } from "@/src/context/BannerContext";
