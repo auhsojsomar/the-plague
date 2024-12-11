@@ -7,4 +7,6 @@ export type Banner = Base;
 
 export interface BannerDto extends Base {
   id: string;
+  dateCreated: Date;
+  dateModified: Date;
 }
