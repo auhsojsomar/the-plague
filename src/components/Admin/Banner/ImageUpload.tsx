@@ -3,10 +3,16 @@
 import CustomImage from "@/shared/CustomImage";
 import { Banner } from "@/src/shared/interfaces/Banner";
 import { toKebabCase } from "@/src/utils/stringUtils";
-import { Dispatch, SetStateAction } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
+import { useBannerContext } from "@/src/context/BannerContext";
 
 interface ImageUploadProps {
-  isEditting: boolean;
   errors: { [key: string]: string };
   image: string;
   alt: string;
@@ -16,7 +22,6 @@ interface ImageUploadProps {
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
-  isEditting,
   errors,
   image,
   alt,
@@ -24,6 +29,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   setImage,
   setImageFile,
 }) => {
+  const { selectedBanner } = useBannerContext();
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
+
   const handleMainUpload = (file: File | null) => {
     if (file) {
       const imageURL = URL.createObjectURL(file);
@@ -35,8 +43,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         const { image, ...rest } = prev;
         return rest;
       });
+      setImageFile(file);
+      setIsEditMode(true);
     }
-    setImageFile(file);
   };
 
   return (
@@ -44,7 +53,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       <ImageInput
         image={image}
         alt={alt}
-        isEditting={isEditting}
+        isEditing={isEditMode}
         handleMainUpload={handleMainUpload}
       />
       {!image && <ImageLabel errors={errors} />}
@@ -73,12 +82,12 @@ const ImageWrapper = ({
 const ImageInput = ({
   image,
   alt,
-  isEditting,
+  isEditing,
   handleMainUpload,
 }: {
   image: string;
   alt: string;
-  isEditting: boolean;
+  isEditing: boolean;
   handleMainUpload: (file: File | null) => void;
 }) => {
   return (
@@ -89,7 +98,7 @@ const ImageInput = ({
           alt={toKebabCase(alt)}
           className="w-full h-full"
           imageClass="object-cover"
-          useBucket={isEditting}
+          useBucket={!isEditing}
           fill
         />
       )}

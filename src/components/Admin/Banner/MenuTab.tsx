@@ -2,11 +2,12 @@
 
 import { CustomFlowbiteTheme, Flowbite, Tabs } from "flowbite-react";
 import { LuTag, LuTags } from "react-icons/lu";
-import MainBanner from "./MainBanner";
 import ProductBanner from "./ProductBanner";
 import AddBannerButton from "./AddBannerButton";
 import { useCallback, useState } from "react";
 import BannerModal from "./BannerModal";
+import MainBanner from "./MainBanner";
+import { useBannerContext } from "@/src/context/BannerContext";
 
 const customTheme: CustomFlowbiteTheme = {
   tabs: {
@@ -26,12 +27,7 @@ const customTheme: CustomFlowbiteTheme = {
 };
 
 const MenuTab = () => {
-  const [activeTab, setActiveTab] = useState<string>("Main Banner");
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-  const openModal = useCallback(() => setIsModalOpen(true), []);
-
-  const closeModal = useCallback(() => setIsModalOpen(false), []);
+  const { setActiveTab } = useBannerContext();
 
   const handleTabChange = (activeTabIndex: number) => {
     const tabTitles = ["Main Banner", "Product Banner"];
@@ -41,7 +37,7 @@ const MenuTab = () => {
   return (
     <>
       <Flowbite theme={{ theme: customTheme }}>
-        <AddBannerButton label={`Add ${activeTab}`} onClick={openModal} />
+        <AddBannerButton />
         <Tabs
           className="mt-2"
           aria-label="Default tabs"
@@ -57,11 +53,7 @@ const MenuTab = () => {
         </Tabs>
       </Flowbite>
 
-      <BannerModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        title={activeTab}
-      />
+      <BannerModal />
     </>
   );
 };

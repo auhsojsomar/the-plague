@@ -2,11 +2,17 @@ import { BannerDto } from "@/src/shared/interfaces/Banner";
 import { ColDef, ICellRendererParams } from "ag-grid-community";
 import CustomImage from "../../Shared/CustomImage";
 import ActionCellRenderer from "@/shared/ActionCellRenderer";
+import { toKebabCase } from "@/src/utils/stringUtils";
 
-const columnDefs: ColDef[] = [
+interface columnDefsProps {
+  onEdit: (data: BannerDto) => void;
+  onDelete: (data: BannerDto) => void;
+}
+
+const columnDefs = ({ onEdit, onDelete }: columnDefsProps): ColDef[] => [
   {
     headerName: "Image",
-    field: "src" as keyof BannerDto,
+    field: "image" as keyof BannerDto,
     width: 297.6266666666667,
     cellRenderer: ImageCellRenderer,
   },
@@ -21,8 +27,8 @@ const columnDefs: ColDef[] = [
     resizable: false,
     cellRenderer: ActionCellRenderer,
     cellRendererParams: {
-      onEdit: () => console.log("on edit"),
-      onDelete: () => console.log("on delete"),
+      onEdit: (params: BannerDto) => onEdit(params),
+      onDelete: (params: BannerDto) => onDelete(params),
     },
   },
 ];
@@ -34,7 +40,7 @@ function ImageCellRenderer(params: ICellRendererParams) {
         imageClass="object-cover"
         className="w-full h-full"
         src={params.value}
-        alt={params.data.alt}
+        alt={toKebabCase(params.data.name)}
         fill={true}
       />
     </div>
