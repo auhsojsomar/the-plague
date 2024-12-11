@@ -5,16 +5,17 @@ import {
   S3Client,
   GetObjectCommand,
   PutObjectCommand,
+  DeleteObjectCommand,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { v4 as uuidv4 } from "uuid";
 import sharp from "sharp";
 
 const s3Client = new S3Client({
-  region: process.env.NEXT_PUBLIC_AWS_REGION,
+  region: process.env.AWS_REGION,
   credentials: {
-    accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY!,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
   },
 });
 
@@ -25,7 +26,6 @@ const generateUniqueFileName = (extension: string) => {
   return `${timestamp}-${uniqueId}.${extension}`;
 };
 
-// Upload a file to S3
 const uploadFileToS3 = async (
   fileContent: Buffer,
   fileName: string,
@@ -98,7 +98,6 @@ export async function POST(req: Request) {
 
   // Function to process each file
   const processFile = async (file: Blob, index: number) => {
-    // Ensure file is a File and has a name
     if (!(file instanceof File)) {
       throw new Error(`File at index ${index} is not a valid File.`);
     }
@@ -108,11 +107,10 @@ export async function POST(req: Request) {
     let fileName: string;
     let contentType = file.type;
 
-    // If the file is an image, convert it to WebP format using sharp
     if (contentType.startsWith("image/")) {
       processedBuffer = await sharp(Buffer.from(fileBuffer)).webp().toBuffer();
       fileName = `${fileFolder}/${generateUniqueFileName("webp")}`;
-      contentType = "image/webp"; // Update content type to WebP
+      contentType = "image/webp";
     } else {
       processedBuffer = Buffer.from(fileBuffer);
       fileName = `${fileFolder}/${generateUniqueFileName(
@@ -122,10 +120,9 @@ export async function POST(req: Request) {
 
     const bucketName = process.env.AWS_BUCKET_NAME!;
 
-    // Upload the file to S3
     try {
       await uploadFileToS3(processedBuffer, fileName, bucketName);
-      return fileName; // Return the S3 key of the uploaded file
+      return fileName;
     } catch (uploadError) {
       console.error("File upload error:", uploadError);
       throw new Error(`Failed to upload file at index ${index}`);
@@ -133,13 +130,11 @@ export async function POST(req: Request) {
   };
 
   try {
-    // If only one file is uploaded, process it as a single file
     if (files.length === 1) {
       const file = files[0] as Blob;
       const uploadedFileName = await processFile(file, 0);
       return NextResponse.json({ fileUrl: uploadedFileName });
     } else {
-      // If multiple files are uploaded, process them all
       const uploadedFileNames = await Promise.all(
         files.map((file, index) => processFile(file as Blob, index))
       );
@@ -151,5 +146,39 @@ export async function POST(req: Request) {
       { error: "Failed to upload some or all files" },
       { status: 500 }
     );
+  }
+}
+
+// DELETE method to delete a file from S3
+export async function DELETE(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const key = searchParams.get("key");
+
+  if (!key || typeof key !== "string") {
+    return NextResponse.json(
+      { error: "Missing key parameter" },
+      { status: 400 }
+    );
+  }
+
+  const bucketName = process.env.AWS_BUCKET_NAME;
+
+  if (!bucketName) {
+    return NextResponse.json(
+      { error: "Bucket name is not defined" },
+      { status: 500 }
+    );
+  }
+
+  const command = new DeleteObjectCommand({ Bucket: bucketName, Key: key });
+
+  try {
+    await s3Client.send(command);
+    return NextResponse.json({ message: "File deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting file:", error);
+    const errorMessage =
+      (error as Error).message || "Error deleting file from S3";
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
