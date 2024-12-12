@@ -1,4 +1,4 @@
-### The Plague - Version 1.3.1
+### The Plague - Version 1.4.0
 
 ---
 
@@ -62,7 +62,14 @@
   - Static overview for monitoring key metrics.
 
 - **Admin Authentication:**
+
   - Secure login for administrative access.
+
+- **Banner Management:**
+
+  - **NEW:** Add, edit, and delete banners with validation and image upload functionality.
+  - **NEW:** Delete images from the S3 bucket when removing banners.
+  - **NEW:** Track banner creation and modification dates.
 
 ---
 
@@ -139,6 +146,14 @@
 ---
 
 ### Change Log
+
+#### **Version 1.4.0:**
+
+- **New Features:**
+  - **Banner Management:**
+    - Added functionality for creating, editing, and deleting banners.
+    - Integrated image validation and upload.
+    - Implemented image deletion from S3 bucket.
 
 #### **Version 1.3.1:**
 
