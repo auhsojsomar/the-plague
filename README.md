@@ -1,4 +1,4 @@
-### The Plague - Version 1.4.0
+### The Plague - Version 1.4.1
 
 ---
 
@@ -146,6 +146,12 @@
 ---
 
 ### Change Log
+
+#### **Version 1.4.1:**
+
+- **New Features:**
+  - **Homepage Enhancements:**
+    - The carousel is now dynamic and fetches data directly from the database, replacing the previous static implementation.
 
 #### **Version 1.4.0:**
 
