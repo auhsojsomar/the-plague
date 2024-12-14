@@ -32,7 +32,8 @@
       "@/utils/*": ["./src/utils/*"],
       "@/interfaces/*": ["./src/shared/interfaces/*"],
       "@/api/*": ["./src/api/*", "./src/lib/api/*"],
-      "@/constants/*": ["./src/constants/*"]
+      "@/constants/*": ["./src/constants/*"],
+      "@/enums/*": ["./src/shared/enums/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

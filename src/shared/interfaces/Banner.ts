@@ -1,6 +1,9 @@
+import { BannerType } from "@/enums/BannerType";
+
 interface Base {
   name: string;
   image: string;
+  bannerType: BannerType;
 }
 
 export type Banner = Base;
