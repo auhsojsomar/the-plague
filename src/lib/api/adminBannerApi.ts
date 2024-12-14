@@ -1,9 +1,14 @@
 import { Banner, BannerDto } from "@/src/shared/interfaces/Banner";
 import { BASE_URL } from "../BASE_URL";
+import { BannerType } from "@/src/shared/enums/BannerType";
 
-export const getBanner = async (): Promise<BannerDto[]> => {
+export const getBanner = async (
+  bannerType: BannerType
+): Promise<BannerDto[]> => {
   try {
-    const response = await fetch(`${BASE_URL}/Banner`);
+    const response = await fetch(
+      `${BASE_URL}/Banner/${BannerType[bannerType]}`
+    );
 
     if (!response.ok) {
       if (response.status >= 500) {

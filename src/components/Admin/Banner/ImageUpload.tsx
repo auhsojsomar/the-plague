@@ -1,6 +1,7 @@
 "use client";
 
 import CustomImage from "@/shared/CustomImage";
+import { useBannerContext } from "@/src/context/BannerContext";
 import { Banner } from "@/src/shared/interfaces/Banner";
 import { toKebabCase } from "@/src/utils/stringUtils";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -61,11 +62,13 @@ const ImageWrapper = ({
   errors: { [key: string]: string };
   children: React.ReactNode;
 }) => {
+  const { activeTab } = useBannerContext();
+
   return (
     <div
-      className={`relative flex items-center justify-center bg-gray-50 border-2 aspect-video rounded-lg overflow-hidden mt-3 ${
-        errors.image ? "border-red-500" : "border-gray-300"
-      }`}
+      className={`relative flex items-center justify-center bg-gray-50 border-2 rounded-lg overflow-hidden mt-3 ${
+        activeTab === "Main Banner" ? "aspect-video" : "aspect-[1248/200]"
+      } ${errors.image ? "border-red-500" : "border-gray-300"}`}
     >
       {children}
     </div>
@@ -96,7 +99,7 @@ const ImageInput = ({
         />
       )}
       <input
-        className="opacity-0 absolute inset-0 cursor-pointer"
+        className="opacity-0 absolute inset-0 cursor-pointer z-10"
         type="file"
         accept="image/*"
         onChange={(e) =>
@@ -108,6 +111,8 @@ const ImageInput = ({
 };
 
 const ImageLabel = ({ errors }: { errors: { [key: string]: string } }) => {
+  const { activeTab } = useBannerContext();
+
   if (errors.image) {
     return (
       <p className="text-red-500 my-1 text-sm h-5 transition-opacity opacity-100">
@@ -115,7 +120,16 @@ const ImageLabel = ({ errors }: { errors: { [key: string]: string } }) => {
       </p>
     );
   } else {
-    return <span className="text-gray-300 text-5xl font-thin">+</span>;
+    return (
+      <div className="relative flex items-center justify-center w-full">
+        <p className="absolute -top-4 text-gray-300">
+          {activeTab === "Main Banner"
+            ? "Upload an image with dimensions of (1920px x 1080px)"
+            : "Upload an image with dimensions of (1248px x 200px)"}
+        </p>
+        <span className="text-gray-300 text-5xl font-thin">+</span>
+      </div>
+    );
   }
 };
 

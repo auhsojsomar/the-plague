@@ -10,6 +10,7 @@ const useBanner = () => {
   const [data, setData] = useState<Banner>({
     name: "",
     image: "",
+    bannerType: 1,
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -21,7 +22,7 @@ const useBanner = () => {
     useBannerContext();
 
   const resetForm = () => {
-    setData({ name: "", image: "" });
+    setData({ name: "", image: "", bannerType: 1 });
     setImageFile(null);
     setHasError({});
   };
@@ -56,9 +57,10 @@ const useBanner = () => {
       setData({
         name: selectedBanner.name,
         image: selectedBanner.image,
+        bannerType: selectedBanner.bannerType,
       });
     } else {
-      setData({ name: "", image: "" });
+      setData({ name: "", image: "", bannerType: 1 });
     }
   }, [selectedBanner]);
 
@@ -83,11 +85,16 @@ const useBanner = () => {
 
   const handleSubmit = async () => {
     try {
-      bannerSchema.parse(data);
+      const updatedData = {
+        ...data,
+        bannerType: activeTab === "Main Banner" ? 1 : 2,
+      };
+
+      bannerSchema.parse(updatedData);
 
       setIsLoading(true);
 
-      let fileUrl: string | null = data.image;
+      let fileUrl: string | null = updatedData.image;
       if (imageFile) {
         fileUrl = await uploadImage();
         if (!fileUrl) {
@@ -97,7 +104,7 @@ const useBanner = () => {
       }
 
       const bannerData: Banner = {
-        ...data,
+        ...updatedData,
         image: fileUrl,
       };
 

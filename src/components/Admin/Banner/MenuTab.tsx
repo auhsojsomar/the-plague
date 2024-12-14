@@ -2,11 +2,10 @@
 
 import { CustomFlowbiteTheme, Flowbite, Tabs } from "flowbite-react";
 import { LuTag, LuTags } from "react-icons/lu";
-import ProductBanner from "./ProductBanner";
 import AddBannerButton from "./AddBannerButton";
 import BannerModal from "./BannerModal";
-import MainBanner from "./MainBanner";
 import { useBannerContext } from "@/src/context/BannerContext";
+import BannerTable from "./BannerTable";
 
 const customTheme: CustomFlowbiteTheme = {
   tabs: {
@@ -44,10 +43,10 @@ const MenuTab = () => {
           onActiveTabChange={handleTabChange}
         >
           <Tabs.Item active title="Main Banner" icon={LuTag}>
-            <MainBanner />
+            <BannerTable />
           </Tabs.Item>
           <Tabs.Item title="Product Banner" icon={LuTags}>
-            <ProductBanner />
+            <BannerTable />
           </Tabs.Item>
         </Tabs>
       </Flowbite>

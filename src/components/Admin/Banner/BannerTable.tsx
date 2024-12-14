@@ -11,15 +11,12 @@ import columnDefs from "./columnDefs";
 import { useBannerContext } from "@/src/context/BannerContext";
 import { deleteBanner } from "@/api/adminBannerApi";
 
-interface BannerTableProps {
-  rowData: BannerDto[];
-}
-
-const BannerTable: React.FC<BannerTableProps> = ({ rowData }) => {
+const BannerTable = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hasError] = useState<boolean>(false);
 
-  const { setIsOpen, setSelectedBanner, refetchData } = useBannerContext();
+  const { setIsOpen, setSelectedBanner, refetchData, data } =
+    useBannerContext();
 
   const handleEdit = (data: BannerDto) => {
     setSelectedBanner(data);
@@ -40,6 +37,10 @@ const BannerTable: React.FC<BannerTableProps> = ({ rowData }) => {
     setIsLoading(false);
   }, []);
 
+  useEffect(() => {
+    refetchData();
+  }, [refetchData]);
+
   if (isLoading) {
     return (
       <div className="ag-theme-quartz">
@@ -59,7 +60,7 @@ const BannerTable: React.FC<BannerTableProps> = ({ rowData }) => {
   return (
     <div className="ag-theme-quartz">
       <MainTable
-        rowData={rowData}
+        rowData={data}
         columnDefs={columnDefs({ onEdit: handleEdit, onDelete: handleDelete })}
       />
     </div>

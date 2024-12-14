@@ -3,24 +3,25 @@
 import { Carousel } from "flowbite-react";
 import CustomImage from "@/src/components/Shared/CustomImage";
 import { BannerDto } from "@/src/shared/interfaces/Banner";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getBanner } from "@/src/lib/api/adminBannerApi";
+import { BannerType } from "@/src/shared/enums/BannerType";
 
 const CarouselItem = () => {
   const [banners, setBanners] = useState<BannerDto[]>([]);
 
-  const fetchBanner = async () => {
+  const fetchBanners = useCallback(async () => {
     try {
-      const data = await getBanner();
+      const data = await getBanner(BannerType.Main);
       setBanners(data);
     } catch (error) {
       console.error("Failed to fetch banners:", error);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchBanner();
-  }, []);
+    fetchBanners();
+  }, [fetchBanners]);
   return (
     <Carousel slide={false}>
       {banners.map((banner, index) => (
@@ -32,7 +33,6 @@ const CarouselItem = () => {
             fill
             loading={index === 0 ? "eager" : "lazy"}
             priority={index === 0}
-            useBucket={index === 0}
             imageClass="object-contain lg:object-cover"
           />
         </div>

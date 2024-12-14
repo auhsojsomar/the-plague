@@ -10,6 +10,7 @@ import React, {
 } from "react";
 import { BannerDto } from "@/interfaces/Banner";
 import { getBanner } from "../lib/api/adminBannerApi";
+import { BannerType } from "../shared/enums/BannerType";
 
 interface BannerContextType {
   data: BannerDto[];
@@ -37,7 +38,9 @@ export const BannerProvider: React.FC<{ children: React.ReactNode }> = ({
       let fetchedData: BannerDto[] = [];
 
       if (activeTab === "Main Banner") {
-        fetchedData = await getBanner();
+        fetchedData = await getBanner(BannerType.Main);
+      } else {
+        fetchedData = await getBanner(BannerType.Product);
       }
 
       setData(fetchedData);
