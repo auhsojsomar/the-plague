@@ -6,6 +6,7 @@ import { Route } from "@/types/common/route";
 import { HiChartPie, HiShoppingCart, HiShoppingBag } from "react-icons/hi";
 import { ComponentType } from "react";
 import { MdDiscount } from "react-icons/md";
+import { IoStatsChart } from "react-icons/io5";
 
 type RouteWithIcon = Route & {
   icon?: ComponentType<React.ComponentProps<"svg">>;
@@ -33,4 +34,5 @@ export const adminSidebar: RouteWithIcon[] = [
   { link: "/admin/orders", label: "Orders", icon: HiShoppingCart },
   { link: "/admin/products", label: "Products", icon: HiShoppingBag },
   { link: "/admin/banner", label: "Banner", icon: MdDiscount },
+  { link: "/admin/sales-report", label: "Sales Report", icon: IoStatsChart },
 ];
